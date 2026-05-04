@@ -57,8 +57,8 @@ const CLINICS = [
   }
 ];
 
-// API integration
-const API_BASE_URL = 'http://localhost:5000/api';
+// API integration - uses relative path for both local (via Vite proxy) and production (Vercel)
+const API_BASE_URL = '/api';
 
 const fetchBookedSlots = async (clinicId, date) => {
   try {
