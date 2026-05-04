@@ -22,13 +22,77 @@ import {
   Award,
   Users,
   Clock3,
-  Map
+  Map,
+  Heart,
+  Mail
 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
 import './App.css';
 import stomachImg from './assets/stomach.png';
 import logoImg from './assets/logo.png';
 import BookingSystem from './components/BookingSystem';
+
+const Magnetic = ({ children }) => {
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const handleMouse = (e) => {
+    const { clientX, clientY, currentTarget } = e;
+    const { left, top, width, height } = currentTarget.getBoundingClientRect();
+    const x = clientX - (left + width / 2);
+    const y = clientY - (top + height / 2);
+    setPosition({ x: x * 0.3, y: y * 0.3 });
+  };
+  const reset = () => setPosition({ x: 0, y: 0 });
+  return (
+    <motion.div
+      onMouseMove={handleMouse}
+      onMouseLeave={reset}
+      animate={{ x: position.x, y: position.y }}
+      transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
+const CountUp = ({ value, label, icon }) => {
+  const [count, setCount] = useState(0);
+  const target = parseInt(value.replace(/\D/g, ''));
+  const suffix = value.replace(/[0-9]/g, '');
+
+  useEffect(() => {
+    let start = 0;
+    const end = target;
+    if (start === end) return;
+    let totalMiliseconds = 2000;
+    let incrementTime = (totalMiliseconds / end) > 10 ? (totalMiliseconds / end) : 10;
+
+    let timer = setInterval(() => {
+      start += Math.ceil(end / 100);
+      if (start >= end) {
+        setCount(end);
+        clearInterval(timer);
+      } else {
+        setCount(start);
+      }
+    }, incrementTime);
+
+    return () => clearInterval(timer);
+  }, [target]);
+
+  return (
+    <motion.div 
+      className="stat-card glass p-8 rounded-[32px] border border-white/20 text-center"
+      whileHover={{ y: -10, scale: 1.02 }}
+    >
+      <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6 text-primary">
+        {icon}
+      </div>
+      <div className="text-4xl font-extrabold text-gray-900 mb-2 font-heading">
+        {count}{suffix}
+      </div>
+      <div className="text-gray-500 text-sm font-semibold uppercase tracking-wider">{label}</div>
+    </motion.div>
+  );
+};
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -41,45 +105,50 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
-      <div className="container nav-container">
-        <motion.div 
-          className="logo"
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-        >
-          <img src={logoImg} alt="Doctor 3D Logo" className="logo-img" />
-          Doctor 3D
-        </motion.div>
-        
-        <div className="nav-links">
-          {['Services', 'Specializations', 'About', 'Contact'].map((item, i) => (
-            <motion.a 
-              key={item} 
-              href={`#${item.toLowerCase()}`}
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.1 }}
+    <nav className={`fixed w-full z-[100] transition-all duration-500 ${
+        scrolled ? 'py-4' : 'py-8'
+      }`}>
+        <div className="container">
+          <div className={`glass px-8 py-4 rounded-[32px] border border-white/20 flex justify-between items-center transition-all duration-500 ${
+            scrolled ? 'shadow-2xl shadow-primary/10 backdrop-blur-2xl bg-white/80' : 'bg-white/40 backdrop-blur-md'
+          }`}>
+            <motion.div 
+              className="flex items-center gap-3 cursor-pointer group"
+              whileHover={{ scale: 1.02 }}
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             >
-              {item}
-            </motion.a>
-          ))}
-        </div>
+              <div className="w-12 h-12 bg-primary rounded-2xl flex items-center justify-center text-white shadow-lg shadow-primary/20 group-hover:rotate-12 transition-transform duration-500">
+                <Heart size={24} fill="currentColor" />
+              </div>
+              <div>
+                <span className="text-2xl font-black tracking-tighter text-gray-900 block leading-none font-heading uppercase">
+                  Doctor <span className="text-primary">3D</span>
+                </span>
+                <span className="text-[10px] font-bold text-primary tracking-[0.2em] uppercase opacity-70">Medical Clinic</span>
+              </div>
+            </motion.div>
 
-        <div className="nav-ctas">
-          <a href="https://wa.me/910000000000" target="_blank" rel="noreferrer" className="btn-text">WhatsApp Consult</a>
-          <button 
-            className="btn btn-solid"
-            onClick={() => document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' })}
-          >
-            Book Appointment
-          </button>
-          <button className="mobile-menu-btn" onClick={() => setIsOpen(!isOpen)}>
-            {isOpen ? <X size={28} /> : <Menu size={28} />}
-          </button>
-        </div>
-      </div>
-
+            {/* Desktop Nav */}
+            <div className="hidden lg:flex items-center gap-10">
+              {['Features', 'Services', 'Specialists', 'Reviews'].map((item) => (
+                <a 
+                  key={item} 
+                  href={`#${item.toLowerCase()}`} 
+                  className="text-sm font-bold text-gray-600 hover:text-primary transition-colors relative group"
+                >
+                  {item}
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
+                </a>
+              ))}
+              <Magnetic>
+                <button 
+                  className="btn btn-solid !py-3 !px-8 text-sm"
+                  onClick={() => document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' })}
+                >
+                  Book Now
+                </button>
+              </Magnetic>
+            </div>
       <AnimatePresence>
         {isOpen && (
           <motion.div 
@@ -117,6 +186,8 @@ const Navbar = () => {
           </motion.div>
         )}
       </AnimatePresence>
+        </div>
+      </div>
     </nav>
   );
 };
@@ -158,17 +229,21 @@ const HeroSection = () => (
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.4 }}
       >
-        <button 
-          className="btn btn-solid"
-          onClick={() => document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' })}
-        >
-          <Calendar size={18} />
-          Book Physical Checkup
-        </button>
-        <button className="btn btn-outline">
-          <Phone size={18} />
-          Video Consultation
-        </button>
+        <Magnetic>
+          <button 
+            className="btn btn-solid"
+            onClick={() => document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' })}
+          >
+            <Calendar size={18} />
+            Book Physical Checkup
+          </button>
+        </Magnetic>
+        <Magnetic>
+          <button className="btn btn-outline">
+            <Phone size={18} />
+            Video Consultation
+          </button>
+        </Magnetic>
       </motion.div>
     </div>
 
@@ -303,27 +378,15 @@ const ExpertiseSection = () => {
 };
 
 const StatsSection = () => (
-  <section className="stats-section container py-20">
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-10">
+  <section className="stats-section container py-24 relative z-10">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
       {[
-        { icon: <Users className="text-primary" />, value: "10k+", label: "Happy Patients" },
-        { icon: <Award className="text-primary" />, value: "15+", label: "Years Experience" },
-        { icon: <Clock3 className="text-primary" />, value: "24/7", label: "Emergency Support" },
-        { icon: <Activity className="text-primary" />, value: "99%", label: "Success Rate" }
+        { icon: <Users size={28} />, value: "10k+", label: "Happy Patients" },
+        { icon: <Award size={28} />, value: "15+", label: "Years Experience" },
+        { icon: <Clock3 size={28} />, value: "24/7", label: "Support" },
+        { icon: <Activity size={28} />, value: "99%", label: "Success Rate" }
       ].map((stat, i) => (
-        <motion.div 
-          key={i}
-          className="text-center"
-          initial={{ opacity: 0, scale: 0.8 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ delay: i * 0.1 }}
-        >
-          <div className="w-16 h-16 bg-primary/5 rounded-2xl flex items-center justify-center mx-auto mb-4">
-            {stat.icon}
-          </div>
-          <div className="text-3xl font-bold text-gray-900">{stat.value}</div>
-          <div className="text-gray-500 text-sm font-medium">{stat.label}</div>
-        </motion.div>
+        <CountUp key={i} {...stat} />
       ))}
     </div>
   </section>
@@ -373,51 +436,98 @@ const ContactSection = () => (
 );
 
 const Footer = () => (
-  <footer id="contact" className="footer">
-    <div className="container">
-      <div className="footer-grid">
-        <div className="footer-brand">
-          <div className="logo">
-            <img src={logoImg} alt="Doctor 3D Logo" className="logo-img" />
-            Doctor 3D
+  <footer className="footer bg-gray-900 text-white pt-24 pb-12 relative overflow-hidden">
+    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary/0 via-primary/50 to-primary/0 opacity-20" />
+    <div className="container relative z-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-20">
+        <div className="lg:col-span-1">
+          <div className="flex items-center gap-3 mb-8">
+            <div className="w-12 h-12 bg-primary rounded-2xl flex items-center justify-center text-white">
+              <Heart size={24} fill="currentColor" />
+            </div>
+            <span className="text-2xl font-black tracking-tighter font-heading uppercase">
+              Doctor <span className="text-primary">3D</span>
+            </span>
           </div>
-          <p className="footer-desc">
-            © 2026 Dr. Debjani Maity (Doctor 3D). High-tech healing with human empathy. Bringing world-class medical expertise to your doorstep.
+          <p className="text-gray-400 leading-relaxed mb-8 max-w-sm">
+            Providing high-quality medical care with a focus on digestive health. Our team of specialists is dedicated to your well-being.
           </p>
+          <div className="flex gap-4">
+            {['Twitter', 'Instagram', 'Linkedin', 'Facebook'].map((social) => (
+              <motion.a 
+                key={social}
+                href="#" 
+                className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center hover:bg-primary hover:text-white transition-all border border-white/5"
+                whileHover={{ y: -5, scale: 1.1 }}
+              >
+                <div className="w-5 h-5 opacity-70 hover:opacity-100" />
+              </motion.a>
+            ))}
+          </div>
         </div>
-        <div className="footer-col" id="about">
-          <h4>Patient Care</h4>
-          <ul>
-            <li><a href="#">Patient Rights</a></li>
-            <li><a href="#">Emergency Contact</a></li>
-            <li><a href="#">Book Online</a></li>
-            <li><a href="#">Support Center</a></li>
+
+        <div>
+          <h4 className="text-lg font-bold mb-8 font-heading">Quick Links</h4>
+          <ul className="space-y-4">
+            {['About Us', 'Our Services', 'Booking', 'Contact'].map((link) => (
+              <li key={link}>
+                <a href="#" className="text-gray-400 hover:text-primary transition-colors flex items-center group">
+                  <span className="w-0 h-0.5 bg-primary mr-0 group-hover:w-2 group-hover:mr-2 transition-all" />
+                  {link}
+                </a>
+              </li>
+            ))}
           </ul>
         </div>
-        <div className="footer-col">
-          <h4>Quick Links</h4>
-          <ul>
-            <li><a href="#">Privacy Policy</a></li>
-            <li><a href="#">Terms of Service</a></li>
-            <li><a href="#">Specializations</a></li>
-            <li><a href="#">FAQs</a></li>
+
+        <div>
+          <h4 className="text-lg font-bold mb-8 font-heading">Contact Info</h4>
+          <ul className="space-y-6">
+            <li className="flex items-start gap-4 group">
+              <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors border border-white/5">
+                <MapPin size={20} />
+              </div>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                123 Medical Avenue,<br />
+                Kolkata, West Bengal
+              </p>
+            </li>
+            <li className="flex items-center gap-4 group">
+              <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors border border-white/5">
+                <Phone size={20} />
+              </div>
+              <p className="text-gray-400 text-sm font-semibold">+91 98765 43210</p>
+            </li>
+            <li className="flex items-center gap-4 group">
+              <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors border border-white/5">
+                <Mail size={20} />
+              </div>
+              <p className="text-gray-400 text-sm">contact@doctor3d.in</p>
+            </li>
           </ul>
         </div>
-        <div className="footer-col">
-          <h4>Connect</h4>
-          <div className="socials">
-            <a href="#" className="social-icon"><Phone size={18} /></a>
-            <a href="#" className="social-icon"><MessageSquare size={18} /></a>
-            <a href="#" className="social-icon"><MapPin size={18} /></a>
+
+        <div>
+          <h4 className="text-lg font-bold mb-8 font-heading">Newsletter</h4>
+          <p className="text-gray-400 text-sm mb-6">Stay updated with latest health tips and clinic news.</p>
+          <div className="flex flex-col gap-3">
+            <input 
+              type="email" 
+              placeholder="Your email address" 
+              className="bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white text-sm focus:outline-none focus:border-primary transition-colors"
+            />
+            <button className="btn btn-solid w-full !py-4 rounded-2xl shadow-xl shadow-primary/20 hover:shadow-primary/40">
+              Subscribe
+            </button>
           </div>
         </div>
       </div>
-      <div className="footer-bottom">
-        <p className="copyright">Designed for medical excellence & digital health.</p>
-        <div className="socials">
-          <a href="#" className="social-icon"><Camera size={18} /></a>
-          <a href="#" className="social-icon"><Link size={18} /></a>
-          <a href="#" className="social-icon"><Globe size={18} /></a>
+
+      <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-sm text-gray-500">
+        <p>© 2026 Doctor 3D Medical Clinic. All rights reserved.</p>
+        <div className="flex gap-8">
+          <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
+          <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
         </div>
       </div>
     </div>

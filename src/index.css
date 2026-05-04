@@ -7,20 +7,34 @@
   --primary-light: #e0f2f4;
   --primary-dark: #004a52;
   --primary-glow: #00f2ff;
-  --accent: #7c4dff; /* Subtle purple accent for the logo synergy */
+  --accent: #7c4dff;
   --white: #ffffff;
-  --bg-light: #fdfeff;
+  --bg-light: #f8fafc;
   --text-main: #0f172a;
   --text-muted: #64748b;
-  --card-bg: #ffffff;
-  --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --card-shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --card-bg: rgba(255, 255, 255, 0.7);
+  --card-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05), 0 4px 10px -5px rgba(0, 0, 0, 0.02);
+  --card-shadow-hover: 0 40px 60px -15px rgba(0, 95, 105, 0.1), 0 20px 30px -10px rgba(0, 0, 0, 0.05);
   --radius-lg: 40px;
   --radius-md: 24px;
   --radius-sm: 16px;
   --font-main: 'Inter', sans-serif;
   --font-heading: 'Outfit', sans-serif;
-  --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Cinematic Grain Effect */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 9999;
 }
 
 * {

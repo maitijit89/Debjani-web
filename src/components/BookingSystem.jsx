@@ -6,7 +6,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Calendar, MapPin, Clock, CheckCircle2, ChevronRight, Loader2 } from 'lucide-react';
 
 const CLINICS = [
-// ... existing CLINICS
   {
     id: 'mecheda',
     name: 'Mecheda',
@@ -189,18 +188,18 @@ const BookingSystem = () => {
               {CLINICS.map((clinic) => (
                 <motion.div
                   key={clinic.id}
-                  whileHover={{ y: -8, scale: 1.02 }}
+                  whileHover={{ y: -8, scale: 1.02, backgroundColor: 'rgba(255, 255, 255, 0.9)' }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => handleClinicSelect(clinic)}
-                  className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 cursor-pointer hover:shadow-xl transition-all group relative overflow-hidden"
+                  className="bg-white/70 backdrop-blur-md p-6 rounded-[32px] shadow-sm border border-white/50 cursor-pointer hover:shadow-2xl hover:shadow-primary/10 transition-all group relative overflow-hidden"
                 >
                   <div className={`absolute top-0 right-0 w-24 h-24 -mr-8 -mt-8 rounded-full opacity-10 ${clinic.color}`} />
-                  <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-4 text-white ${clinic.color}`}>
+                  <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-4 text-white shadow-lg ${clinic.color}`}>
                     <MapPin size={24} />
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 mb-1">{clinic.name}</h3>
                   <p className="text-gray-500 text-sm mb-4">{clinic.location}</p>
-                  <div className="flex items-center text-xs font-semibold text-primary bg-primary/5 py-2 px-3 rounded-xl w-fit">
+                  <div className="flex items-center text-xs font-bold text-primary bg-primary/10 py-2.5 px-4 rounded-xl w-fit">
                     <Clock size={14} className="mr-2" />
                     {clinic.hours.start} - {clinic.hours.end}
                   </div>
@@ -216,7 +215,7 @@ const BookingSystem = () => {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
-            className="bg-white rounded-[40px] shadow-2xl shadow-primary/5 p-6 md:p-10 border border-gray-50"
+            className="bg-white/80 backdrop-blur-xl rounded-[48px] shadow-2xl shadow-primary/5 p-6 md:p-12 border border-white/50"
           >
             <button 
               onClick={() => setStep(1)}
