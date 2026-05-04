@@ -28,15 +28,26 @@ const CustomCursor = () => {
   }, [cursorX, cursorY]);
 
   return (
-    <motion.div
-      className="custom-cursor hidden md:block fixed top-0 left-0 w-8 h-8 rounded-full border-2 border-primary pointer-events-none z-[9999] mix-blend-difference"
-      style={{
-        x: cursorXSpring,
-        y: cursorYSpring,
-        translateX: '-50%',
-        translateY: '-50%',
-      }}
-    />
+    <>
+      <motion.div
+        className="custom-cursor hidden md:block fixed top-0 left-0 w-8 h-8 rounded-full border-2 border-primary pointer-events-none z-[9999] mix-blend-difference"
+        style={{
+          x: cursorXSpring,
+          y: cursorYSpring,
+          translateX: '-50%',
+          translateY: '-50%',
+        }}
+      />
+      <motion.div
+        className="custom-cursor-dot hidden md:block fixed top-0 left-0 w-1 h-1 bg-primary rounded-full pointer-events-none z-[9999]"
+        style={{
+          x: cursorXSpring,
+          y: cursorYSpring,
+          translateX: '-50%',
+          translateY: '-50%',
+        }}
+      />
+    </>
   );
 };
 
@@ -239,98 +250,108 @@ const Navbar = () => {
   );
 };
 
-const HeroSection = () => (
-  <section className="hero container relative overflow-hidden flex flex-col lg:flex-row items-center justify-between py-12 gap-12">
-    <div className="hero-content relative z-10 max-w-2xl">
-      <motion.div 
-        className="hero-tag inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-white/20 text-primary font-bold text-xs uppercase tracking-widest mb-6"
-        initial={{ opacity: 0, scale: 0.8, x: -20 }}
-        animate={{ opacity: 1, scale: 1, x: 0 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-      >
-        <div className="status-dot w-2 h-2 bg-primary rounded-full animate-pulse" />
-        <UserRound size={14} />
-        Expert Gastroenterology Care
-      </motion.div>
+const HeroSection = () => {
+  const { scrollY } = useScroll();
+  const stomachY = useSpring(useMotionValue(0), { stiffness: 100, damping: 30 });
+  
+  useEffect(() => {
+    return scrollY.onChange((latest) => {
+      stomachY.set(latest * 0.15);
+    });
+  }, [scrollY, stomachY]);
 
-      <motion.h1 
-        className="hero-title text-5xl md:text-7xl font-heading leading-tight mb-6"
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-      >
-        A healthy stomach <br />
-        means a <span className="text-primary italic"><WordRotate words={["vibrant life", "healthy mind", "stronger body"]} />.</span>
-      </motion.h1>
-
-      <motion.p 
-        className="hero-desc text-lg text-gray-600 mb-8 max-w-lg leading-relaxed"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-      >
-        Specializing in advanced diagnostic techniques and personalized treatment for all digestive and liver disorders. Bridging the gap between 3D technology and compassionate care.
-      </motion.p>
-
-      <motion.div 
-        className="hero-actions flex flex-wrap gap-4"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
-      >
-        <Magnetic>
-          <button 
-            className="btn btn-solid flex items-center gap-2"
-            onClick={() => document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' })}
-          >
-            <Calendar size={18} />
-            Book Checkup
-            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-          </button>
-        </Magnetic>
-        <Magnetic>
-          <button className="btn btn-outline flex items-center gap-2 group">
-            <Phone size={18} />
-            Consultation
-          </button>
-        </Magnetic>
-      </motion.div>
-    </div>
-
-    <motion.div 
-      className="hero-image-container relative hidden lg:flex flex-1 items-center justify-center"
-      initial={{ opacity: 0, scale: 0.9, x: 50 }}
-      animate={{ opacity: 1, scale: 1, x: 0 }}
-      transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-    >
-      <motion.div 
-        className="hero-card glass relative p-8 rounded-3xl overflow-hidden border border-white/30 shadow-2xl"
-        animate={{ y: [0, -15, 0] }}
-        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent pointer-events-none" />
-        <img src={stomachImg} alt="3D Stomach Illustration" className="hero-image w-[450px] relative z-10 filter drop-shadow-2xl" />
-        
+  return (
+    <section className="hero container relative overflow-hidden flex flex-col lg:flex-row items-center justify-between py-12 gap-12">
+      <div className="hero-content relative z-10 max-w-2xl">
         <motion.div 
-          className="hero-overlay-card absolute -bottom-6 -left-6 glass p-5 rounded-2xl shadow-2xl border border-white/20 max-w-[200px]"
+          className="hero-tag inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-white/20 text-primary font-bold text-xs uppercase tracking-widest mb-6"
+          initial={{ opacity: 0, scale: 0.8, x: -20 }}
+          animate={{ opacity: 1, scale: 1, x: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        >
+          <div className="status-dot w-2 h-2 bg-primary rounded-full animate-pulse" />
+          <UserRound size={14} />
+          Expert Gastroenterology Care
+        </motion.div>
+
+        <motion.h1 
+          className="hero-title text-5xl md:text-7xl font-heading leading-tight mb-6"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+        >
+          A healthy stomach <br />
+          means a <span className="text-primary italic"><WordRotate words={["vibrant life", "healthy mind", "stronger body"]} />.</span>
+        </motion.h1>
+
+        <motion.p 
+          className="hero-desc text-lg text-gray-600 mb-8 max-w-lg leading-relaxed"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1 }}
+          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
         >
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-8 h-8 bg-primary/20 rounded-lg flex items-center justify-center text-primary">
-              <Activity size={16} />
+          Specializing in advanced diagnostic techniques and personalized treatment for all digestive and liver disorders. Bridging the gap between 3D technology and compassionate care.
+        </motion.p>
+
+        <motion.div 
+          className="hero-actions flex flex-wrap gap-4"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
+        >
+          <Magnetic>
+            <button 
+              className="btn btn-solid flex items-center gap-2"
+              onClick={() => document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' })}
+            >
+              <Calendar size={18} />
+              Book Checkup
+              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+            </button>
+          </Magnetic>
+          <Magnetic>
+            <button className="btn btn-outline flex items-center gap-2 group">
+              <Phone size={18} />
+              Consultation
+            </button>
+          </Magnetic>
+        </motion.div>
+      </div>
+
+      <motion.div 
+        className="hero-image-container relative hidden lg:flex flex-1 items-center justify-center"
+        initial={{ opacity: 0, scale: 0.9, x: 50 }}
+        animate={{ opacity: 1, scale: 1, x: 0 }}
+        transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <motion.div 
+          className="hero-card glass relative p-8 rounded-3xl overflow-hidden border border-white/30 shadow-2xl"
+          style={{ y: stomachY }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent pointer-events-none" />
+          <img src={stomachImg} alt="3D Stomach Illustration" className="hero-image w-[450px] relative z-10 filter drop-shadow-2xl" />
+          
+          <motion.div 
+            className="hero-overlay-card absolute -bottom-6 -left-6 glass p-5 rounded-2xl shadow-2xl border border-white/20 max-w-[200px]"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1 }}
+          >
+            <div className="flex items-center gap-3 mb-2">
+              <div className="w-8 h-8 bg-primary/20 rounded-lg flex items-center justify-center text-primary">
+                <Activity size={16} />
+              </div>
+              <span className="text-[10px] font-bold text-primary uppercase tracking-widest">3D Precision</span>
             </div>
-            <span className="text-[10px] font-bold text-primary uppercase tracking-widest">3D Precision</span>
-          </div>
-          <p className="text-xs font-medium text-gray-700 leading-tight">
-            Mapping gastrointestinal health with sub-millimeter accuracy.
-          </p>
+            <p className="text-xs font-medium text-gray-700 leading-tight">
+              Mapping gastrointestinal health with sub-millimeter accuracy.
+            </p>
+          </motion.div>
         </motion.div>
       </motion.div>
-    </motion.div>
-  </section>
-);
+    </section>
+  );
+};
 
 const FeatureBanner = () => (
   <section id="specializations" className="feature-banner-section container">
