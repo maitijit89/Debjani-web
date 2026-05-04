@@ -3,56 +3,65 @@ import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import { format, addMinutes, startOfToday, getDay, parse } from 'date-fns';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Calendar, MapPin, Clock, CheckCircle2, ChevronRight, Loader2 } from 'lucide-react';
+import { 
+  Calendar, MapPin, Clock, CheckCircle2, ChevronRight, Loader2, 
+  UserRound, Clock3 
+} from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 const CLINICS = [
   {
     id: 'mecheda',
     name: 'Mecheda',
-    location: 'Mecheda Clinic',
+    location: 'S.S. SK. SN Clinic — Mecheda',
     days: [1, 4], // Mon, Thu
     hours: { start: '15:30', end: '18:30' },
+    schedule: 'Mon / Thu • 3:30 PM - 6:30 PM',
     color: 'bg-teal-500'
   },
   {
     id: 'kolaghat-rs',
     name: 'Kolaghat RS',
-    location: 'Kolaghat Medical',
+    location: 'S.S. SK. SN Clinic — Kolaghat RS',
     days: [2], // Tue
     hours: { start: '09:00', end: '12:00' },
+    schedule: 'Tue • 9:00 AM - 12:00 PM',
     color: 'bg-indigo-500'
   },
   {
     id: 'chadinda',
     name: 'Chadinda',
-    location: 'Chadinda Care',
+    location: 'S.S. SK. SN Clinic — Chadinda',
     days: [6], // Sat
     hours: { start: '09:00', end: '12:00' },
+    schedule: 'Sat • 9:00 AM - 12:00 PM',
     color: 'bg-orange-500'
   },
   {
     id: 'jiakhali',
     name: 'Jiakhali',
-    location: 'Jiakhali Unit',
+    location: 'S.S. SK. SN Clinic — Jiakhali',
     days: [3, 6], // Wed, Sat
     hours: { start: '15:30', end: '18:30' },
+    schedule: 'Wed / Sat • 3:30 PM - 6:30 PM',
     color: 'bg-blue-500'
   },
   {
     id: 'bardabar',
     name: 'Bardabar',
-    location: 'Bardabar Hospital',
+    location: 'S.S. SK. SN Clinic — Bardabar',
     days: [0], // Sun
     hours: { start: '18:00', end: '21:00' },
+    schedule: 'Sun • 6:00 PM - 9:00 PM',
     color: 'bg-purple-500'
   },
   {
     id: 'chapda',
     name: 'Chapda',
-    location: 'Chapda Clinic',
+    location: 'S.S. SK. SN Clinic — Chapda',
     days: [5], // Fri
     hours: { start: '09:00', end: '12:00' },
+    schedule: 'Fri • 9:00 AM - 12:00 PM',
     color: 'bg-rose-500'
   }
 ];
@@ -79,8 +88,8 @@ const Magnetic = ({ children }) => {
   );
 };
 
-// API integration - uses relative path for both local (via Vite proxy) and production (Vercel)
-const API_BASE_URL = '/api';
+// API integration
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 const fetchBookedSlots = async (clinicId, date) => {
   try {
@@ -88,7 +97,7 @@ const fetchBookedSlots = async (clinicId, date) => {
     const response = await fetch(`${API_BASE_URL}/slots?clinicId=${clinicId}&date=${dateStr}`);
     const data = await response.json();
     if (!response.ok) throw new Error(data.error || 'Failed to fetch slots');
-    return data; // Now returning full objects { startTime, endTime, available }
+    return data;
   } catch (error) {
     console.error('Error fetching slots:', error);
     return [];
@@ -118,7 +127,7 @@ const BookingSystem = () => {
   const [patientInfo, setPatientInfo] = useState({ name: '', phone: '' });
   const [bookedSlots, setBookedSlots] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [step, setStep] = useState(1); // 1: Clinic, 2: Date & Time, 3: Success
+  const [step, setStep] = useState(1);
 
   useEffect(() => {
     if (selectedClinic && selectedDate) {
@@ -134,7 +143,6 @@ const BookingSystem = () => {
     const slots = [];
     let current = parse(startStr, 'HH:mm', new Date());
     const end = parse(endStr, 'HH:mm', new Date());
-
     while (current < end) {
       slots.push(format(current, 'HH:mm'));
       current = addMinutes(current, 30);
@@ -158,46 +166,36 @@ const BookingSystem = () => {
     if (selectedClinic && selectedDate && selectedSlot && patientInfo.name && patientInfo.phone) {
       setLoading(true);
       try {
-        const slotData = selectedSlot; 
         await bookAppointment({
           clinicId: selectedClinic.id,
           patientName: patientInfo.name,
           patientPhone: patientInfo.phone,
           date: format(selectedDate, 'yyyy-MM-dd'),
-          startTime: slotData.startTime,
-          endTime: slotData.endTime
+          startTime: selectedSlot.startTime,
+          endTime: selectedSlot.endTime
         });
         setStep(3);
         confetti({
-          particleCount: 150,
-          spread: 70,
+          particleCount: 200,
+          spread: 80,
           origin: { y: 0.6 },
-          colors: ['#005f69', '#00f2ff', '#7c4dff']
+          colors: ['#0ea5e9', '#7dd3fc', '#f43f5e']
         });
       } catch (error) {
         alert(error.message);
       } finally {
         setLoading(false);
       }
-    } else if (!patientInfo.name || !patientInfo.phone) {
-      alert("Please enter your name and phone number.");
+    } else {
+      alert("Please complete all fields.");
     }
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-4 md:p-8">
-      {/* Progress Header */}
-      <div className="flex items-center justify-center mb-12 space-x-4">
-        {[1, 2, 3].map((s) => (
-          <div key={s} className="flex items-center">
-            <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold transition-all duration-500 ${
-              step >= s ? 'bg-primary text-white scale-110 shadow-lg shadow-primary/20' : 'bg-gray-200 text-gray-500'
-            }`}>
-              {step > s ? <CheckCircle2 size={20} /> : s}
-            </div>
-            {s < 3 && <div className={`w-12 h-1 mx-2 rounded-full transition-all duration-500 ${step > s ? 'bg-primary' : 'bg-gray-200'}`} />}
-          </div>
-        ))}
+    <div className="container">
+      <div className="text-center mb-24">
+        <h2 className="section-title">Schedule Consultation</h2>
+        <p className="section-subtitle">Choose your preferred clinic and secure your appointment in seconds.</p>
       </div>
 
       <AnimatePresence mode="wait">
@@ -207,168 +205,152 @@ const BookingSystem = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="space-y-6"
+            className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10"
           >
-            <div className="text-center mb-10">
-              <h2 className="text-3xl font-bold text-gray-900 font-heading">Select a Clinic Location</h2>
-              <p className="text-gray-500 mt-2">Choose the location most convenient for your visit</p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {CLINICS.map((clinic, index) => (
-                <motion.div
-                  key={clinic.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  whileHover={{ y: -8, scale: 1.02, backgroundColor: 'rgba(255, 255, 255, 0.9)' }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => handleClinicSelect(clinic)}
-                  className="bg-white/70 backdrop-blur-md p-6 rounded-[32px] shadow-sm border border-white/50 cursor-pointer hover:shadow-2xl hover:shadow-primary/10 transition-all group relative overflow-hidden"
-                >
-                  <div className={`absolute top-0 right-0 w-24 h-24 -mr-8 -mt-8 rounded-full opacity-10 ${clinic.color}`} />
-                  <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-4 text-white shadow-lg ${clinic.color}`}>
-                    <MapPin size={24} />
+            {CLINICS.map((clinic, index) => (
+              <motion.div
+                key={clinic.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                onClick={() => handleClinicSelect(clinic)}
+                className="liquid-glass p-10 cursor-pointer group flex flex-col items-start border-white/40"
+              >
+                <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-primary mb-10 shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
+                  <MapPin size={32} />
+                </div>
+                <h3 className="text-2xl font-black text-gray-900 mb-2">{clinic.name}</h3>
+                <p className="text-slate-500 text-sm mb-10 font-medium">{clinic.location}</p>
+                <div className="mt-auto w-full space-y-8">
+                  <div className="text-[10px] font-black text-primary uppercase tracking-[0.2em] bg-white/50 px-5 py-3 rounded-2xl shadow-inner inline-block">
+                    {clinic.schedule}
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-1">{clinic.name}</h3>
-                  <p className="text-gray-500 text-sm mb-4">{clinic.location}</p>
-                  <div className="flex items-center text-xs font-bold text-primary bg-primary/10 py-2.5 px-4 rounded-xl w-fit">
-                    <Clock size={14} className="mr-2" />
-                    {clinic.hours.start} - {clinic.hours.end}
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+                  <button className="btn btn-solid !py-4 !text-[10px] w-full group-hover:scale-105 transition-all">
+                    Book Appointment
+                  </button>
+                </div>
+              </motion.div>
+            ))}
           </motion.div>
         )}
 
         {step === 2 && (
           <motion.div
             key="step2"
-            initial={{ opacity: 0, x: 20 }}
+            initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            className="bg-white/80 backdrop-blur-xl rounded-[48px] shadow-2xl shadow-primary/5 p-6 md:p-12 border border-white/50"
+            exit={{ opacity: 0, x: -50 }}
+            className="liquid-glass p-12 md:p-16 border-white/60"
           >
             <button 
               onClick={() => setStep(1)}
-              className="text-gray-400 hover:text-primary mb-6 flex items-center text-sm font-medium transition-colors"
+              className="flex items-center gap-2 text-slate-400 hover:text-primary mb-12 text-xs font-black uppercase tracking-[0.2em] transition-all"
             >
-              ← Change Location
+              <ChevronRight size={18} className="rotate-180" />
+              Change Location
             </button>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-              {/* Date Selection */}
-              <div>
-                <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center">
-                  <Calendar className="mr-3 text-primary" size={22} />
-                  Pick a Date
-                </h3>
-                <div className="custom-datepicker-container">
+            <div className="grid lg:grid-cols-2 gap-20">
+              <div className="space-y-12">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-primary shadow-inner">
+                    <Calendar size={24} />
+                  </div>
+                  <h3 className="text-2xl font-black text-gray-900 tracking-tight">Select Date</h3>
+                </div>
+                <div className="custom-datepicker-container bg-white/30 p-8 rounded-[40px] shadow-inner border border-white/40">
                   <DatePicker
                     selected={selectedDate}
-                    onChange={(date) => {
-                      setSelectedDate(date);
-                      setSelectedSlot(null);
-                    }}
+                    onChange={(date) => { setSelectedDate(date); setSelectedSlot(null); }}
                     filterDate={isDayEnabled}
                     minDate={startOfToday()}
                     inline
-                    calendarClassName="medical-calendar"
                   />
                 </div>
               </div>
 
-              {/* Slot Selection */}
-              <div>
-                <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center">
-                  <Clock className="mr-3 text-primary" size={22} />
-                  Available Slots
-                </h3>
+              <div className="space-y-16">
+                <div className="space-y-10">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-primary shadow-inner">
+                      <UserRound size={24} />
+                    </div>
+                    <h3 className="text-2xl font-black text-gray-900 tracking-tight">Patient Info</h3>
+                  </div>
 
-                {/* Patient Details Form */}
-                <div className="mb-8 space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label htmlFor="patientName" className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Your Name</label>
-                      <input 
-                        id="patientName"
-                        type="text" 
-                        value={patientInfo.name}
-                        onChange={(e) => setPatientInfo({...patientInfo, name: e.target.value})}
-                        className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all font-medium"
-                        placeholder="John Doe"
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="patientPhone" className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Phone Number</label>
-                      <input 
-                        id="patientPhone"
-                        type="tel" 
-                        value={patientInfo.phone}
-                        onChange={(e) => setPatientInfo({...patientInfo, phone: e.target.value})}
-                        className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all font-medium"
-                        placeholder="+91 00000-00000"
-                      />
-                    </div>
+                  <div className="grid gap-6">
+                    <input 
+                      type="text" 
+                      value={patientInfo.name}
+                      onChange={(e) => setPatientInfo({...patientInfo, name: e.target.value})}
+                      className="w-full px-8 py-5 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-md focus:bg-white focus:ring-[12px] focus:ring-primary/5 focus:border-primary outline-none transition-all text-sm font-black placeholder:text-slate-400"
+                      placeholder="Full Name"
+                    />
+                    <input 
+                      type="tel" 
+                      value={patientInfo.phone}
+                      onChange={(e) => setPatientInfo({...patientInfo, phone: e.target.value})}
+                      className="w-full px-8 py-5 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-md focus:bg-white focus:ring-[12px] focus:ring-primary/5 focus:border-primary outline-none transition-all text-sm font-black placeholder:text-slate-400"
+                      placeholder="Phone Number"
+                    />
                   </div>
                 </div>
-                
-                {selectedDate ? (
-                  loading ? (
-                    <div className="h-64 flex items-center justify-center">
-                      <Loader2 className="animate-spin text-primary" size={32} />
-                    </div>
+
+                <div className="space-y-8">
+                  <h4 className="text-xs font-black text-slate-400 uppercase tracking-[0.3em]">Available Slots</h4>
+                  {selectedDate ? (
+                    loading ? (
+                      <div className="h-48 flex items-center justify-center text-primary">
+                        <Loader2 className="animate-spin" size={48} />
+                      </div>
+                    ) : (
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                        {generateTimeSlots(selectedClinic.hours.start, selectedClinic.hours.end).map((slotStr) => {
+                          const isBooked = bookedSlots.includes(slotStr);
+                          const isSelected = selectedSlot?.startTime === slotStr;
+                          return (
+                            <motion.button
+                              key={slotStr}
+                              whileHover={!isBooked ? { scale: 1.1, y: -5 } : {}}
+                              whileTap={!isBooked ? { scale: 0.95 } : {}}
+                              disabled={isBooked}
+                              onClick={() => setSelectedSlot({
+                                startTime: slotStr,
+                                endTime: format(addMinutes(parse(slotStr, 'HH:mm', new Date()), 30), 'HH:mm')
+                              })}
+                              className={`py-4 rounded-2xl text-xs font-black transition-all ${
+                                isBooked 
+                                  ? 'bg-slate-100 text-slate-300 cursor-not-allowed border-none opacity-50' 
+                                  : isSelected
+                                    ? 'bg-primary text-white shadow-[0_15px_30px_rgba(14,165,233,0.3)] scale-110 z-10'
+                                    : 'bg-white/60 text-slate-600 border border-white/80 hover:bg-white hover:text-primary shadow-sm'
+                              }`}
+                            >
+                              {slotStr}
+                            </motion.button>
+                          );
+                        })}
+                      </div>
+                    )
                   ) : (
-                    <div className="grid grid-cols-3 gap-3">
-                      {generateTimeSlots(selectedClinic.hours.start, selectedClinic.hours.end).map((slotStr) => {
-                        const isBooked = bookedSlots.includes(slotStr);
-                        const isSelected = selectedSlot?.startTime === slotStr;
-                        
-                        return (
-                          <button
-                            key={slotStr}
-                            disabled={isBooked}
-                            onClick={() => setSelectedSlot({
-                              startTime: slotStr,
-                              endTime: format(addMinutes(parse(slotStr, 'HH:mm', new Date()), 30), 'HH:mm')
-                            })}
-                            className={`py-3 px-2 rounded-2xl text-sm font-bold transition-all duration-300 ${
-                              isBooked 
-                                ? 'bg-gray-100 text-gray-300 cursor-not-allowed opacity-50' 
-                                : isSelected
-                                  ? 'bg-primary text-white ring-4 ring-primary/20 shadow-lg shadow-primary/30'
-                                  : 'bg-primary-light text-primary hover:bg-primary hover:text-white'
-                            }`}
-                          >
-                            {slotStr}
-                          </button>
-                        );
-                      })}
+                    <div className="h-48 flex flex-col items-center justify-center bg-white/20 rounded-[40px] border-4 border-dashed border-white/40 text-center p-10">
+                      <Clock3 size={40} className="text-white/60 mb-4 animate-pulse" />
+                      <p className="text-slate-500 text-xs font-black uppercase tracking-[0.2em]">Select a date to view times</p>
                     </div>
-                  )
-                ) : (
-                  <div className="h-64 flex flex-col items-center justify-center bg-gray-50 rounded-3xl border-2 border-dashed border-gray-200 p-6 text-center">
-                    <Calendar size={40} className="text-gray-300 mb-3" />
-                    <p className="text-gray-500 font-medium">Please select a date to view available times</p>
-                  </div>
-                )}
+                  )}
+                </div>
 
                 <Magnetic>
                   <button
-                    disabled={!selectedSlot}
+                    disabled={!selectedSlot || !patientInfo.name || !patientInfo.phone}
                     onClick={handleBooking}
-                    className={`w-full mt-10 py-5 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all ${
-                      selectedSlot 
-                        ? 'bg-primary text-white hover:bg-primary-dark shadow-xl shadow-primary/20 hover:scale-[1.02]' 
-                        : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                    className={`w-full py-6 rounded-2xl font-black text-xs uppercase tracking-[0.4em] transition-all shadow-2xl ${
+                      selectedSlot && patientInfo.name && patientInfo.phone
+                        ? 'bg-primary text-white hover:shadow-[0_25px_50px_rgba(14,165,233,0.4)]' 
+                        : 'bg-slate-200 text-slate-400 cursor-not-allowed'
                     }`}
                   >
-                    {loading ? <Loader2 className="animate-spin" size={20} /> : (
-                      <>
-                        Confirm Appointment
-                        <ChevronRight size={18} />
-                      </>
-                    )}
+                    {loading ? <Loader2 className="animate-spin mx-auto" size={24} /> : 'Secure Appointment'}
                   </button>
                 </Magnetic>
               </div>
@@ -381,33 +363,29 @@ const BookingSystem = () => {
             key="step3"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-white rounded-[40px] shadow-2xl p-12 text-center border border-gray-50 max-w-lg mx-auto"
+            className="liquid-glass p-16 md:p-24 text-center max-w-2xl mx-auto border-white/80"
           >
-            <div className="w-24 h-24 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-8 animate-bounce">
-              <CheckCircle2 size={48} />
-            </div>
-            <h2 className="text-3xl font-bold text-gray-900 mb-4 font-heading">Booking Confirmed!</h2>
-            <p className="text-gray-500 mb-10 text-lg">
-              Your appointment is scheduled for <span className="font-bold text-primary">{format(selectedDate, 'PPP')}</span> at <span className="font-bold text-primary">{selectedSlot?.startTime} - {selectedSlot?.endTime}</span> at <span className="font-bold text-primary">{selectedClinic.name}</span>.
+            <motion.div 
+              className="w-24 h-24 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-12 shadow-inner"
+              initial={{ rotate: -180, opacity: 0 }}
+              animate={{ rotate: 0, opacity: 1 }}
+              transition={{ duration: 0.8, type: "spring" }}
+            >
+              <CheckCircle2 size={56} />
+            </motion.div>
+            <h2 className="text-4xl font-black text-gray-900 mb-4 tracking-tighter uppercase">Appointment Secured</h2>
+            <p className="text-slate-500 text-lg mb-12 leading-relaxed font-medium">
+              Your visit is confirmed for <span className="text-primary font-black">{format(selectedDate, 'PPP')}</span> at <span className="text-primary font-black">{selectedSlot?.startTime}</span>. We look forward to seeing you.
             </p>
-            <Magnetic>
-              <button
-                onClick={() => {
-                  setStep(1);
-                  setSelectedClinic(null);
-                  setSelectedDate(null);
-                  setSelectedSlot(null);
-                }}
-                className="w-full py-4 rounded-2xl border-2 border-primary text-primary font-bold hover:bg-primary hover:text-white transition-all"
-              >
-                Book Another Appointment
-              </button>
-            </Magnetic>
+            <button
+              onClick={() => { setStep(1); setSelectedClinic(null); setSelectedDate(null); setSelectedSlot(null); setPatientInfo({ name: '', phone: '' }); }}
+              className="btn btn-solid w-full !py-6 !text-xs !tracking-[0.4em]"
+            >
+              Schedule Another Visit
+            </button>
           </motion.div>
         )}
       </AnimatePresence>
-
-
     </div>
   );
 };

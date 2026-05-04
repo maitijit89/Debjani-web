@@ -21,6 +21,9 @@ mongoose.connect(MONGODB_URI)
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.error('MongoDB connection error:', err));
 
+// Set strictQuery to true for Mongoose 6+ compatibility
+mongoose.set('strictQuery', true);
+
 // Routes
 
 // Get all clinics

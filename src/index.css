@@ -1,229 +1,164 @@
 @import "tailwindcss";
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap');
 
 @theme {
-  --color-primary: #005f69;
-  --color-primary-light: #e0f2f4;
-  --color-primary-dark: #004a52;
-  --color-primary-glow: #00f2ff;
-  --color-accent: #7c4dff;
+  --color-primary: #0ea5e9;
+  --color-primary-light: #f0f9ff;
+  --color-primary-dark: #0369a1;
+  --color-primary-glow: #7dd3fc;
+  --color-accent: #f43f5e;
+  --color-accent-soft: #fff1f2;
+  --color-secondary: #0f172a;
   
-  --font-main: "Inter", sans-serif;
-  --font-heading: "Outfit", sans-serif;
-  
-  --radius-4xl: 40px;
-  --radius-lg: 40px;
-  --radius-md: 24px;
-  --radius-sm: 16px;
+  --font-main: "Inter", system-ui, sans-serif;
+  --font-heading: "Outfit", system-ui, sans-serif;
 }
 
 :root {
-  --primary: #005f69;
-  --primary-light: #e0f2f4;
-  --primary-dark: #004a52;
-  --primary-glow: #00f2ff;
-  --accent: #7c4dff;
-  --white: #ffffff;
-  --bg-light: #f8fafc;
-  --text-main: #0f172a;
-  --text-muted: #64748b;
-  --card-bg: rgba(255, 255, 255, 0.7);
-  --card-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05), 0 4px 10px -5px rgba(0, 0, 0, 0.02);
-  --card-shadow-hover: 0 40px 60px -15px rgba(0, 95, 105, 0.1), 0 20px 30px -10px rgba(0, 0, 0, 0.05);
-  --radius-lg: 40px;
-  --radius-md: 24px;
-  --radius-sm: 16px;
+  --primary: #0ea5e9;
+  --primary-light: #f0f9ff;
+  --primary-glow: #7dd3fc;
+  --accent: #f43f5e;
+  --accent-glow: #fb7185;
+  --glass-bg: rgba(255, 255, 255, 0.45);
+  --glass-border: rgba(255, 255, 255, 0.6);
+  --glass-shadow: 0 20px 40px -10px rgba(14, 165, 233, 0.15);
   --font-main: 'Inter', sans-serif;
   --font-heading: 'Outfit', sans-serif;
-  --transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition: all 0.7s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-/* Cinematic Grain Effect */
-body::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url("https://grainy-gradients.vercel.app/noise.svg");
-  opacity: 0.03;
-  pointer-events: none;
-  z-index: 9999;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
+/* Base Styles */
 body {
   font-family: var(--font-main);
-  background-color: var(--bg-light);
-  color: var(--text-main);
+  background-color: #f8fafc;
+  color: #1e293b;
   line-height: 1.6;
   overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(14, 165, 233, 0.05) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(244, 63, 94, 0.05) 0px, transparent 50%);
 }
 
-h1, h2, h3, h4 {
-  font-family: var(--font-heading);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-}
-
-p {
-  letter-spacing: -0.01em;
-}
-
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-ul {
-  list-style: none;
-}
-
-button {
-  cursor: pointer;
-  border: none;
-  outline: none;
-  font-family: var(--font-main);
-  font-weight: 600;
+/* Liquid Glass Utilities */
+.liquid-glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  border-radius: 32px;
   transition: var(--transition);
+  position: relative;
+  overflow: hidden;
 }
 
-.container {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 0 24px;
-}
-
-/* Aesthetic Background Elements */
-.bg-blobs {
-  position: fixed;
+.liquid-glass::before {
+  content: '';
+  position: absolute;
   top: 0;
-  left: 0;
+  left: -100%;
   width: 100%;
   height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: 0.8s;
+}
+
+.liquid-glass:hover::before {
+  left: 100%;
+}
+
+.liquid-glass:hover {
+  background: rgba(255, 255, 255, 0.55);
+  border-color: rgba(255, 255, 255, 0.9);
+  transform: translateY(-12px) scale(1.01);
+  box-shadow: 0 30px 60px -12px rgba(14, 165, 233, 0.25);
+}
+
+/* Organic Blobs */
+.bg-blobs {
+  position: fixed;
+  inset: 0;
   z-index: -1;
   overflow: hidden;
-  opacity: 0.4;
+  pointer-events: none;
 }
 
 .blob {
   position: absolute;
-  filter: blur(80px);
+  filter: blur(120px);
   border-radius: 50%;
-  z-index: -1;
+  animation: liquid-flow 25s infinite alternate ease-in-out;
 }
 
 .blob-1 {
-  width: 400px;
-  height: 400px;
-  background: var(--primary-light);
-  top: -100px;
-  right: -100px;
-  animation: float 20s infinite alternate;
+  width: 60vw;
+  height: 60vw;
+  background: radial-gradient(circle, var(--primary-glow) 0%, var(--primary) 100%);
+  top: -15%;
+  right: -15%;
+  opacity: 0.25;
 }
 
 .blob-2 {
-  width: 300px;
-  height: 300px;
-  background: #f0e7ff;
-  bottom: 10%;
-  left: -50px;
-  animation: float 15s infinite alternate-reverse;
+  width: 50vw;
+  height: 50vw;
+  background: radial-gradient(circle, var(--accent-glow) 0%, var(--accent) 100%);
+  bottom: -10%;
+  left: -10%;
+  opacity: 0.15;
+  animation-delay: -7s;
 }
 
-@keyframes float {
-  0% { transform: translate(0, 0); }
-  100% { transform: translate(50px, 100px); }
+.blob-3 {
+  width: 45vw;
+  height: 45vw;
+  background: radial-gradient(circle, #ffffff 0%, var(--primary-light) 100%);
+  top: 30%;
+  left: 15%;
+  opacity: 0.35;
+  animation-delay: -12s;
 }
 
-/* Glassmorphism Utilities */
-.glass {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+@keyframes liquid-flow {
+  0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+  33% { transform: translate(10%, 15%) scale(1.2) rotate(120deg); }
+  66% { transform: translate(-10%, 5%) scale(0.9) rotate(240deg); }
+  100% { transform: translate(0, 0) scale(1) rotate(360deg); }
 }
 
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f1f5f9;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
+/* Custom Selection */
+::selection {
   background: var(--primary);
+  color: white;
 }
 
-/* Datepicker Overrides */
-.custom-datepicker-container .react-datepicker {
-  border: none !important;
-  font-family: 'Inter', sans-serif;
-  width: 100% !important;
-  display: flex !important;
-  justify-content: center;
-  background: transparent !important;
+/* Layout Container */
+.container {
+  width: 100%;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
 }
 
-.custom-datepicker-container .react-datepicker__month-container {
-  width: 100% !important;
+@media (min-width: 768px) {
+  .container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
 }
 
-.custom-datepicker-container .react-datepicker__day--keyboard-selected {
-  background-color: transparent !important;
-  color: inherit !important;
-}
-
-.custom-datepicker-container .react-datepicker__day--selected {
-  background-color: var(--primary) !important;
-  border-radius: 12px !important;
-  color: white !important;
-  font-weight: bold !important;
-}
-
-.custom-datepicker-container .react-datepicker__day:hover {
-  border-radius: 12px !important;
-  background-color: var(--primary-light) !important;
-}
-
-.custom-datepicker-container .react-datepicker__header {
-  background-color: white !important;
-  border-bottom: 1px solid #f1f5f9 !important;
-  padding-top: 20px !important;
-}
-
-.custom-datepicker-container .react-datepicker__day-name {
-  color: #94a3b8 !important;
-  font-weight: 600 !important;
-  width: 3rem !important;
-  line-height: 3rem !important;
-}
-
-.custom-datepicker-container .react-datepicker__day {
-  width: 3rem !important;
-  line-height: 3rem !important;
-  font-weight: 500 !important;
-  color: #334155 !important;
-}
-
-.custom-datepicker-container .react-datepicker__day--disabled {
-  color: #e2e8f0 !important;
+@media (min-width: 1280px) {
+  .container {
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
 }
