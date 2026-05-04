@@ -431,6 +431,37 @@
   border-top: 1px solid #f1f5f9;
 }
 
+/* Stats Section */
+.stats-section {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  position: relative;
+  z-index: 5;
+}
+
+/* Contact Section */
+.contact-section {
+  position: relative;
+}
+
+.contact-section form input, 
+.contact-section form textarea {
+  transition: all 0.3s ease;
+  color: white;
+}
+
+.contact-section form input::placeholder, 
+.contact-section form textarea::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.contact-section form input:focus, 
+.contact-section form textarea:focus {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(0, 95, 105, 0.1);
+}
+
 .footer-grid {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr;
