@@ -4,6 +4,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { format, addMinutes, startOfToday, getDay, parse } from 'date-fns';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Calendar, MapPin, Clock, CheckCircle2, ChevronRight, Loader2 } from 'lucide-react';
+import confetti from 'canvas-confetti';
 
 const CLINICS = [
   {
@@ -55,6 +56,28 @@ const CLINICS = [
     color: 'bg-rose-500'
   }
 ];
+
+const Magnetic = ({ children }) => {
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const handleMouse = (e) => {
+    const { clientX, clientY, currentTarget } = e;
+    const { left, top, width, height } = currentTarget.getBoundingClientRect();
+    const x = clientX - (left + width / 2);
+    const y = clientY - (top + height / 2);
+    setPosition({ x: x * 0.3, y: y * 0.3 });
+  };
+  const reset = () => setPosition({ x: 0, y: 0 });
+  return (
+    <motion.div
+      onMouseMove={handleMouse}
+      onMouseLeave={reset}
+      animate={{ x: position.x, y: position.y }}
+      transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
+    >
+      {children}
+    </motion.div>
+  );
+};
 
 // API integration - uses relative path for both local (via Vite proxy) and production (Vercel)
 const API_BASE_URL = '/api';
@@ -145,6 +168,12 @@ const BookingSystem = () => {
           endTime: slotData.endTime
         });
         setStep(3);
+        confetti({
+          particleCount: 150,
+          spread: 70,
+          origin: { y: 0.6 },
+          colors: ['#005f69', '#00f2ff', '#7c4dff']
+        });
       } catch (error) {
         alert(error.message);
       } finally {
@@ -185,9 +214,12 @@ const BookingSystem = () => {
               <p className="text-gray-500 mt-2">Choose the location most convenient for your visit</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {CLINICS.map((clinic) => (
+              {CLINICS.map((clinic, index) => (
                 <motion.div
                   key={clinic.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
                   whileHover={{ y: -8, scale: 1.02, backgroundColor: 'rgba(255, 255, 255, 0.9)' }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => handleClinicSelect(clinic)}
@@ -321,18 +353,24 @@ const BookingSystem = () => {
                   </div>
                 )}
 
-                <button
-                  disabled={!selectedSlot}
-                  onClick={handleBooking}
-                  className={`w-full mt-10 py-5 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all ${
-                    selectedSlot 
-                      ? 'bg-primary text-white hover:bg-primary-dark shadow-xl shadow-primary/20 hover:scale-[1.02]' 
-                      : 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                  }`}
-                >
-                  Confirm Appointment
-                  <ChevronRight size={18} />
-                </button>
+                <Magnetic>
+                  <button
+                    disabled={!selectedSlot}
+                    onClick={handleBooking}
+                    className={`w-full mt-10 py-5 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all ${
+                      selectedSlot 
+                        ? 'bg-primary text-white hover:bg-primary-dark shadow-xl shadow-primary/20 hover:scale-[1.02]' 
+                        : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                    }`}
+                  >
+                    {loading ? <Loader2 className="animate-spin" size={20} /> : (
+                      <>
+                        Confirm Appointment
+                        <ChevronRight size={18} />
+                      </>
+                    )}
+                  </button>
+                </Magnetic>
               </div>
             </div>
           </motion.div>
@@ -352,17 +390,19 @@ const BookingSystem = () => {
             <p className="text-gray-500 mb-10 text-lg">
               Your appointment is scheduled for <span className="font-bold text-primary">{format(selectedDate, 'PPP')}</span> at <span className="font-bold text-primary">{selectedSlot?.startTime} - {selectedSlot?.endTime}</span> at <span className="font-bold text-primary">{selectedClinic.name}</span>.
             </p>
-            <button
-              onClick={() => {
-                setStep(1);
-                setSelectedClinic(null);
-                setSelectedDate(null);
-                setSelectedSlot(null);
-              }}
-              className="w-full py-4 rounded-2xl border-2 border-primary text-primary font-bold hover:bg-primary hover:text-white transition-all"
-            >
-              Book Another Appointment
-            </button>
+            <Magnetic>
+              <button
+                onClick={() => {
+                  setStep(1);
+                  setSelectedClinic(null);
+                  setSelectedDate(null);
+                  setSelectedSlot(null);
+                }}
+                className="w-full py-4 rounded-2xl border-2 border-primary text-primary font-bold hover:bg-primary hover:text-white transition-all"
+              >
+                Book Another Appointment
+              </button>
+            </Magnetic>
           </motion.div>
         )}
       </AnimatePresence>
