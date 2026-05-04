@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
-import { format, addMinutes, startOfToday, getDay, isSameDay, parse } from 'date-fns';
+import { format, addMinutes, startOfToday, getDay, parse } from 'date-fns';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Calendar, MapPin, Clock, CheckCircle2, ChevronRight, Loader2 } from 'lucide-react';
 
@@ -84,6 +84,7 @@ const bookAppointment = async (bookingData) => {
     if (!response.ok) throw new Error(data.error || 'Failed to book appointment');
     return data;
   } catch (error) {
+    console.error('Booking error:', error);
     throw error;
   }
 };
@@ -257,8 +258,9 @@ const BookingSystem = () => {
                 <div className="mb-8 space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Your Name</label>
+                      <label htmlFor="patientName" className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Your Name</label>
                       <input 
+                        id="patientName"
                         type="text" 
                         value={patientInfo.name}
                         onChange={(e) => setPatientInfo({...patientInfo, name: e.target.value})}
@@ -267,8 +269,9 @@ const BookingSystem = () => {
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Phone Number</label>
+                      <label htmlFor="patientPhone" className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Phone Number</label>
                       <input 
+                        id="patientPhone"
                         type="tel" 
                         value={patientInfo.phone}
                         onChange={(e) => setPatientInfo({...patientInfo, phone: e.target.value})}
@@ -279,41 +282,43 @@ const BookingSystem = () => {
                   </div>
                 </div>
                 
-                {!selectedDate ? (
+                {selectedDate ? (
+                  loading ? (
+                    <div className="h-64 flex items-center justify-center">
+                      <Loader2 className="animate-spin text-primary" size={32} />
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-3 gap-3">
+                      {generateTimeSlots(selectedClinic.hours.start, selectedClinic.hours.end).map((slotStr) => {
+                        const isBooked = bookedSlots.includes(slotStr);
+                        const isSelected = selectedSlot?.startTime === slotStr;
+                        
+                        return (
+                          <button
+                            key={slotStr}
+                            disabled={isBooked}
+                            onClick={() => setSelectedSlot({
+                              startTime: slotStr,
+                              endTime: format(addMinutes(parse(slotStr, 'HH:mm', new Date()), 30), 'HH:mm')
+                            })}
+                            className={`py-3 px-2 rounded-2xl text-sm font-bold transition-all duration-300 ${
+                              isBooked 
+                                ? 'bg-gray-100 text-gray-300 cursor-not-allowed opacity-50' 
+                                : isSelected
+                                  ? 'bg-primary text-white ring-4 ring-primary/20 shadow-lg shadow-primary/30'
+                                  : 'bg-primary-light text-primary hover:bg-primary hover:text-white'
+                            }`}
+                          >
+                            {slotStr}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )
+                ) : (
                   <div className="h-64 flex flex-col items-center justify-center bg-gray-50 rounded-3xl border-2 border-dashed border-gray-200 p-6 text-center">
                     <Calendar size={40} className="text-gray-300 mb-3" />
                     <p className="text-gray-500 font-medium">Please select a date to view available times</p>
-                  </div>
-                ) : loading ? (
-                  <div className="h-64 flex items-center justify-center">
-                    <Loader2 className="animate-spin text-primary" size={32} />
-                  </div>
-                ) : (
-                  <div className="grid grid-cols-3 gap-3">
-                    {generateTimeSlots(selectedClinic.hours.start, selectedClinic.hours.end).map((slotStr) => {
-                      const isBooked = bookedSlots.includes(slotStr);
-                      const isSelected = selectedSlot?.startTime === slotStr;
-                      
-                      return (
-                        <button
-                          key={slotStr}
-                          disabled={isBooked}
-                          onClick={() => setSelectedSlot({
-                            startTime: slotStr,
-                            endTime: format(addMinutes(parse(slotStr, 'HH:mm', new Date()), 30), 'HH:mm')
-                          })}
-                          className={`py-3 px-2 rounded-2xl text-sm font-bold transition-all duration-300 ${
-                            isBooked 
-                              ? 'bg-gray-100 text-gray-300 cursor-not-allowed opacity-50' 
-                              : isSelected
-                                ? 'bg-primary text-white ring-4 ring-primary/20 shadow-lg shadow-primary/30'
-                                : 'bg-primary-light text-primary hover:bg-primary hover:text-white'
-                          }`}
-                        >
-                          {slotStr}
-                        </button>
-                      );
-                    })}
                   </div>
                 )}
 
@@ -363,50 +368,7 @@ const BookingSystem = () => {
         )}
       </AnimatePresence>
 
-      <style jsx>{`
-        .custom-datepicker-container :global(.react-datepicker) {
-          border: none;
-          font-family: 'Inter', sans-serif;
-          width: 100%;
-          display: flex;
-          justify-content: center;
-        }
-        .custom-datepicker-container :global(.react-datepicker__month-container) {
-          width: 100%;
-        }
-        .custom-datepicker-container :global(.react-datepicker__day--keyboard-selected) {
-          background-color: transparent;
-          color: inherit;
-        }
-        .custom-datepicker-container :global(.react-datepicker__day--selected) {
-          background-color: #005f69 !important;
-          border-radius: 12px;
-          font-weight: bold;
-        }
-        .custom-datepicker-container :global(.react-datepicker__day:hover) {
-          border-radius: 12px;
-        }
-        .custom-datepicker-container :global(.react-datepicker__header) {
-          background-color: white;
-          border-bottom: 1px solid #f1f5f9;
-          padding-top: 20px;
-        }
-        .custom-datepicker-container :global(.react-datepicker__day-name) {
-          color: #94a3b8;
-          font-weight: 600;
-          width: 3rem;
-          line-height: 3rem;
-        }
-        .custom-datepicker-container :global(.react-datepicker__day) {
-          width: 3rem;
-          line-height: 3rem;
-          font-weight: 500;
-          color: #334155;
-        }
-        .custom-datepicker-container :global(.react-datepicker__day--disabled) {
-          color: #e2e8f0;
-        }
-      `}</style>
+
     </div>
   );
 };
