@@ -524,14 +524,14 @@ const ContactSection = () => {
                   placeholder="Name"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full px-6 md:px-8 py-4 md:py-5 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-md focus:bg-white focus:ring-12 focus:ring-primary/5 focus:border-primary outline-none transition-all text-sm font-bold placeholder:text-slate-400"
+                  className="w-full px-6 md:px-8 py-4 md:py-5 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-md focus:bg-white focus:ring-4 focus:ring-primary/10 focus:border-primary/50 outline-none transition-all text-sm font-bold placeholder:text-slate-400"
                 />
                 <input
                   type="email"
                   placeholder="Email"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full px-6 md:px-8 py-4 md:py-5 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-md focus:bg-white focus:ring-12 focus:ring-primary/5 focus:border-primary outline-none transition-all text-sm font-bold placeholder:text-slate-400"
+                  className="w-full px-6 md:px-8 py-4 md:py-5 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-md focus:bg-white focus:ring-4 focus:ring-primary/10 focus:border-primary/50 outline-none transition-all text-sm font-bold placeholder:text-slate-400"
                 />
               </div>
               <textarea
@@ -539,7 +539,7 @@ const ContactSection = () => {
                 placeholder="How can we help you today?"
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                className="w-full px-8 py-6 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-md focus:bg-white focus:ring-12 focus:ring-primary/5 focus:border-primary outline-none transition-all text-sm font-bold placeholder:text-slate-400 resize-none"
+                className="w-full px-8 py-6 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-md focus:bg-white focus:ring-4 focus:ring-primary/10 focus:border-primary/50 outline-none transition-all text-sm font-bold placeholder:text-slate-400 resize-none"
               ></textarea>
 
               {status.message && (

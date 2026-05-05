@@ -386,7 +386,7 @@ const BookingSystem = () => {
                       type="text" 
                       value={patientInfo.name}
                       onChange={(e) => setPatientInfo({...patientInfo, name: e.target.value})}
-                      className="w-full px-6 py-4 md:px-8 md:py-5 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-md focus:bg-white focus:ring-12 focus:ring-primary/5 focus:border-primary outline-none transition-all text-sm font-black placeholder:text-slate-400"
+                      className="w-full px-6 py-4 md:px-8 md:py-5 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-md focus:bg-white focus:ring-4 focus:ring-primary/10 focus:border-primary/50 outline-none transition-all text-sm font-black placeholder:text-slate-400"
                       placeholder="Full Name"
                     />
                     <div className="grid grid-cols-2 gap-6">
@@ -394,14 +394,14 @@ const BookingSystem = () => {
                         type="tel" 
                         value={patientInfo.phone}
                         onChange={(e) => setPatientInfo({...patientInfo, phone: e.target.value})}
-                        className="w-full px-6 py-4 md:px-8 md:py-5 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-md focus:bg-white focus:ring-12 focus:ring-primary/5 focus:border-primary outline-none transition-all text-sm font-bold placeholder:text-slate-400"
+                        className="w-full px-6 py-4 md:px-8 md:py-5 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-md focus:bg-white focus:ring-4 focus:ring-primary/10 focus:border-primary/50 outline-none transition-all text-sm font-bold placeholder:text-slate-400"
                         placeholder="Phone Number"
                       />
                       <input 
                         type="number" 
                         value={patientInfo.age}
                         onChange={(e) => setPatientInfo({...patientInfo, age: e.target.value})}
-                        className="w-full px-6 py-4 md:px-8 md:py-5 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-md focus:bg-white focus:ring-12 focus:ring-primary/5 focus:border-primary outline-none transition-all text-sm font-bold placeholder:text-slate-400"
+                        className="w-full px-6 py-4 md:px-8 md:py-5 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-md focus:bg-white focus:ring-4 focus:ring-primary/10 focus:border-primary/50 outline-none transition-all text-sm font-bold placeholder:text-slate-400"
                         placeholder="Age"
                       />
                     </div>
@@ -424,14 +424,14 @@ const BookingSystem = () => {
                       type="text" 
                       value={patientInfo.address}
                       onChange={(e) => setPatientInfo({...patientInfo, address: e.target.value})}
-                      className="w-full px-6 py-4 md:px-8 md:py-5 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-md focus:bg-white focus:ring-12 focus:ring-primary/5 focus:border-primary outline-none transition-all text-sm font-black placeholder:text-slate-400"
+                      className="w-full px-6 py-4 md:px-8 md:py-5 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-md focus:bg-white focus:ring-4 focus:ring-primary/10 focus:border-primary/50 outline-none transition-all text-sm font-black placeholder:text-slate-400"
                       placeholder="Address"
                     />
                     <textarea 
                       value={patientInfo.message}
                       onChange={(e) => setPatientInfo({...patientInfo, message: e.target.value})}
                       rows="3"
-                      className="w-full px-8 py-5 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-md focus:bg-white focus:ring-12 focus:ring-primary/5 focus:border-primary outline-none transition-all text-sm font-bold placeholder:text-slate-400 resize-none"
+                      className="w-full px-8 py-5 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-md focus:bg-white focus:ring-4 focus:ring-primary/10 focus:border-primary/50 outline-none transition-all text-sm font-bold placeholder:text-slate-400 resize-none"
                       placeholder="Booking Message (Optional)"
                     />
                   </div>
