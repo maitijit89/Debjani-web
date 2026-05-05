@@ -643,9 +643,7 @@ const Footer = () => {
                     </svg>
                   ), 
                   href: 'https://www.instagram.com/debjanimaity3?igsh=ZzBsamV4eXZhdWRu' 
-                },
-                { id: 'share', icon: <Share2 size={22} />, href: '#' },
-                { id: 'chat', icon: <MessageSquare size={22} />, href: '#' }
+                }
               ].map((social) => (
                 <motion.a
                   key={social.id}
