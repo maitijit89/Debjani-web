@@ -512,7 +512,10 @@ const ContactSection = () => {
       <FadeIn direction="left">
         <div className="card-glass p-8! md:p-16! relative overflow-hidden border-white/60">
           <div className="absolute top-0 right-0 w-48 h-48 bg-primary/5 rounded-full -mr-24 -mt-24 blur-3xl" />
-          <h3 className="text-2xl md:text-3xl font-black text-gray-900 mb-8 md:mb-10 tracking-tighter uppercase text-center lg:text-left">Send a Message</h3>
+          <div className="text-center lg:text-left mb-10">
+            <h3 className="text-2xl md:text-3xl font-black text-gray-900 mb-3 tracking-tighter uppercase">Send a Message</h3>
+            <p className="text-sm text-slate-500 font-bold uppercase tracking-widest">Contact our team for any enquiry</p>
+          </div>
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div className="grid sm:grid-cols-2 gap-6">
               <input 
