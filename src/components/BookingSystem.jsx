@@ -248,6 +248,7 @@ const BookingSystem = () => {
               colors: ['#0ea5e9', '#7dd3fc', '#f43f5e']
             });
           } catch (error) {
+            console.error('Booking confirmation error:', error);
             alert("Booking confirmation failed: " + error.message);
           } finally {
             setLoading(false);
