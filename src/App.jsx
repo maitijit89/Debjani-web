@@ -1,12 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { motion, AnimatePresence, useScroll, useSpring, useInView } from 'framer-motion';
-import { 
-  Stethoscope, Phone, Activity, Thermometer, 
+import {
+  Stethoscope, Phone, Activity, Thermometer,
   HeartPulse, Brain, ShieldPlus, Baby,
-  MapPin, MessageSquare, Menu, X, Award, Users, 
+  MapPin, MessageSquare, Menu, X, Award, Users,
   Clock3, Heart, Mail, ArrowRight, Sparkles, Star,
-  Share2, ChevronDown, Facebook, Instagram
+  Share2, ChevronDown
 } from 'lucide-react';
 import './App.css';
 import stomachImg from './assets/stomach.png';
@@ -24,12 +24,12 @@ import BookingSystem from './components/BookingSystem';
 
 const Preloader = () => {
   return (
-    <motion.div 
+    <motion.div
       className="preloader"
       exit={{ opacity: 0, y: -100 }}
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
     >
-      <motion.div 
+      <motion.div
         className="preloader-logo"
         initial={{ scale: 0.5, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
@@ -40,7 +40,7 @@ const Preloader = () => {
       <div className="preloader-bar">
         <div className="preloader-progress" />
       </div>
-      <motion.p 
+      <motion.p
         className="text-white/40 text-xs font-black uppercase tracking-[0.15em]"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -55,12 +55,12 @@ const Preloader = () => {
 const FadeIn = ({ children, direction = "up", delay = 0 }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  
+
   return (
     <motion.div
       ref={ref}
-      initial={{ 
-        opacity: 0, 
+      initial={{
+        opacity: 0,
         y: direction === "up" ? 50 : direction === "down" ? -50 : 0,
         x: direction === "left" ? 50 : direction === "right" ? -50 : 0
       }}
@@ -123,7 +123,7 @@ const Navbar = () => {
   return (
     <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
       <div className="container flex justify-between items-center">
-        <motion.div 
+        <motion.div
           className="flex items-center gap-2 md:gap-3 cursor-pointer group"
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           whileHover={{ scale: 1.05 }}
@@ -141,9 +141,9 @@ const Navbar = () => {
 
         <div className="hidden lg:flex items-center gap-12">
           {navLinks.map((item) => (
-            <a 
-              key={item.name} 
-              href={item.href} 
+            <a
+              key={item.name}
+              href={item.href}
               className="text-xs font-black text-slate-500 hover:text-primary uppercase tracking-widest transition-all relative group"
             >
               {item.name}
@@ -151,7 +151,7 @@ const Navbar = () => {
             </a>
           ))}
           <Magnetic>
-            <button 
+            <button
               className="btn btn-solid w-auto!"
               onClick={() => document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' })}
             >
@@ -168,23 +168,23 @@ const Navbar = () => {
       {/* Mobile Menu */}
       <AnimatePresence>
         {isOpen && (
-          <motion.div 
+          <motion.div
             className="fixed inset-0 bg-white/95 backdrop-blur-2xl z-99 lg:hidden flex flex-col items-center justify-center gap-8 p-10"
             initial={{ opacity: 0, x: '100%' }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: '100%' }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
           >
-            <button 
+            <button
               className="absolute top-6 right-6 text-slate-900 p-2"
               onClick={() => setIsOpen(false)}
             >
               <X size={32} />
             </button>
             {navLinks.map((item) => (
-              <motion.a 
-                key={item.name} 
-                href={item.href} 
+              <motion.a
+                key={item.name}
+                href={item.href}
                 onClick={() => setIsOpen(false)}
                 className="text-4xl font-black text-gray-900 uppercase tracking-tighter hover:text-primary transition-colors"
                 whileHover={{ scale: 1.1 }}
@@ -193,7 +193,7 @@ const Navbar = () => {
                 {item.name}
               </motion.a>
             ))}
-            <button 
+            <button
               className="btn btn-solid mt-4 w-full! max-w-xs"
               onClick={() => {
                 setIsOpen(false);
@@ -237,7 +237,7 @@ const HeroSection = () => {
           <FadeIn direction="right" delay={0.3}>
             <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 pt-4 w-full sm:w-auto">
               <Magnetic>
-                <button 
+                <button
                   className="btn btn-solid shadow-2xl"
                   onClick={() => document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' })}
                 >
@@ -246,7 +246,7 @@ const HeroSection = () => {
                 </button>
               </Magnetic>
               <Magnetic>
-                <button 
+                <button
                   className="btn btn-outline"
                   onClick={() => document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' })}
                 >
@@ -260,9 +260,9 @@ const HeroSection = () => {
             <div className="flex flex-col sm:flex-row items-center gap-6 md:gap-8 pt-8">
               <div className="flex -space-x-4">
                 {[1, 2, 3, 4, 5].map((i) => (
-                  <motion.img 
-                    key={i} 
-                    src={`https://i.pravatar.cc/100?img=${i + 10}`} 
+                  <motion.img
+                    key={i}
+                    src={`https://i.pravatar.cc/100?img=${i + 10}`}
                     className="w-12 h-12 md:w-14 md:h-14 rounded-full border-4 border-white shadow-xl"
                     alt="User"
                     whileHover={{ y: -10, scale: 1.1, zIndex: 10 }}
@@ -280,7 +280,7 @@ const HeroSection = () => {
         </div>
 
         <FadeIn direction="left" delay={0.2}>
-          <motion.div 
+          <motion.div
             className="relative hidden lg:block parallax-container"
             whileHover={{ rotate: 1 }}
           >
@@ -327,7 +327,7 @@ const FeatureBanner = () => (
       <div className="bg-slate-950 rounded-[40px] md:rounded-[60px] p-8 md:p-24 overflow-hidden relative shadow-[0_50px_100px_rgba(0,0,0,0.3)]">
         <div className="absolute top-0 right-0 w-125 h-125 bg-primary/20 rounded-full -mr-64 -mt-64 blur-[120px]" />
         <div className="absolute bottom-0 left-0 w-100 h-100 bg-accent/10 rounded-full -ml-48 -mb-48 blur-[100px]" />
-        
+
         <div className="relative z-10 grid lg:grid-cols-[1fr_0.8fr] gap-24 items-center">
           <div className="space-y-10">
             <h2 className="text-3xl md:text-6xl font-black text-white leading-[0.95] tracking-tighter">
@@ -348,14 +348,14 @@ const FeatureBanner = () => (
               </div>
             </div>
           </div>
-          
+
           <div className="grid gap-8">
             {[
               { id: 'gut-wellness', icon: <Stethoscope size={32} />, title: "Gut Wellness", text: "Targeted care for IBS, acidity, and chronic gastric issues.", bg: gutBg },
               { id: 'family-health', icon: <HeartPulse size={32} />, title: "Family Health", text: "Gentle homeopathic solutions for all ages, from infants to seniors.", bg: familyBg }
             ].map((item) => (
-              <motion.div 
-                key={item.id} 
+              <motion.div
+                key={item.id}
                 className="bg-slate-900/40 backdrop-blur-2xl p-10 rounded-[40px] border border-white/10 group hover:bg-slate-900/60 transition-all cursor-pointer flex flex-col items-start relative overflow-hidden h-full min-h-[320px]"
                 whileHover={{ x: 20 }}
                 onClick={() => document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' })}
@@ -364,7 +364,7 @@ const FeatureBanner = () => (
                   <img src={item.bg} alt="" className="w-full h-full object-cover opacity-20 group-hover:opacity-40 transition-opacity duration-700" />
                   <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-slate-950/20 to-transparent" />
                 </div>
-                
+
                 <div className="relative z-10 w-full flex flex-col h-full">
                   <div className="text-primary-glow mb-8 bg-white/5 w-16 h-16 rounded-2xl flex items-center justify-center backdrop-blur-md border border-white/10">{item.icon}</div>
                   <h3 className="text-2xl font-black text-white mb-4 tracking-tight">{item.title}</h3>
@@ -400,11 +400,11 @@ const ExpertiseSection = () => {
           <p className="section-subtitle">Comprehensive care tailored to your unique health needs.</p>
         </div>
       </FadeIn>
-      
+
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
         {services.map((service, i) => (
           <FadeIn key={service.id} delay={i * 0.1}>
-            <div 
+            <div
               className="card-glass group flex flex-col items-start relative overflow-hidden h-full min-h-[420px]"
               onClick={() => document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' })}
             >
@@ -479,87 +479,87 @@ const ContactSection = () => {
 
   return (
     <section id="contact" className="container py-20 md:py-32">
-    <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-16 md:gap-24 items-center">
-      <FadeIn direction="right">
-        <div className="space-y-12 md:space-y-16">
-          <div className="space-y-6 text-center lg:text-left">
-            <h2 className="section-title lg:text-left">Get in Touch</h2>
-            <p className="text-lg md:text-xl text-slate-500 leading-relaxed font-medium">Have questions? Our team is here to help you on your journey to wellness.</p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 md:gap-12">
-            {[
-              { id: 'call', icon: <Phone size={24} />, title: "Call Us", info: "+91 8927532911" },
-              { id: 'email', icon: <Mail size={24} />, title: "Email Us", info: "maitidebjit2@gmail.com" },
-              { id: 'whatsapp', icon: <MessageSquare size={24} />, title: "WhatsApp", info: "Instant Chat" },
-              { id: 'locations', icon: <MapPin size={24} />, title: "Locations", info: "West Bengal, India" }
-            ].map((item) => (
-              <div 
-                key={item.id} 
-                className="space-y-4 group cursor-pointer flex flex-col items-center lg:items-start"
-              >
-                <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-primary shadow-xl liquid-glass border-none">
-                  {item.icon}
-                </div>
-                <h4 className="text-xl font-black tracking-tight">{item.title}</h4>
-                <p className="text-sm text-slate-500 font-bold uppercase tracking-widest">{item.info}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </FadeIn>
-
-      <FadeIn direction="left">
-        <div className="card-glass p-8! md:p-16! relative overflow-hidden border-white/60">
-          <div className="absolute top-0 right-0 w-48 h-48 bg-primary/5 rounded-full -mr-24 -mt-24 blur-3xl" />
-          <div className="text-center lg:text-left mb-10">
-            <h3 className="text-2xl md:text-3xl font-black text-gray-900 mb-3 tracking-tighter uppercase">Send a Message</h3>
-            <p className="text-sm text-slate-500 font-bold uppercase tracking-widest">Contact our team for any enquiry</p>
-          </div>
-          <form className="space-y-6" onSubmit={handleSubmit}>
-            <div className="grid sm:grid-cols-2 gap-6">
-              <input 
-                type="text" 
-                placeholder="Name" 
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full px-6 md:px-8 py-4 md:py-5 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-md focus:bg-white focus:ring-12 focus:ring-primary/5 focus:border-primary outline-none transition-all text-sm font-bold placeholder:text-slate-400" 
-              />
-              <input 
-                type="email" 
-                placeholder="Email" 
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full px-6 md:px-8 py-4 md:py-5 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-md focus:bg-white focus:ring-12 focus:ring-primary/5 focus:border-primary outline-none transition-all text-sm font-bold placeholder:text-slate-400" 
-              />
+      <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-16 md:gap-24 items-center">
+        <FadeIn direction="right">
+          <div className="space-y-12 md:space-y-16">
+            <div className="space-y-6 text-center lg:text-left">
+              <h2 className="section-title lg:text-left">Get in Touch</h2>
+              <p className="text-lg md:text-xl text-slate-500 leading-relaxed font-medium">Have questions? Our team is here to help you on your journey to wellness.</p>
             </div>
-            <textarea 
-              rows="5" 
-              placeholder="How can we help you today?" 
-              value={formData.message}
-              onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-              className="w-full px-8 py-6 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-md focus:bg-white focus:ring-12 focus:ring-primary/5 focus:border-primary outline-none transition-all text-sm font-bold placeholder:text-slate-400 resize-none"
-            ></textarea>
-            
-            {status.message && (
-              <div className={`p-4 rounded-xl text-xs font-bold uppercase tracking-widest text-center ${status.type === 'success' ? 'bg-emerald-500/10 text-emerald-600 border border-emerald-500/20' : 'bg-rose-500/10 text-rose-600 border border-rose-500/20'}`}>
-                {status.message}
-              </div>
-            )}
 
-            <Magnetic>
-              <button 
-                disabled={loading}
-                className={`btn btn-solid w-full! py-5 rounded-2xl text-xs font-black uppercase tracking-[0.3em] shadow-2xl ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
-              >
-                {loading ? 'Sending...' : 'Send Message'}
-              </button>
-            </Magnetic>
-          </form>
-        </div>
-      </FadeIn>
-    </div>
-  </section>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 md:gap-12">
+              {[
+                { id: 'call', icon: <Phone size={24} />, title: "Call Us", info: "+91 8927532911" },
+                { id: 'email', icon: <Mail size={24} />, title: "Email Us", info: "maitidebjit2@gmail.com" },
+                { id: 'whatsapp', icon: <MessageSquare size={24} />, title: "WhatsApp", info: "Instant Chat" },
+                { id: 'locations', icon: <MapPin size={24} />, title: "Locations", info: "West Bengal, India" }
+              ].map((item) => (
+                <div
+                  key={item.id}
+                  className="space-y-4 group cursor-pointer flex flex-col items-center lg:items-start"
+                >
+                  <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-primary shadow-xl liquid-glass border-none">
+                    {item.icon}
+                  </div>
+                  <h4 className="text-xl font-black tracking-tight">{item.title}</h4>
+                  <p className="text-sm text-slate-500 font-bold uppercase tracking-widest">{item.info}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </FadeIn>
+
+        <FadeIn direction="left">
+          <div className="card-glass p-8! md:p-16! relative overflow-hidden border-white/60">
+            <div className="absolute top-0 right-0 w-48 h-48 bg-primary/5 rounded-full -mr-24 -mt-24 blur-3xl" />
+            <div className="text-center lg:text-left mb-10">
+              <h3 className="text-2xl md:text-3xl font-black text-gray-900 mb-3 tracking-tighter uppercase">Send a Message</h3>
+              <p className="text-sm text-slate-500 font-bold uppercase tracking-widest">Contact our team for any enquiry</p>
+            </div>
+            <form className="space-y-6" onSubmit={handleSubmit}>
+              <div className="grid sm:grid-cols-2 gap-6">
+                <input
+                  type="text"
+                  placeholder="Name"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  className="w-full px-6 md:px-8 py-4 md:py-5 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-md focus:bg-white focus:ring-12 focus:ring-primary/5 focus:border-primary outline-none transition-all text-sm font-bold placeholder:text-slate-400"
+                />
+                <input
+                  type="email"
+                  placeholder="Email"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  className="w-full px-6 md:px-8 py-4 md:py-5 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-md focus:bg-white focus:ring-12 focus:ring-primary/5 focus:border-primary outline-none transition-all text-sm font-bold placeholder:text-slate-400"
+                />
+              </div>
+              <textarea
+                rows="5"
+                placeholder="How can we help you today?"
+                value={formData.message}
+                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                className="w-full px-8 py-6 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-md focus:bg-white focus:ring-12 focus:ring-primary/5 focus:border-primary outline-none transition-all text-sm font-bold placeholder:text-slate-400 resize-none"
+              ></textarea>
+
+              {status.message && (
+                <div className={`p-4 rounded-xl text-xs font-bold uppercase tracking-widest text-center ${status.type === 'success' ? 'bg-emerald-500/10 text-emerald-600 border border-emerald-500/20' : 'bg-rose-500/10 text-rose-600 border border-rose-500/20'}`}>
+                  {status.message}
+                </div>
+              )}
+
+              <Magnetic>
+                <button
+                  disabled={loading}
+                  className={`btn btn-solid w-full! py-5 rounded-2xl text-xs font-black uppercase tracking-[0.3em] shadow-2xl ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                >
+                  {loading ? 'Sending...' : 'Send Message'}
+                </button>
+              </Magnetic>
+            </form>
+          </div>
+        </FadeIn>
+      </div>
+    </section>
   );
 };
 
@@ -623,14 +623,32 @@ const Footer = () => {
             </p>
             <div className="flex gap-6">
               {[
-                { id: 'facebook', icon: <Facebook size={22} />, href: 'https://facebook.com' },
-                { id: 'instagram', icon: <Instagram size={22} />, href: 'https://instagram.com' },
-                { id: 'share', icon: <Share2 size={22} />, href: '#' }, 
+                { 
+                  id: 'facebook', 
+                  icon: (
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                    </svg>
+                  ), 
+                  href: 'https://www.facebook.com/share/17fQV4wHWj/' 
+                },
+                { 
+                  id: 'instagram', 
+                  icon: (
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
+                      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                      <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
+                    </svg>
+                  ), 
+                  href: 'https://www.instagram.com/debjanimaity3?igsh=ZzBsamV4eXZhdWRu' 
+                },
+                { id: 'share', icon: <Share2 size={22} />, href: '#' },
                 { id: 'chat', icon: <MessageSquare size={22} />, href: '#' }
               ].map((social) => (
-                <motion.a 
-                  key={social.id} 
-                  href={social.href} 
+                <motion.a
+                  key={social.id}
+                  href={social.href}
                   className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center text-slate-400 hover:bg-primary hover:text-white transition-all border border-white/10"
                   whileHover={{ y: -10, rotate: 15 }}
                 >
@@ -656,7 +674,7 @@ const Footer = () => {
             <ul className="grid gap-6">
               {['Mecheda', 'Kolaghat', 'Chadinda', 'Jiakhali', 'Bardabar', 'Chapda'].map((loc) => (
                 <li key={loc} className="text-slate-400 text-lg font-medium flex items-center gap-4 group cursor-pointer">
-                  <div className="w-2 h-2 rounded-full bg-primary group-hover:scale-150 group-hover:bg-primary-glow transition-all" /> 
+                  <div className="w-2 h-2 rounded-full bg-primary group-hover:scale-150 group-hover:bg-primary-glow transition-all" />
                   {loc}
                 </li>
               ))}
@@ -667,15 +685,15 @@ const Footer = () => {
             <h4 className="text-sm font-black mb-10 text-white uppercase tracking-[0.3em]">Newsletter</h4>
             <p className="text-slate-400 font-medium">Get health tips and clinic updates.</p>
             <form onSubmit={handleSubscribe} className="space-y-4">
-              <input 
-                type="email" 
-                placeholder="Email address" 
+              <input
+                type="email"
+                placeholder="Email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-white/5 border border-white/10 rounded-2xl px-8 py-5 text-white text-sm font-bold focus:outline-none focus:border-primary-glow transition-all" 
+                className="w-full bg-white/5 border border-white/10 rounded-2xl px-8 py-5 text-white text-sm font-bold focus:outline-none focus:border-primary-glow transition-all"
               />
-              <button 
-                type="submit" 
+              <button
+                type="submit"
                 disabled={loading}
                 className={`btn btn-solid w-full py-5 rounded-2xl text-xs font-black uppercase tracking-[0.2em] ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
               >
@@ -721,14 +739,14 @@ function App() {
       <AnimatePresence>
         {loading && <Preloader key="preloader" />}
       </AnimatePresence>
-      
+
       {!loading && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1 }}
         >
-          <motion.div 
+          <motion.div
             className="fixed top-0 left-0 right-0 h-1 bg-primary z-[1001] origin-left"
             style={{ scaleX }}
           />
