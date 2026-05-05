@@ -21,7 +21,7 @@ export const CLINICS = [
     days: [6], // Sat
     startTime: '09:00',
     endTime: '12:00',
-    coords: { lat: 22.4285, lng: 87.8650 }
+    coords: { lat: 22.4285, lng: 87.865 }
   },
   {
     id: 'jiakhali',
@@ -29,7 +29,7 @@ export const CLINICS = [
     days: [3, 6], // Wed, Sat
     startTime: '15:30',
     endTime: '18:30',
-    coords: { lat: 22.4410, lng: 87.8420 }
+    coords: { lat: 22.441, lng: 87.842 }
   },
   {
     id: 'bardabar',
@@ -37,7 +37,7 @@ export const CLINICS = [
     days: [0], // Sun
     startTime: '18:00',
     endTime: '21:00',
-    coords: { lat: 22.4150, lng: 87.8800 }
+    coords: { lat: 22.415, lng: 87.88 }
   },
   {
     id: 'chapda',
@@ -45,6 +45,6 @@ export const CLINICS = [
     days: [5], // Fri
     startTime: '09:00',
     endTime: '12:00',
-    coords: { lat: 22.4200, lng: 87.8900 }
+    coords: { lat: 22.42, lng: 87.89 }
   }
 ];

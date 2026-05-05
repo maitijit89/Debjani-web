@@ -9,6 +9,22 @@ const BookingSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  patientAge: {
+    type: Number,
+    required: true
+  },
+  patientSex: {
+    type: String,
+    enum: ['Male', 'Female', 'Other'],
+    required: true
+  },
+  patientAddress: {
+    type: String,
+    required: true
+  },
+  message: {
+    type: String
+  },
   clinicLocation: {
     type: String, // e.g., "Mecheda"
     required: true,
@@ -31,6 +47,25 @@ const BookingSchema = new mongoose.Schema({
     lat: Number,
     lng: Number
   },
+  razorpayOrderId: {
+    type: String
+  },
+  razorpayPaymentId: {
+    type: String
+  },
+  razorpaySignature: {
+    type: String
+  },
+  paymentStatus: {
+    type: String,
+    enum: ['pending', 'captured', 'failed'],
+    default: 'pending'
+  },
+  amountPaid: {
+    type: Number,
+    default: 0
+  },
+
   createdAt: {
     type: Date,
     default: Date.now

@@ -35,11 +35,11 @@ export const generateAvailableSlots = async (clinicId, dateStr) => {
     appointmentDate: queryDate
   });
 
-  const bookedStartTimes = bookedAppointments.map(app => app.startTime);
+  const bookedStartTimes = new Set(bookedAppointments.map(app => app.startTime));
 
   // Return slots with availability status
   return slots.map(slot => ({
     ...slot,
-    available: !bookedStartTimes.includes(slot.startTime)
+    available: !bookedStartTimes.has(slot.startTime)
   }));
 };
