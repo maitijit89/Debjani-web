@@ -147,3 +147,53 @@ export const sendWelcomeEmail = async (email) => {
 
   return transporter.sendMail(mailOptions);
 };
+
+export const sendVisitReminder = async (email) => {
+  const mailOptions = {
+    from: `"S.S. SK. SN Clinic" <${process.env.EMAIL_USER}>`,
+    to: email,
+    subject: `Thinking about your health? Visit us today!`,
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden;">
+        <div style="background-color: #0369a1; padding: 30px; text-align: center;">
+          <h1 style="color: white; margin: 0; font-size: 22px; text-transform: uppercase; letter-spacing: 2px;">Your Health, Our Priority</h1>
+        </div>
+        <div style="padding: 40px; background-color: white;">
+          <p style="color: #475569; line-height: 1.6; font-size: 16px;">
+            Hello from <strong>S.S. SK. SN Clinic</strong>!
+          </p>
+          <p style="color: #475569; line-height: 1.6; font-size: 16px;">
+            We hope you're doing well. It's important to keep track of your health even when you're feeling great. 
+            We're here to help you stay on the path to wellness with our advanced genetic homeopathy.
+          </p>
+          
+          <div style="background-color: #f0f9ff; padding: 20px; border-radius: 8px; margin: 30px 0;">
+            <h3 style="color: #0369a1; margin-top: 0;">Why visit us this week?</h3>
+            <ul style="color: #0c4a6e; font-size: 15px;">
+              <li>Personalized consultations for all ages.</li>
+              <li>State-of-the-art diagnostic insights.</li>
+              <li>Natural, effective treatments with zero side effects.</li>
+            </ul>
+          </div>
+
+          <div style="text-align: center; margin-top: 30px;">
+            <a href="https://debjaniclinic.com#booking" style="background-color: #0ea5e9; color: white; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;">Book Your Slot Now</a>
+          </div>
+          
+          <p style="color: #64748b; font-size: 14px; margin-top: 40px;">
+            Stay healthy,<br>
+            <strong>The S.S. SK. SN Team</strong>
+          </p>
+        </div>
+        <div style="background-color: #f8fafc; padding: 20px; text-align: center; border-top: 1px solid #e2e8f0;">
+          <p style="color: #94a3b8; font-size: 11px; margin: 0;">
+            You received this email because you subscribed to our newsletter. <br>
+            <a href="#" style="color: #0ea5e9;">Unsubscribe</a>
+          </p>
+        </div>
+      </div>
+    `,
+  };
+
+  return transporter.sendMail(mailOptions);
+};

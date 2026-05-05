@@ -4,11 +4,11 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { CLINICS } from './clinicData.js';
 import { generateAvailableSlots } from './logic/slotGenerator.js';
-import { appendToSheet } from './logic/googleSheets.js';
+import { appendToSheet, addSubscriberToSheet, getAllSubscribers } from './logic/googleSheets.js';
 import Appointment from './models/Appointment.js';
 import Razorpay from 'razorpay';
 import crypto from 'crypto';
-import { sendContactEmail, sendBookingNotification, sendWelcomeEmail } from './logic/email.js';
+import { sendContactEmail, sendBookingNotification, sendWelcomeEmail, sendVisitReminder } from './logic/email.js';
 
 
 dotenv.config();
@@ -87,13 +87,43 @@ app.post('/api/subscribe', async (req, res) => {
       return res.status(400).json({ error: 'Email is required' });
     }
 
-    // You could also save to a DB or Google Sheet here
+    // Save to Google Sheet (non-blocking)
+    addSubscriberToSheet(email).catch(err => console.error('Sheet sync error:', err));
+    
     await sendWelcomeEmail(email);
     
     res.json({ message: 'Subscribed successfully! Please check your email.' });
   } catch (error) {
     console.error('Subscription error:', error);
     res.status(500).json({ error: 'Failed to subscribe. Please try again later.' });
+  }
+});
+
+// CRON ROUTE: Send periodic visit reminders
+app.get('/api/cron/remind', async (req, res) => {
+  // Simple security check to prevent unauthorized calls
+  const authHeader = req.headers.authorization;
+  if (process.env.CRON_SECRET && authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+
+  try {
+    const subscribers = await getAllSubscribers();
+    console.log(`Starting bulk reminder for ${subscribers.length} subscribers...`);
+
+    const results = await Promise.allSettled(
+      subscribers.map(email => sendVisitReminder(email))
+    );
+
+    const successful = results.filter(r => r.status === 'fulfilled').length;
+    res.json({ 
+      message: 'Reminders processed', 
+      total: subscribers.length, 
+      successful 
+    });
+  } catch (error) {
+    console.error('Cron error:', error);
+    res.status(500).json({ error: 'Failed to send reminders' });
   }
 });
 

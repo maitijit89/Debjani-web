@@ -76,3 +76,39 @@ export const appendToSheet = async (bookingData) => {
     console.error('Error appending to Google Sheet:', error.message);
   }
 };
+
+export const addSubscriberToSheet = async (email) => {
+  try {
+    const doc = new GoogleSpreadsheet(process.env.GOOGLE_SHEET_ID, serviceAccountAuth);
+    await doc.loadInfo();
+    
+    // Look for a sheet named "Subscribers", or use the second sheet
+    let sheet = doc.sheetsByTitle['Subscribers'];
+    if (!sheet) {
+      sheet = await doc.addSheet({ title: 'Subscribers', headerValues: ['Email', 'Subscribed At'] });
+    }
+
+    await sheet.addRow({
+      'Email': email,
+      'Subscribed At': new Date().toISOString()
+    });
+
+    console.log(`Successfully added subscriber (${email}) to Google Sheet`);
+  } catch (error) {
+    console.error('Error adding subscriber to Google Sheet:', error.message);
+  }
+};
+
+export const getAllSubscribers = async () => {
+  try {
+    const doc = new GoogleSpreadsheet(process.env.GOOGLE_SHEET_ID, serviceAccountAuth);
+    await doc.loadInfo();
+    const sheet = doc.sheetsByTitle['Subscribers'];
+    if (!sheet) return [];
+    const rows = await sheet.getRows();
+    return rows.map(row => row.get('Email'));
+  } catch (error) {
+    console.error('Error fetching subscribers:', error.message);
+    return [];
+  }
+};
