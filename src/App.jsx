@@ -21,40 +21,6 @@ import gutBrainBg from './assets/gutbrain-bg.png';
 import immunityBg from './assets/immunity-bg.png';
 import BookingSystem from './components/BookingSystem';
 
-const CustomCursor = () => {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [isHovering, setIsHovering] = useState(false);
-
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      setPosition({ x: e.clientX, y: e.clientY });
-      const target = e.target;
-      setIsHovering(
-        target.tagName === 'BUTTON' || 
-        target.tagName === 'A' || 
-        target.closest('button') || 
-        target.closest('a') ||
-        target.classList.contains('cursor-pointer')
-      );
-    };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
-
-  return (
-    <>
-      <motion.div
-        className={`custom-cursor ${isHovering ? 'hovering' : ''}`}
-        animate={{ x: position.x - 16, y: position.y - 16 }}
-        transition={{ type: "spring", stiffness: 250, damping: 20, mass: 0.5 }}
-      />
-      <div 
-        className="custom-cursor-dot"
-        style={{ left: position.x - 4, top: position.y - 4 }}
-      />
-    </>
-  );
-};
 
 const Preloader = () => {
   return (
@@ -75,7 +41,7 @@ const Preloader = () => {
         <div className="preloader-progress" />
       </div>
       <motion.p 
-        className="text-white/40 text-[10px] font-black uppercase tracking-[0.5em]"
+        className="text-white/40 text-xs font-black uppercase tracking-[0.15em]"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5 }}
@@ -162,14 +128,14 @@ const Navbar = () => {
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           whileHover={{ scale: 1.05 }}
         >
-          <div className="w-10 h-10 md:w-14 md:h-14 bg-white rounded-xl md:rounded-2xl flex items-center justify-center p-1.5 shadow-xl group-hover:rotate-6 transition-transform duration-500 border border-slate-100">
+          <div className="w-12 h-12 md:w-16 md:h-16 bg-white rounded-xl md:rounded-2xl flex items-center justify-center p-2 shadow-xl group-hover:rotate-6 transition-transform duration-500 border border-slate-100">
             <img src={logoImg} alt="S.S. SK. SN Clinic Logo" className="w-full h-full object-contain" />
           </div>
           <div>
             <span className="text-lg md:text-2xl font-black tracking-tighter text-gray-900 block leading-none uppercase">
               S.S. SK. SN <span className="text-primary">Clinic</span>
             </span>
-            <span className="text-[8px] md:text-[10px] font-bold text-slate-400 tracking-[0.2em] md:tracking-[0.3em] uppercase">Precision Genetic Homeopathy</span>
+            <span className="text-[10px] md:text-xs font-bold text-slate-400 tracking-[0.1em] uppercase">Precision Genetic Homeopathy</span>
           </div>
         </motion.div>
 
@@ -245,11 +211,11 @@ const Navbar = () => {
 
 const HeroSection = () => {
   return (
-    <section className="container pt-32 md:pt-48 pb-20 md:pb-32">
+    <section className="container pt-24 md:pt-48 pb-20 md:pb-32">
       <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-12 md:gap-24 items-center">
         <div className="flex flex-col items-center lg:items-start text-center lg:text-left space-y-8 md:space-y-12">
           <FadeIn direction="right">
-            <div className="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-white/40 backdrop-blur-xl border border-white/60 text-primary font-black text-[10px] md:text-[11px] uppercase tracking-[0.2em] shadow-lg">
+            <div className="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-white/40 backdrop-blur-xl border border-white/60 text-primary font-black text-xs md:text-sm uppercase tracking-[0.1em] shadow-lg">
               <Sparkles size={16} className="text-primary-glow animate-pulse" />
               Leading Genetic Real Homeopathy
             </div>
@@ -356,15 +322,15 @@ const StatsSection = () => (
 );
 
 const FeatureBanner = () => (
-  <section id="specializations" className="container py-32">
+  <section id="specializations" className="container py-24 md:py-32">
     <FadeIn>
-      <div className="bg-slate-950 rounded-[60px] p-16 md:p-24 overflow-hidden relative shadow-[0_50px_100px_rgba(0,0,0,0.3)]">
+      <div className="bg-slate-950 rounded-[40px] md:rounded-[60px] p-8 md:p-24 overflow-hidden relative shadow-[0_50px_100px_rgba(0,0,0,0.3)]">
         <div className="absolute top-0 right-0 w-125 h-125 bg-primary/20 rounded-full -mr-64 -mt-64 blur-[120px]" />
         <div className="absolute bottom-0 left-0 w-100 h-100 bg-accent/10 rounded-full -ml-48 -mb-48 blur-[100px]" />
         
         <div className="relative z-10 grid lg:grid-cols-[1fr_0.8fr] gap-24 items-center">
           <div className="space-y-10">
-            <h2 className="text-4xl md:text-6xl font-black text-white leading-[0.95] tracking-tighter">
+            <h2 className="text-3xl md:text-6xl font-black text-white leading-[0.95] tracking-tighter">
               Advanced digestive care <br />
               <span className="text-primary-glow">rooted in genetics.</span>
             </h2>
@@ -372,7 +338,7 @@ const FeatureBanner = () => (
               S.S. SK. SN Clinic integrates modern genetic mapping with classical homeopathy to deliver personalized, side-effect-free treatments for your entire family.
             </p>
             <div className="flex flex-wrap gap-6 pt-4">
-              <div className="flex items-center gap-4 bg-white/5 backdrop-blur-xl px-8 py-4 rounded-3xl border border-white/10 text-white text-xs font-black uppercase tracking-[0.2em]">
+              <div className="flex items-center gap-4 bg-white/5 backdrop-blur-xl px-8 py-4 rounded-3xl border border-white/10 text-white text-sm font-black uppercase tracking-[0.1em]">
                 <ShieldPlus size={24} className="text-primary-glow" />
                 Safe & Natural
               </div>
@@ -403,7 +369,7 @@ const FeatureBanner = () => (
                   <div className="text-primary-glow mb-8 bg-white/5 w-16 h-16 rounded-2xl flex items-center justify-center backdrop-blur-md border border-white/10">{item.icon}</div>
                   <h3 className="text-2xl font-black text-white mb-4 tracking-tight">{item.title}</h3>
                   <p className="text-slate-300 text-sm leading-relaxed font-medium mb-8 max-w-[280px]">{item.text}</p>
-                  <button className="btn btn-solid py-3! text-[10px]! px-8! mt-auto w-fit! group-hover:bg-primary-glow group-hover:text-slate-950 transition-all">
+                  <button className="btn btn-solid py-4! text-sm! px-10! mt-auto w-fit! group-hover:bg-primary-glow group-hover:text-slate-950 transition-all">
                     Book Now
                   </button>
                 </div>
@@ -429,7 +395,7 @@ const ExpertiseSection = () => {
   return (
     <section id="services" className="container py-32">
       <FadeIn>
-        <div className="text-center mb-24">
+        <div className="text-center mb-16 md:mb-24">
           <h2 className="section-title">Specialized Services</h2>
           <p className="section-subtitle">Comprehensive care tailored to your unique health needs.</p>
         </div>
@@ -465,8 +431,54 @@ const ExpertiseSection = () => {
   );
 };
 
-const ContactSection = () => (
-  <section id="contact" className="container py-20 md:py-32">
+const ContactSection = () => {
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [status, setStatus] = useState({ type: '', message: '' });
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!formData.name || !formData.email || !formData.message) {
+      setStatus({ type: 'error', message: 'Please fill in all fields.' });
+      return;
+    }
+
+    setLoading(false);
+    setStatus({ type: '', message: '' });
+    setLoading(true);
+
+    try {
+      const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
+      const response = await fetch(`${API_BASE_URL}/contact`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      let data;
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.indexOf("application/json") !== -1) {
+        data = await response.json();
+      } else {
+        const text = await response.text();
+        throw new Error(text || `Server error: ${response.status}`);
+      }
+
+      if (response.ok) {
+        setStatus({ type: 'success', message: 'Thank you! Your message has been sent.' });
+        setFormData({ name: '', email: '', message: '' });
+      } else {
+        throw new Error(data?.error || 'Failed to send message');
+      }
+    } catch (error) {
+      setStatus({ type: 'error', message: error.message || 'Something went wrong. Please try again.' });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <section id="contact" className="container py-20 md:py-32">
     <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-16 md:gap-24 items-center">
       <FadeIn direction="right">
         <div className="space-y-12 md:space-y-16">
@@ -501,15 +513,43 @@ const ContactSection = () => (
         <div className="card-glass p-8! md:p-16! relative overflow-hidden border-white/60">
           <div className="absolute top-0 right-0 w-48 h-48 bg-primary/5 rounded-full -mr-24 -mt-24 blur-3xl" />
           <h3 className="text-2xl md:text-3xl font-black text-gray-900 mb-8 md:mb-10 tracking-tighter uppercase text-center lg:text-left">Send a Message</h3>
-          <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <div className="grid sm:grid-cols-2 gap-6">
-              <input type="text" placeholder="Name" className="w-full px-6 md:px-8 py-4 md:py-5 rounded-2xl border border-slate-200 bg-white/50 backdrop-blur-sm focus:bg-white focus:ring-8 focus:ring-primary/5 focus:border-primary outline-none transition-all text-sm font-bold placeholder:text-slate-400" />
-              <input type="email" placeholder="Email" className="w-full px-6 md:px-8 py-4 md:py-5 rounded-2xl border border-slate-200 bg-white/50 backdrop-blur-sm focus:bg-white focus:ring-8 focus:ring-primary/5 focus:border-primary outline-none transition-all text-sm font-bold placeholder:text-slate-400" />
+              <input 
+                type="text" 
+                placeholder="Name" 
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                className="w-full px-6 md:px-8 py-4 md:py-5 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-md focus:bg-white focus:ring-12 focus:ring-primary/5 focus:border-primary outline-none transition-all text-sm font-bold placeholder:text-slate-400" 
+              />
+              <input 
+                type="email" 
+                placeholder="Email" 
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                className="w-full px-6 md:px-8 py-4 md:py-5 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-md focus:bg-white focus:ring-12 focus:ring-primary/5 focus:border-primary outline-none transition-all text-sm font-bold placeholder:text-slate-400" 
+              />
             </div>
-            <textarea rows="5" placeholder="How can we help you today?" className="w-full px-6 md:px-8 py-4 md:py-5 rounded-2xl border border-slate-200 bg-white/50 backdrop-blur-sm focus:bg-white focus:ring-8 focus:ring-primary/5 focus:border-primary outline-none transition-all text-sm font-bold placeholder:text-slate-400 resize-none"></textarea>
+            <textarea 
+              rows="5" 
+              placeholder="How can we help you today?" 
+              value={formData.message}
+              onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+              className="w-full px-8 py-6 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-md focus:bg-white focus:ring-12 focus:ring-primary/5 focus:border-primary outline-none transition-all text-sm font-bold placeholder:text-slate-400 resize-none"
+            ></textarea>
+            
+            {status.message && (
+              <div className={`p-4 rounded-xl text-xs font-bold uppercase tracking-widest text-center ${status.type === 'success' ? 'bg-emerald-500/10 text-emerald-600 border border-emerald-500/20' : 'bg-rose-500/10 text-rose-600 border border-rose-500/20'}`}>
+                {status.message}
+              </div>
+            )}
+
             <Magnetic>
-              <button className="btn btn-solid w-full! py-5 rounded-2xl text-xs font-black uppercase tracking-[0.3em] shadow-2xl">
-                Send Message
+              <button 
+                disabled={loading}
+                className={`btn btn-solid w-full! py-5 rounded-2xl text-xs font-black uppercase tracking-[0.3em] shadow-2xl ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+              >
+                {loading ? 'Sending...' : 'Send Message'}
               </button>
             </Magnetic>
           </form>
@@ -517,7 +557,8 @@ const ContactSection = () => (
       </FadeIn>
     </div>
   </section>
-);
+  );
+};
 
 const Footer = () => (
   <footer className="bg-slate-950 text-white pt-32 pb-16 overflow-hidden relative">
@@ -622,7 +663,6 @@ function App() {
           animate={{ opacity: 1 }}
           transition={{ duration: 1 }}
         >
-          <CustomCursor />
           <motion.div 
             className="fixed top-0 left-0 right-0 h-1 bg-primary z-[1001] origin-left"
             style={{ scaleX }}

@@ -292,7 +292,7 @@ const BookingSystem = () => {
 
   return (
     <div className="container">
-      <div className="text-center mb-24">
+      <div className="text-center mb-16 md:mb-24">
         <h2 className="section-title">Schedule Consultation</h2>
         <p className="section-subtitle">Choose your preferred clinic and secure your appointment in seconds.</p>
       </div>
@@ -314,7 +314,7 @@ const BookingSystem = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 onClick={() => handleClinicSelect(clinic)}
-                className="liquid-glass p-10 cursor-pointer group flex flex-col items-start border-white/40 hover:border-primary/30"
+                className="liquid-glass p-8 md:p-10 cursor-pointer group flex flex-col items-start border-white/40 hover:border-primary/30"
               >
                 <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-primary mb-10 shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
                   <MapPin size={32} />
@@ -322,7 +322,7 @@ const BookingSystem = () => {
                 <h3 className="text-2xl font-black text-gray-900 mb-2 tracking-tight uppercase">{clinic.name}</h3>
                 <p className="text-slate-500 text-sm mb-10 font-medium leading-relaxed">{clinic.location}</p>
                 <div className="mt-auto w-full space-y-8">
-                  <div className="text-[10px] font-black text-primary uppercase tracking-[0.2em] bg-white/50 px-5 py-3 rounded-2xl shadow-inner inline-block border border-white/60">
+                  <div className="text-xs font-black text-primary uppercase tracking-[0.1em] bg-white/50 px-5 py-3 rounded-2xl shadow-inner inline-block border border-white/60">
                     {clinic.schedule}
                   </div>
                   <button className="btn btn-solid w-full group-hover:scale-105 transition-all">
@@ -341,25 +341,25 @@ const BookingSystem = () => {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -100 }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="liquid-glass p-12 md:p-16 border-white/60"
+            className="liquid-glass p-6 sm:p-12 md:p-16 border-white/60"
           >
             <button 
               onClick={() => setStep(1)}
-              className="flex items-center gap-2 text-slate-400 hover:text-primary mb-12 text-xs font-black uppercase tracking-[0.2em] transition-all group"
+              className="flex items-center gap-2 text-slate-400 hover:text-primary mb-12 text-sm font-black uppercase tracking-[0.1em] transition-all group"
             >
               <ChevronRight size={18} className="rotate-180 group-hover:-translate-x-1 transition-transform" />
               Change Location
             </button>
 
-            <div className="grid lg:grid-cols-2 gap-20">
-              <div className="space-y-12">
-                <div className="flex items-center gap-4 mb-4">
+            <div className="grid lg:grid-cols-2 gap-16 md:gap-24">
+              <div className="space-y-8">
+                <div className="flex items-center gap-4">
                   <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-primary shadow-inner">
                     <Calendar size={24} />
                   </div>
                   <h3 className="text-2xl font-black text-gray-900 tracking-tight">Select Date</h3>
                 </div>
-                <div className="custom-datepicker-container bg-white/30 p-8 rounded-[40px] shadow-inner border border-white/40">
+                <div className="custom-datepicker-container bg-white/40 backdrop-blur-xl p-4 sm:p-8 rounded-[40px] shadow-inner border border-white/60">
                   <DatePicker
                     selected={selectedDate}
                     onChange={(date) => { setSelectedDate(date); setSelectedSlot(null); }}
@@ -386,7 +386,7 @@ const BookingSystem = () => {
                       type="text" 
                       value={patientInfo.name}
                       onChange={(e) => setPatientInfo({...patientInfo, name: e.target.value})}
-                      className="w-full px-8 py-5 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-md focus:bg-white focus:ring-12 focus:ring-primary/5 focus:border-primary outline-none transition-all text-sm font-black placeholder:text-slate-400"
+                      className="w-full px-6 py-4 md:px-8 md:py-5 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-md focus:bg-white focus:ring-12 focus:ring-primary/5 focus:border-primary outline-none transition-all text-sm font-black placeholder:text-slate-400"
                       placeholder="Full Name"
                     />
                     <div className="grid grid-cols-2 gap-6">
@@ -394,14 +394,14 @@ const BookingSystem = () => {
                         type="tel" 
                         value={patientInfo.phone}
                         onChange={(e) => setPatientInfo({...patientInfo, phone: e.target.value})}
-                        className="w-full px-8 py-5 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-md focus:bg-white focus:ring-12 focus:ring-primary/5 focus:border-primary outline-none transition-all text-sm font-black placeholder:text-slate-400"
+                        className="w-full px-6 py-4 md:px-8 md:py-5 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-md focus:bg-white focus:ring-12 focus:ring-primary/5 focus:border-primary outline-none transition-all text-sm font-bold placeholder:text-slate-400"
                         placeholder="Phone Number"
                       />
                       <input 
                         type="number" 
                         value={patientInfo.age}
                         onChange={(e) => setPatientInfo({...patientInfo, age: e.target.value})}
-                        className="w-full px-8 py-5 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-md focus:bg-white focus:ring-12 focus:ring-primary/5 focus:border-primary outline-none transition-all text-sm font-black placeholder:text-slate-400"
+                        className="w-full px-6 py-4 md:px-8 md:py-5 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-md focus:bg-white focus:ring-12 focus:ring-primary/5 focus:border-primary outline-none transition-all text-sm font-bold placeholder:text-slate-400"
                         placeholder="Age"
                       />
                     </div>
@@ -410,7 +410,7 @@ const BookingSystem = () => {
                         <button
                           key={option}
                           onClick={() => setPatientInfo({...patientInfo, sex: option})}
-                          className={`flex-1 py-4 rounded-2xl text-xs font-black transition-all border ${
+                          className={`flex-1 py-4 rounded-2xl text-sm font-black transition-all border ${
                             patientInfo.sex === option
                               ? 'bg-primary text-white border-primary shadow-lg shadow-primary/20'
                               : 'bg-white/40 text-slate-500 border-white/60 hover:bg-white/60'
@@ -424,21 +424,21 @@ const BookingSystem = () => {
                       type="text" 
                       value={patientInfo.address}
                       onChange={(e) => setPatientInfo({...patientInfo, address: e.target.value})}
-                      className="w-full px-8 py-5 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-md focus:bg-white focus:ring-12 focus:ring-primary/5 focus:border-primary outline-none transition-all text-sm font-black placeholder:text-slate-400"
+                      className="w-full px-6 py-4 md:px-8 md:py-5 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-md focus:bg-white focus:ring-12 focus:ring-primary/5 focus:border-primary outline-none transition-all text-sm font-black placeholder:text-slate-400"
                       placeholder="Address"
                     />
                     <textarea 
                       value={patientInfo.message}
                       onChange={(e) => setPatientInfo({...patientInfo, message: e.target.value})}
                       rows="3"
-                      className="w-full px-8 py-5 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-md focus:bg-white focus:ring-12 focus:ring-primary/5 focus:border-primary outline-none transition-all text-sm font-black placeholder:text-slate-400 resize-none"
+                      className="w-full px-8 py-5 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-md focus:bg-white focus:ring-12 focus:ring-primary/5 focus:border-primary outline-none transition-all text-sm font-bold placeholder:text-slate-400 resize-none"
                       placeholder="Booking Message (Optional)"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-8">
-                  <h4 className="text-xs font-black text-slate-400 uppercase tracking-[0.3em]">Available Slots</h4>
+                  <h4 className="text-xs font-bold text-slate-400 uppercase tracking-[0.1em]">Available Slots</h4>
                   {selectedDate ? (
                     <div className="relative">
                       {loading ? (
@@ -476,7 +476,7 @@ const BookingSystem = () => {
                                   });
                                 }}
 
-                                className={`py-4 rounded-2xl text-xs font-black transition-all ${buttonClass}`}
+                                className={`py-4 rounded-2xl text-sm font-black transition-all ${buttonClass}`}
                               >
                                 {slotStr}
                               </motion.button>
@@ -510,7 +510,7 @@ const BookingSystem = () => {
                   <button
                     disabled={loading || !isFormValid}
                     onClick={handleBooking}
-                    className={`w-full py-6 rounded-2xl font-black text-xs uppercase tracking-[0.4em] transition-all shadow-2xl ${
+                    className={`w-full py-6 rounded-2xl font-black text-sm uppercase tracking-[0.15em] transition-all shadow-2xl ${
                       !loading && isFormValid
                         ? 'bg-primary text-white hover:shadow-[0_25px_50px_rgba(14,165,233,0.4)]' 
                         : 'bg-slate-200 text-slate-400 cursor-not-allowed'

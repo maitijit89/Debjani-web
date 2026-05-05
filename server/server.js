@@ -8,6 +8,7 @@ import { appendToSheet } from './logic/googleSheets.js';
 import Appointment from './models/Appointment.js';
 import Razorpay from 'razorpay';
 import crypto from 'crypto';
+import { sendContactEmail, sendBookingNotification } from './logic/email.js';
 
 
 dotenv.config();
@@ -60,6 +61,22 @@ app.get('/api/health', (req, res) => {
 // Get all clinics
 app.get('/api/clinics', (req, res) => {
   res.json(CLINICS);
+});
+
+// Contact form submission
+app.post('/api/contact', async (req, res) => {
+  try {
+    const { name, email, message } = req.body;
+    if (!name || !email || !message) {
+      return res.status(400).json({ error: 'Name, email, and message are required' });
+    }
+
+    await sendContactEmail({ name, email, message });
+    res.json({ message: 'Message sent successfully' });
+  } catch (error) {
+    console.error('Contact form error:', error);
+    res.status(500).json({ error: 'Failed to send message. Please try again later.' });
+  }
 });
 
 // Get available slots for a clinic and date
@@ -157,6 +174,9 @@ app.post('/api/book-appointment', async (req, res) => {
 
 
     await booking.save();
+
+    // Notify clinic via email (non-blocking)
+    sendBookingNotification(booking).catch(err => console.error('Email notification error:', err));
 
     // Sync with Google Sheets (non-blocking)
     appendToSheet(booking).catch(err => console.error('Sheet sync error:', err));

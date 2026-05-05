@@ -34,7 +34,7 @@
 
 /* Typography */
 .hero-title {
-  font-size: clamp(2.5rem, 12vw, 5.5rem);
+  font-size: clamp(2.2rem, 10vw, 5.5rem);
   font-weight: 800;
   line-height: 1;
   letter-spacing: -0.06em;
@@ -42,9 +42,9 @@
 }
 
 .section-title {
-  font-size: clamp(2rem, 8vw, 4.5rem);
+  font-size: clamp(1.8rem, 7vw, 4.5rem);
   font-weight: 800;
-  line-height: 1;
+  line-height: 1.1;
   letter-spacing: -0.05em;
   margin-bottom: 1rem;
   color: #0f172a;
@@ -76,12 +76,12 @@
   padding: 1.25rem 2.5rem;
   border-radius: 100px;
   font-weight: 900;
-  font-size: 1rem;
+  font-size: 1.1rem;
   transition: var(--transition);
   cursor: pointer;
   border: none;
   text-transform: uppercase;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.1em;
   width: 100%;
 }
 
@@ -89,7 +89,7 @@
   .btn {
     width: auto;
     padding: 1.25rem 3rem;
-    font-size: 0.9rem;
+    font-size: 1rem;
   }
 }
 
@@ -190,10 +190,16 @@
   border: 1px solid rgba(255, 255, 255, 0.4);
   box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.05);
   border-radius: 2.5rem;
-  padding: 3rem;
+  padding: 1.5rem;
   transition: var(--transition);
   position: relative;
   overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .card-glass {
+    padding: 3rem;
+  }
 }
 
 .card-glass::before {
@@ -246,33 +252,6 @@
   transform: translateX(8px);
 }
 
-/* Cursor Styles */
-.custom-cursor {
-  width: 32px;
-  height: 32px;
-  background: var(--primary);
-  border-radius: 50%;
-  position: fixed;
-  pointer-events: none;
-  z-index: 9999;
-  mix-blend-mode: difference;
-  transition: transform 0.15s ease-out, width 0.3s, height 0.3s, background 0.3s;
-}
-
-.custom-cursor.hovering {
-  transform: scale(2.5);
-  background: white;
-}
-
-.custom-cursor-dot {
-  width: 8px;
-  height: 8px;
-  background: var(--primary);
-  border-radius: 50%;
-  position: fixed;
-  pointer-events: none;
-  z-index: 9999;
-}
 
 /* Preloader */
 .preloader {
@@ -308,7 +287,7 @@
 
 .preloader-progress {
   height: 100%;
-  background: var(--primary);
+  background: linear-gradient(90deg, #8b5cf6, #3b82f6);
   width: 0%;
   animation: progress-fill 2s forwards ease-in-out;
 }
@@ -316,4 +295,172 @@
 @keyframes progress-fill {
   0% { width: 0%; }
   100% { width: 100%; }
+}
+
+/* DatePicker Premium Styling */
+.react-datepicker {
+  font-family: var(--font-main) !important;
+  border: none !important;
+  background: transparent !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  width: 100% !important;
+}
+
+.react-datepicker__header {
+  background: transparent !important;
+  border-bottom: 1px solid rgba(14, 165, 233, 0.1) !important;
+  padding-top: 1rem !important;
+  border-radius: 0 !important;
+}
+
+.react-datepicker__current-month {
+  font-family: var(--font-heading) !important;
+  font-size: 1.5rem !important;
+  font-weight: 800 !important;
+  color: #0f172a !important;
+  margin-bottom: 1.5rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: -0.02em !important;
+}
+
+.react-datepicker__day-name {
+  color: #94a3b8 !important;
+  font-weight: 700 !important;
+  width: 3rem !important;
+  line-height: 3rem !important;
+  margin: 0.2rem !important;
+  font-size: 0.75rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.1em !important;
+}
+
+.react-datepicker__day {
+  width: 3rem !important;
+  line-height: 3rem !important;
+  margin: 0.2rem !important;
+  border-radius: 1rem !important;
+  color: #1e293b !important;
+  font-weight: 600 !important;
+  font-size: 0.95rem !important;
+  transition: all 0.3s ease !important;
+}
+
+.react-datepicker__day:hover {
+  background: var(--primary-light) !important;
+  color: var(--primary) !important;
+  transform: scale(1.1) !important;
+}
+
+.react-datepicker__day--selected {
+  background: var(--primary) !important;
+  color: white !important;
+  box-shadow: 0 10px 20px rgba(14, 165, 233, 0.3) !important;
+  font-weight: 800 !important;
+}
+
+.react-datepicker__day--disabled {
+  color: #cbd5e1 !important;
+  opacity: 0.3 !important;
+}
+
+.react-datepicker__day--today {
+  background: rgba(14, 165, 233, 0.05) !important;
+  color: var(--primary) !important;
+  font-weight: 800 !important;
+  border: 1px solid var(--primary-glow) !important;
+}
+
+.react-datepicker__navigation {
+  top: 1.5rem !important;
+}
+
+.react-datepicker__navigation-icon::before {
+  border-color: #94a3b8 !important;
+  border-width: 3px 3px 0 0 !important;
+}
+
+.react-datepicker__month-container {
+  float: none !important;
+  width: 100% !important;
+}
+
+.custom-datepicker-container .react-datepicker {
+  width: 100% !important;
+}
+
+@media (max-width: 640px) {
+  .react-datepicker__day-name, .react-datepicker__day {
+    width: 2.2rem !important;
+    line-height: 2.2rem !important;
+    margin: 0.1rem !important;
+    font-size: 0.8rem !important;
+  }
+}
+
+/* Preloader */
+.preloader {
+  position: fixed;
+  inset: 0;
+  background: var(--secondary);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.preloader-logo {
+  width: 140px;
+  height: 140px;
+  background: white;
+  border-radius: 32px;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 20px 50px rgba(139, 92, 246, 0.4);
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.preloader-bar {
+  width: 200px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 100px;
+  overflow: hidden;
+  position: relative;
+}
+
+.preloader-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, #8b5cf6, #3b82f6);
+  transform-origin: left;
+  animation: progress 2s ease-in-out infinite;
+}
+
+@keyframes progress {
+  0% { transform: scaleX(0); }
+  50% { transform: scaleX(0.5); }
+  100% { transform: scaleX(1); }
+}
+
+@media (max-width: 768px) {
+  .preloader-logo {
+    width: 100px;
+    height: 100px;
+    padding: 1rem;
+    border-radius: 24px;
+  }
+  .preloader-bar {
+    width: 140px;
+  }
 }
