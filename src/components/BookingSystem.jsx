@@ -207,8 +207,14 @@ const BookingSystem = () => {
       if (!orderResponse.ok) throw new Error(orderData.error || 'Failed to create payment order');
 
       // 2. Open Razorpay Checkout
+      const razorpayKey = import.meta.env.VITE_RAZORPAY_KEY_ID;
+      
+      if (!razorpayKey) {
+        throw new Error('Razorpay Key ID is missing. Please check your Vercel environment variables.');
+      }
+
       const options = {
-        key: import.meta.env.VITE_RAZORPAY_KEY_ID, // Loaded from environment variable
+        key: razorpayKey,
         amount: orderData.amount,
         currency: orderData.currency,
         name: 'S.S. SK. SN Clinic',
