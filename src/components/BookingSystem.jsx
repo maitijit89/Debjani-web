@@ -208,7 +208,7 @@ const BookingSystem = () => {
 
       // 2. Open Razorpay Checkout
       const options = {
-        key: 'rzp_live_SlbPzyQpH2IfuU', // Live Key ID
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID, // Loaded from environment variable
         amount: orderData.amount,
         currency: orderData.currency,
         name: 'S.S. SK. SN Clinic',
