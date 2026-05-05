@@ -8,7 +8,7 @@ import { appendToSheet } from './logic/googleSheets.js';
 import Appointment from './models/Appointment.js';
 import Razorpay from 'razorpay';
 import crypto from 'crypto';
-import { sendContactEmail, sendBookingNotification } from './logic/email.js';
+import { sendContactEmail, sendBookingNotification, sendWelcomeEmail } from './logic/email.js';
 
 
 dotenv.config();
@@ -76,6 +76,24 @@ app.post('/api/contact', async (req, res) => {
   } catch (error) {
     console.error('Contact form error:', error);
     res.status(500).json({ error: 'Failed to send message. Please try again later.' });
+  }
+});
+
+// Newsletter subscription
+app.post('/api/subscribe', async (req, res) => {
+  try {
+    const { email } = req.body;
+    if (!email) {
+      return res.status(400).json({ error: 'Email is required' });
+    }
+
+    // You could also save to a DB or Google Sheet here
+    await sendWelcomeEmail(email);
+    
+    res.json({ message: 'Subscribed successfully! Please check your email.' });
+  } catch (error) {
+    console.error('Subscription error:', error);
+    res.status(500).json({ error: 'Failed to subscribe. Please try again later.' });
   }
 });
 

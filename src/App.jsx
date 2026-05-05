@@ -560,82 +560,135 @@ const ContactSection = () => {
   );
 };
 
-const Footer = () => (
-  <footer className="bg-slate-950 text-white pt-32 pb-16 overflow-hidden relative">
-    <div className="container">
-      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-20 mb-24">
-        <div className="space-y-10">
-          <div className="flex items-center gap-4">
-            <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center p-2 shadow-2xl border border-white/10">
-              <img src={logoImg} alt="Logo" className="w-full h-full object-contain" />
+const Footer = () => {
+  const [email, setEmail] = useState('');
+  const [status, setStatus] = useState({ type: '', message: '' });
+  const [loading, setLoading] = useState(false);
+
+  const handleSubscribe = async (e) => {
+    e.preventDefault();
+    if (!email) {
+      setStatus({ type: 'error', message: 'Please enter your email.' });
+      return;
+    }
+
+    setLoading(true);
+    setStatus({ type: '', message: '' });
+
+    try {
+      const response = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setStatus({ type: 'success', message: 'Thank you for subscribing!' });
+        setEmail('');
+      } else {
+        setStatus({ type: 'error', message: data.error || 'Subscription failed.' });
+      }
+    } catch (error) {
+      setStatus({ type: 'error', message: 'Connection error. Please try again.' });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <footer className="bg-slate-950 text-white pt-32 pb-16 overflow-hidden relative">
+      <div className="container">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-20 mb-24">
+          <div className="space-y-10">
+            <div className="flex items-center gap-4">
+              <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center p-2 shadow-2xl border border-white/10">
+                <img src={logoImg} alt="Logo" className="w-full h-full object-contain" />
+              </div>
+              <span className="text-3xl font-black tracking-tighter uppercase">S.S. SK. SN</span>
             </div>
-            <span className="text-3xl font-black tracking-tighter uppercase">S.S. SK. SN</span>
+            <p className="text-slate-400 text-lg leading-relaxed font-medium">
+              Precision healing through modern genetic homeopathy. Your journey to wellness begins with scientific care.
+            </p>
+            <div className="flex gap-6">
+              {[
+                { id: 'share', icon: <Share2 size={22} /> }, 
+                { id: 'chat', icon: <MessageSquare size={22} /> }
+              ].map((social) => (
+                <motion.a 
+                  key={social.id} 
+                  href="#share" 
+                  className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center text-slate-400 hover:bg-primary hover:text-white transition-all border border-white/10"
+                  whileHover={{ y: -10, rotate: 15 }}
+                >
+                  {social.icon}
+                </motion.a>
+              ))}
+            </div>
           </div>
-          <p className="text-slate-400 text-lg leading-relaxed font-medium">
-            Precision healing through modern genetic homeopathy. Your journey to wellness begins with scientific care.
-          </p>
-          <div className="flex gap-6">
-            {[
-              { id: 'share', icon: <Share2 size={22} /> }, 
-              { id: 'chat', icon: <MessageSquare size={22} /> }
-            ].map((social) => (
-              <motion.a 
-                key={social.id} 
-                href="#share" 
-                className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center text-slate-400 hover:bg-primary hover:text-white transition-all border border-white/10"
-                whileHover={{ y: -10, rotate: 15 }}
+
+          <div>
+            <h4 className="text-sm font-black mb-10 text-white uppercase tracking-[0.3em]">Quick Links</h4>
+            <ul className="space-y-6">
+              {['Services', 'Booking', 'Contact', 'About'].map((link) => (
+                <li key={link}>
+                  <a href={`#${link.toLowerCase()}`} className="footer-link text-lg inline-block">{link}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="text-sm font-black mb-10 text-white uppercase tracking-[0.3em]">Our Clinics</h4>
+            <ul className="grid gap-6">
+              {['Mecheda', 'Kolaghat', 'Chadinda', 'Jiakhali', 'Bardabar', 'Chapda'].map((loc) => (
+                <li key={loc} className="text-slate-400 text-lg font-medium flex items-center gap-4 group cursor-pointer">
+                  <div className="w-2 h-2 rounded-full bg-primary group-hover:scale-150 group-hover:bg-primary-glow transition-all" /> 
+                  {loc}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="space-y-10">
+            <h4 className="text-sm font-black mb-10 text-white uppercase tracking-[0.3em]">Newsletter</h4>
+            <p className="text-slate-400 font-medium">Get health tips and clinic updates.</p>
+            <form onSubmit={handleSubscribe} className="space-y-4">
+              <input 
+                type="email" 
+                placeholder="Email address" 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full bg-white/5 border border-white/10 rounded-2xl px-8 py-5 text-white text-sm font-bold focus:outline-none focus:border-primary-glow transition-all" 
+              />
+              <button 
+                type="submit" 
+                disabled={loading}
+                className={`btn btn-solid w-full py-5 rounded-2xl text-xs font-black uppercase tracking-[0.2em] ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
               >
-                {social.icon}
-              </motion.a>
-            ))}
+                {loading ? 'Subscribing...' : 'Subscribe'}
+              </button>
+              {status.message && (
+                <p className={`text-[10px] font-bold uppercase tracking-widest mt-4 ${status.type === 'success' ? 'text-emerald-400' : 'text-rose-400'}`}>
+                  {status.message}
+                </p>
+              )}
+            </form>
           </div>
         </div>
 
-        <div>
-          <h4 className="text-sm font-black mb-10 text-white uppercase tracking-[0.3em]">Quick Links</h4>
-          <ul className="space-y-6">
-            {['Services', 'Booking', 'Contact', 'About'].map((link) => (
-              <li key={link}>
-                <a href={`#${link.toLowerCase()}`} className="footer-link text-lg inline-block">{link}</a>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div>
-          <h4 className="text-sm font-black mb-10 text-white uppercase tracking-[0.3em]">Our Clinics</h4>
-          <ul className="grid gap-6">
-            {['Mecheda', 'Kolaghat', 'Chadinda', 'Jiakhali', 'Bardabar', 'Chapda'].map((loc) => (
-              <li key={loc} className="text-slate-400 text-lg font-medium flex items-center gap-4 group cursor-pointer">
-                <div className="w-2 h-2 rounded-full bg-primary group-hover:scale-150 group-hover:bg-primary-glow transition-all" /> 
-                {loc}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="space-y-10">
-          <h4 className="text-sm font-black mb-10 text-white uppercase tracking-[0.3em]">Newsletter</h4>
-          <p className="text-slate-400 font-medium">Get health tips and clinic updates.</p>
-          <div className="space-y-4">
-            <input type="email" placeholder="Email address" className="w-full bg-white/5 border border-white/10 rounded-2xl px-8 py-5 text-white text-sm font-bold focus:outline-none focus:border-primary-glow transition-all" />
-            <button className="btn btn-solid w-full py-5 rounded-2xl text-xs font-black uppercase tracking-[0.2em]">
-              Subscribe
-            </button>
+        <div className="pt-16 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-10 text-[11px] font-black uppercase tracking-[0.4em] text-slate-600">
+          <p>© 2026 S.S. SK. SN CLINIC. SCIENTIFIC HEALING.</p>
+          <div className="flex gap-12">
+            <a href="#privacy" className="hover:text-white transition-colors">Privacy</a>
+            <a href="#terms" className="hover:text-white transition-colors">Terms</a>
           </div>
         </div>
       </div>
-
-      <div className="pt-16 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-10 text-[11px] font-black uppercase tracking-[0.4em] text-slate-600">
-        <p>© 2026 S.S. SK. SN CLINIC. SCIENTIFIC HEALING.</p>
-        <div className="flex gap-12">
-          <a href="#privacy" className="hover:text-white transition-colors">Privacy</a>
-          <a href="#terms" className="hover:text-white transition-colors">Terms</a>
-        </div>
-      </div>
-    </div>
-  </footer>
-);
+    </footer>
+  );
+};
 
 function App() {
   const [loading, setLoading] = useState(true);

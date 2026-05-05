@@ -105,3 +105,45 @@ export const sendBookingNotification = async (bookingData) => {
 
   return transporter.sendMail(mailOptions);
 };
+
+export const sendWelcomeEmail = async (email) => {
+  if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+    console.error('Email credentials missing in .env');
+    throw new Error('Email service is not configured.');
+  }
+
+  const mailOptions = {
+    from: `"S.S. SK. SN Clinic" <${process.env.EMAIL_USER}>`,
+    to: email,
+    subject: `Welcome to S.S. SK. SN Clinic Newsletter!`,
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);">
+        <div style="background-color: #0ea5e9; padding: 30px; text-align: center;">
+          <h1 style="color: white; margin: 0; font-size: 24px; text-transform: uppercase; letter-spacing: 2px;">Welcome to Our Clinic</h1>
+        </div>
+        <div style="padding: 40px; background-color: white;">
+          <h2 style="color: #1e293b; margin-top: 0;">Thank you for subscribing!</h2>
+          <p style="color: #475569; line-height: 1.6; font-size: 16px;">
+            We are thrilled to have you as part of our community. You'll now be the first to receive:
+          </p>
+          <ul style="color: #475569; line-height: 1.8; font-size: 16px;">
+            <li>Exclusive health tips and wellness advice.</li>
+            <li>Important updates about our clinic services.</li>
+            <li>Advanced information on modern genetic homeopathy.</li>
+          </ul>
+          <div style="margin-top: 40px; text-align: center;">
+            <a href="https://debjaniclinic.com" style="background-color: #0ea5e9; color: white; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;">Visit Our Website</a>
+          </div>
+          <p style="color: #94a3b8; font-size: 14px; margin-top: 40px; text-align: center;">
+            If you have any questions, feel free to reply to this email.
+          </p>
+        </div>
+        <div style="background-color: #f8fafc; padding: 20px; text-align: center; border-top: 1px solid #e2e8f0;">
+          <p style="color: #64748b; font-size: 12px; margin: 0;">&copy; 2026 S.S. SK. SN Clinic. All rights reserved.</p>
+        </div>
+      </div>
+    `,
+  };
+
+  return transporter.sendMail(mailOptions);
+};
