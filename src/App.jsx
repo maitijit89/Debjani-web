@@ -1,3 +1,4 @@
+// Version: 1.0.1 - Fix social icons build error
 import { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { motion, AnimatePresence, useScroll, useSpring, useInView } from 'framer-motion';
