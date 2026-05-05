@@ -6,7 +6,7 @@ import {
   HeartPulse, Brain, ShieldPlus, Baby,
   MapPin, MessageSquare, Menu, X, Award, Users, 
   Clock3, Heart, Mail, ArrowRight, Sparkles, Star,
-  Share2, ChevronDown
+  Share2, ChevronDown, Facebook, Instagram
 } from 'lucide-react';
 import './App.css';
 import stomachImg from './assets/stomach.png';
@@ -623,12 +623,14 @@ const Footer = () => {
             </p>
             <div className="flex gap-6">
               {[
-                { id: 'share', icon: <Share2 size={22} /> }, 
-                { id: 'chat', icon: <MessageSquare size={22} /> }
+                { id: 'facebook', icon: <Facebook size={22} />, href: 'https://facebook.com' },
+                { id: 'instagram', icon: <Instagram size={22} />, href: 'https://instagram.com' },
+                { id: 'share', icon: <Share2 size={22} />, href: '#' }, 
+                { id: 'chat', icon: <MessageSquare size={22} />, href: '#' }
               ].map((social) => (
                 <motion.a 
                   key={social.id} 
-                  href="#share" 
+                  href={social.href} 
                   className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center text-slate-400 hover:bg-primary hover:text-white transition-all border border-white/10"
                   whileHover={{ y: -10, rotate: 15 }}
                 >
