@@ -576,22 +576,29 @@ const Footer = () => {
     setStatus({ type: '', message: '' });
 
     try {
+      console.log('Attempting to subscribe:', email);
       const response = await fetch('/api/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
       });
 
+      console.log('Response status:', response.status);
       const data = await response.json();
+      console.log('Response data:', data);
 
       if (response.ok) {
-        setStatus({ type: 'success', message: 'Thank you for subscribing!' });
+        setStatus({ type: 'success', message: 'Success! Welcome to our newsletter.' });
         setEmail('');
+        // Also show a browser alert for confirmation
+        alert('Thank you for subscribing! A welcome email has been sent to ' + email);
       } else {
         setStatus({ type: 'error', message: data.error || 'Subscription failed.' });
       }
     } catch (error) {
-      setStatus({ type: 'error', message: 'Connection error. Please try again.' });
+      console.error('Subscription error:', error);
+      setStatus({ type: 'error', message: 'Error: ' + error.message });
+      alert('Subscription failed: ' + error.message);
     } finally {
       setLoading(false);
     }
@@ -670,9 +677,9 @@ const Footer = () => {
                 {loading ? 'Subscribing...' : 'Subscribe'}
               </button>
               {status.message && (
-                <p className={`text-[10px] font-bold uppercase tracking-widest mt-4 ${status.type === 'success' ? 'text-emerald-400' : 'text-rose-400'}`}>
+                <div className={`p-4 rounded-xl text-xs font-bold uppercase tracking-widest mt-6 border ${status.type === 'success' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border-rose-500/20'}`}>
                   {status.message}
-                </p>
+                </div>
               )}
             </form>
           </div>
