@@ -68,7 +68,13 @@ body {
   font-family: var(--font-main);
   background-color: #f8fafc;
   color: #1e293b;
-  line-height: 1.6;
+  line-height: 1.5; /* Slightly tighter for mobile */
+}
+
+@media (min-width: 768px) {
+  body {
+    line-height: 1.6;
+  }
 }
 
 body::before {
@@ -199,8 +205,8 @@ img {
   max-width: 1400px;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
+  padding-left: 1rem; /* Reduced for mobile */
+  padding-right: 1rem; /* Reduced for mobile */
 }
 
 @media (min-width: 768px) {

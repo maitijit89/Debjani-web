@@ -315,15 +315,15 @@ const BookingSystem = () => {
                 transition={{ delay: index * 0.1, duration: 0.8 }}
                 whileHover={{ y: -15, scale: 1.02 }}
                 onClick={() => handleClinicSelect(clinic)}
-                className="liquid-glass p-8 md:p-14 cursor-pointer group flex flex-col items-start border-white/60 hover:bg-white/70 hover:border-primary/40 transition-all duration-700 shadow-2xl!"
+                className="liquid-glass p-6 md:p-14 cursor-pointer group flex flex-col items-start border-white/60 hover:bg-white/70 hover:border-primary/40 transition-all duration-700 shadow-2xl!"
               >
                 <div className="w-14 h-14 md:w-20 md:h-20 bg-white rounded-2xl md:rounded-3xl flex items-center justify-center text-primary mb-8 md:mb-14 shadow-xl group-hover:bg-primary group-hover:text-white group-hover:rotate-12 transition-all duration-700 border border-slate-50">
                   <MapPin size={28} className="md:w-10 md:h-10" />
                 </div>
                 <h3 className="text-2xl md:text-3xl font-black text-slate-950 mb-3 tracking-tighter uppercase leading-none">{clinic.name}</h3>
                 <p className="text-slate-500 text-sm md:text-base mb-10 md:mb-14 font-medium leading-relaxed max-w-[240px]">{clinic.location}</p>
-                <div className="mt-auto w-full space-y-8 md:space-y-10">
-                  <div className="text-[10px] md:text-xs font-black text-primary uppercase tracking-[0.2em] bg-primary/5 px-6 py-3.5 rounded-[1.25rem] shadow-inner inline-block border border-primary/10">
+                <div className="mt-auto w-full space-y-6 md:space-y-10">
+                  <div className="text-[11px] md:text-xs font-black text-primary uppercase tracking-[0.2em] bg-primary/5 px-6 py-3.5 rounded-[1.25rem] shadow-inner inline-block border border-primary/10">
                     {clinic.schedule}
                   </div>
                   <button className="btn btn-solid w-full group-hover:scale-105 transition-all !py-4.5 !text-[11px] font-black tracking-widest uppercase shadow-2xl!">
@@ -342,11 +342,11 @@ const BookingSystem = () => {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -100 }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="liquid-glass p-5 sm:p-12 md:p-16 border-white/60"
+            className="liquid-glass p-4 sm:p-12 md:p-16 border-white/60"
           >
             <button 
               onClick={() => setStep(1)}
-              className="flex items-center gap-2 text-slate-400 hover:text-primary mb-8 md:mb-12 text-[10px] md:text-sm font-black uppercase tracking-[0.1em] transition-all group"
+              className="flex items-center gap-2 text-slate-400 hover:text-primary mb-8 md:mb-12 text-[11px] md:text-sm font-black uppercase tracking-[0.1em] transition-all group"
             >
               <ChevronRight size={16} className="rotate-180 group-hover:-translate-x-1 transition-transform" />
               Change Location
@@ -360,7 +360,7 @@ const BookingSystem = () => {
                   </div>
                   <h3 className="text-lg md:text-2xl font-black text-gray-900 tracking-tight">Select Date</h3>
                 </div>
-                <div className="custom-datepicker-container bg-white/40 backdrop-blur-xl p-2 md:p-8 rounded-[30px] md:rounded-[40px] shadow-inner border border-white/60">
+                <div className="custom-datepicker-container bg-white/40 backdrop-blur-xl p-1 md:p-8 rounded-[30px] md:rounded-[40px] shadow-inner border border-white/60">
                   <DatePicker
                     selected={selectedDate}
                     onChange={(date) => { setSelectedDate(date); setSelectedSlot(null); }}
@@ -410,7 +410,7 @@ const BookingSystem = () => {
                         <button
                           key={option}
                           onClick={() => setPatientInfo({...patientInfo, sex: option})}
-                          className={`flex-1 py-3 md:py-4 rounded-xl md:rounded-2xl text-[10px] md:text-sm font-black transition-all border ${
+                          className={`flex-1 py-3 md:py-4 rounded-xl md:rounded-2xl text-[11px] md:text-sm font-black transition-all border ${
                             patientInfo.sex === option
                               ? 'bg-primary text-white border-primary shadow-lg shadow-primary/20'
                               : 'bg-white/40 text-slate-500 border-white/60 hover:bg-white/60'
@@ -438,7 +438,7 @@ const BookingSystem = () => {
                 </div>
 
                 <div className="space-y-6 md:space-y-8">
-                  <h4 className="text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-[0.1em]">Available Slots</h4>
+                  <h4 className="text-[11px] md:text-xs font-bold text-slate-400 uppercase tracking-[0.1em]">Available Slots</h4>
                   {selectedDate ? (
                     <div className="relative">
                       {loading ? (
@@ -476,7 +476,7 @@ const BookingSystem = () => {
                                   });
                                 }}
 
-                                className={`py-3 md:py-4 rounded-xl md:rounded-2xl text-[10px] md:text-sm font-black transition-all ${buttonClass}`}
+                                className={`py-3 md:py-4 rounded-xl md:rounded-2xl text-[11px] md:text-sm font-black transition-all ${buttonClass}`}
                               >
                                 {slotStr}
                               </motion.button>
@@ -501,7 +501,7 @@ const BookingSystem = () => {
                   ) : (
                     <div className="h-40 md:h-48 flex flex-col items-center justify-center bg-white/20 rounded-[30px] md:rounded-[40px] border-4 border-dashed border-white/40 text-center p-6 md:p-10">
                       <Clock3 size={32} className="text-white/60 mb-3 animate-pulse md:w-10 md:h-10" />
-                      <p className="text-slate-500 text-[10px] md:text-xs font-black uppercase tracking-[0.2em]">Select a date to view times</p>
+                      <p className="text-slate-500 text-[11px] md:text-xs font-black uppercase tracking-[0.2em]">Select a date to view times</p>
                     </div>
                   )}
                 </div>

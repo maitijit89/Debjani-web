@@ -133,10 +133,10 @@ const Navbar = () => {
             <img src={logoImg} alt="S.S. SK. SN Clinic Logo" className="w-full h-full object-contain" />
           </div>
           <div>
-            <span className="text-lg md:text-2xl font-black tracking-tighter text-gray-900 block leading-none uppercase">
+            <span className="text-xl md:text-2xl font-black tracking-tighter text-gray-900 block leading-none uppercase">
               S.S. SK. SN <span className="text-primary">Clinic</span>
             </span>
-            <span className="text-[10px] md:text-xs font-bold text-slate-400 tracking-[0.1em] uppercase">Precision Genetic Homeopathy</span>
+            <span className="text-[11px] md:text-xs font-bold text-slate-400 tracking-[0.1em] uppercase">Precision Genetic Homeopathy</span>
           </div>
         </motion.div>
 
@@ -244,12 +244,12 @@ const Navbar = () => {
 
 const HeroSection = () => {
   return (
-    <section className="relative pt-24 md:pt-48 pb-20 md:pb-32 overflow-x-hidden">
+    <section className="relative pt-20 md:pt-48 pb-12 md:pb-32 overflow-x-hidden">
       <div className="container">
         <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-12 md:gap-24 items-center">
           <div className="flex flex-col items-center lg:items-start text-center lg:text-left space-y-8 md:space-y-12">
             <FadeIn direction="right">
-              <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-white/40 backdrop-blur-xl border border-white/60 text-primary font-black text-[10px] md:text-sm uppercase tracking-[0.15em] shadow-lg">
+              <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-white/40 backdrop-blur-xl border border-white/60 text-primary font-black text-[11px] md:text-sm uppercase tracking-[0.15em] shadow-lg">
                 <Sparkles size={16} className="text-primary-glow animate-pulse" />
                 Leading Genetic Real Homeopathy
               </div>
@@ -328,7 +328,7 @@ const HeroSection = () => {
                 <div className="flex justify-center sm:justify-start text-yellow-400 mb-1">
                   {[1, 2, 3, 4, 5].map((s) => <Star key={s} size={12} fill="currentColor" className="md:w-4 md:h-4" />)}
                 </div>
-                <p className="text-slate-900 font-black text-[10px] md:text-sm uppercase tracking-widest">10,000+ Success Stories</p>
+                <p className="text-slate-900 font-black text-[11px] md:text-sm uppercase tracking-widest">10,000+ Success Stories</p>
               </div>
             </div>
           </FadeIn>
@@ -375,7 +375,7 @@ const HeroSection = () => {
 const StatsSection = () => (
   <section className="py-12 md:py-32 relative overflow-hidden">
     <div className="container">
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-12">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-12">
         {[
           { id: 'happy-patients', number: "10k+", label: "Patients", icon: <Users size={24} /> },
           { id: 'experience', number: "15+", label: "Years Exp.", icon: <Award size={24} /> },
@@ -385,7 +385,7 @@ const StatsSection = () => (
           <FadeIn key={stat.id} delay={i * 0.1}>
             <motion.div 
               whileHover={{ y: -15, scale: 1.02 }}
-              className="text-center space-y-6 px-6 py-12 rounded-[40px] bg-white/40 backdrop-blur-xl border border-white/60 shadow-xl group transition-all duration-500 hover:bg-white/60"
+              className="text-center space-y-6 px-4 py-10 rounded-[35px] bg-white/40 backdrop-blur-xl border border-white/60 shadow-xl group transition-all duration-500 hover:bg-white/60"
             >
               <div className="w-16 h-16 md:w-20 md:h-20 bg-white rounded-3xl flex items-center justify-center text-primary mx-auto shadow-lg border border-slate-50 group-hover:scale-110 group-hover:rotate-6 transition-all duration-700">
                 <div className="scale-125">
@@ -397,7 +397,7 @@ const StatsSection = () => (
               </div>
               <div className="space-y-1">
                 <span className="stats-number !text-4xl md:!text-6xl !mb-0">{stat.number}</span>
-                <span className="stats-label !text-[10px] md:!text-xs tracking-[0.25em]">{stat.label}</span>
+                <span className="stats-label !text-[11px] md:!text-xs tracking-[0.25em]">{stat.label}</span>
               </div>
             </motion.div>
           </FadeIn>
@@ -408,10 +408,10 @@ const StatsSection = () => (
 );
 
 const FeatureBanner = () => (
-  <section id="specializations" className="relative py-20 md:py-32 overflow-hidden">
+  <section id="specializations" className="relative py-12 md:py-32 overflow-hidden">
     <div className="container">
     <FadeIn>
-      <div className="bg-slate-950 rounded-[3rem] md:rounded-[5rem] p-8 md:p-32 overflow-hidden relative shadow-[0_60px_120px_rgba(0,0,0,0.4)]">
+      <div className="bg-slate-950 rounded-[2.5rem] md:rounded-[5rem] p-6 md:p-32 overflow-hidden relative shadow-[0_60px_120px_rgba(0,0,0,0.4)]">
         <div className="absolute top-0 right-0 w-150 h-150 bg-primary/30 rounded-full -mr-80 -mt-80 blur-[150px]" />
         <div className="absolute bottom-0 left-0 w-120 h-120 bg-accent/15 rounded-full -ml-60 -mb-60 blur-[120px]" />
 
@@ -425,11 +425,11 @@ const FeatureBanner = () => (
               S.S. SK. SN Clinic fuses genetic mapping with precision homeopathy for lasting, side-effect-free wellness.
             </p>
             <div className="flex flex-wrap justify-center lg:justify-start gap-6 md:gap-8 pt-6">
-              <div className="flex items-center gap-4 bg-white/5 backdrop-blur-2xl px-8 py-5 rounded-[2rem] border border-white/10 text-white text-[10px] md:text-sm font-black uppercase tracking-[0.2em] shadow-2xl">
+              <div className="flex items-center gap-4 bg-white/5 backdrop-blur-2xl px-8 py-5 rounded-[2rem] border border-white/10 text-white text-[11px] md:text-sm font-black uppercase tracking-[0.2em] shadow-2xl">
                 <ShieldPlus size={24} className="text-primary-glow" />
                 Safe & Natural
               </div>
-              <div className="flex items-center gap-4 bg-white/5 backdrop-blur-2xl px-8 py-5 rounded-[2rem] border border-white/10 text-white text-[10px] md:text-sm font-black uppercase tracking-[0.2em] shadow-2xl">
+              <div className="flex items-center gap-4 bg-white/5 backdrop-blur-2xl px-8 py-5 rounded-[2rem] border border-white/10 text-white text-[11px] md:text-sm font-black uppercase tracking-[0.2em] shadow-2xl">
                 <Brain size={24} className="text-primary-glow" />
                 Genetic Insight
               </div>
@@ -443,7 +443,7 @@ const FeatureBanner = () => (
             ].map((item) => (
               <motion.div
                 key={item.id}
-                className="bg-slate-900/40 backdrop-blur-3xl p-10 md:p-14 rounded-[3rem] border border-white/10 group hover:bg-slate-900/60 transition-all cursor-pointer flex flex-col items-start relative overflow-hidden min-h-[300px] md:min-h-[380px]"
+                className="bg-slate-900/40 backdrop-blur-3xl p-8 md:p-14 rounded-[2.5rem] border border-white/10 group hover:bg-slate-900/60 transition-all cursor-pointer flex flex-col items-start relative overflow-hidden min-h-[280px] md:min-h-[380px]"
                 whileHover={{ x: 15, scale: 1.02 }}
                 onClick={() => document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' })}
               >
@@ -481,7 +481,7 @@ const ExpertiseSection = () => {
   ];
 
   return (
-    <section id="services" className="relative py-20 md:py-32 overflow-hidden">
+    <section id="services" className="relative py-12 md:py-32 overflow-hidden">
       <div className="container">
       <FadeIn>
         <div className="text-center mb-16 md:mb-24">
@@ -495,7 +495,7 @@ const ExpertiseSection = () => {
           <FadeIn key={service.id} delay={i * 0.1}>
             <motion.div
               whileHover={{ y: -20, scale: 1.02 }}
-              className="card-glass group flex flex-col items-start relative overflow-hidden h-full min-h-[400px] md:min-h-[480px] bg-white/40! hover:bg-white/70! transition-all duration-700"
+              className="card-glass group flex flex-col items-start relative overflow-hidden h-full min-h-[360px] md:min-h-[480px] bg-white/40! hover:bg-white/70! transition-all duration-700"
               onClick={() => document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' })}
             >
               <div className="absolute inset-0 z-0 scale-110 group-hover:scale-100 transition-transform duration-1000">
@@ -569,7 +569,7 @@ const ContactSection = () => {
   };
 
   return (
-    <section id="contact" className="relative py-20 md:py-32 overflow-hidden">
+    <section id="contact" className="relative py-12 md:py-32 overflow-hidden">
       <div className="container">
         <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-12 md:gap-24 items-center">
         <FadeIn direction="right">
@@ -589,14 +589,14 @@ const ContactSection = () => {
                 <motion.div
                   key={item.id}
                   whileHover={{ y: -8, x: 5 }}
-                  className="space-y-4 md:space-y-6 group cursor-pointer flex flex-col items-center lg:items-start p-6 md:p-0 rounded-[2rem] bg-white/40 md:bg-transparent border border-white/60 md:border-none shadow-xl md:shadow-none transition-all duration-500"
+                  className="space-y-4 md:space-y-6 group cursor-pointer flex flex-col items-center lg:items-start p-4 md:p-0 rounded-[2rem] bg-white/40 md:bg-transparent border border-white/60 md:border-none shadow-xl md:shadow-none transition-all duration-500"
                 >
                   <div className="w-14 h-14 md:w-16 md:h-16 bg-white rounded-2xl md:rounded-3xl flex items-center justify-center text-primary shadow-2xl border border-slate-50 group-hover:bg-primary group-hover:text-white transition-all duration-700">
                     <div className="scale-110 group-hover:scale-125 transition-transform">{item.icon}</div>
                   </div>
                   <div className="space-y-1">
                     <h4 className="text-sm md:text-2xl font-black tracking-tight uppercase leading-none">{item.title}</h4>
-                    <p className="text-[9px] md:text-sm text-slate-500 font-bold uppercase tracking-[0.2em] text-center lg:text-left opacity-80">{item.info}</p>
+                    <p className="text-[10px] md:text-sm text-slate-500 font-bold uppercase tracking-[0.2em] text-center lg:text-left opacity-80">{item.info}</p>
                   </div>
                 </motion.div>
               ))}
@@ -605,7 +605,7 @@ const ContactSection = () => {
         </FadeIn>
 
         <FadeIn direction="left">
-          <div className="card-glass p-8! md:p-16! relative overflow-hidden border-white/60">
+          <div className="card-glass p-6! md:p-16! relative overflow-hidden border-white/60">
             <div className="absolute top-0 right-0 w-48 h-48 bg-primary/5 rounded-full -mr-24 -mt-24 blur-3xl" />
             <div className="text-center lg:text-left mb-10">
               <h3 className="text-2xl md:text-3xl font-black text-gray-900 mb-3 tracking-tighter uppercase">Send a Message</h3>
@@ -704,7 +704,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-slate-950 text-white pt-32 pb-16 overflow-hidden relative">
+    <footer className="bg-slate-950 text-white pt-20 pb-16 overflow-hidden relative">
       <div className="container">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-20 mb-24">
           <div className="space-y-10">
