@@ -244,15 +244,16 @@ const Navbar = () => {
 
 const HeroSection = () => {
   return (
-    <section className="container pt-24 md:pt-48 pb-20 md:pb-32">
-      <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-12 md:gap-24 items-center">
-        <div className="flex flex-col items-center lg:items-start text-center lg:text-left space-y-8 md:space-y-12">
-          <FadeIn direction="right">
-            <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-white/40 backdrop-blur-xl border border-white/60 text-primary font-black text-[10px] md:text-sm uppercase tracking-[0.15em] shadow-lg">
-              <Sparkles size={16} className="text-primary-glow animate-pulse" />
-              Leading Genetic Real Homeopathy
-            </div>
-          </FadeIn>
+    <section className="relative pt-24 md:pt-48 pb-20 md:pb-32 overflow-x-hidden">
+      <div className="container">
+        <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-12 md:gap-24 items-center">
+          <div className="flex flex-col items-center lg:items-start text-center lg:text-left space-y-8 md:space-y-12">
+            <FadeIn direction="right">
+              <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-white/40 backdrop-blur-xl border border-white/60 text-primary font-black text-[10px] md:text-sm uppercase tracking-[0.15em] shadow-lg">
+                <Sparkles size={16} className="text-primary-glow animate-pulse" />
+                Leading Genetic Real Homeopathy
+              </div>
+            </FadeIn>
 
           <FadeIn direction="right" delay={0.1}>
             <h1 className="hero-title">
@@ -261,11 +262,11 @@ const HeroSection = () => {
             </h1>
           </FadeIn>
 
-          <div className="lg:hidden w-full max-w-xs mx-auto">
+          <div className="lg:hidden w-full max-w-[280px] mx-auto">
             <FadeIn direction="up" delay={0.15}>
               <div className="relative group">
                 <motion.div 
-                  className="absolute -inset-8 bg-primary/20 blur-3xl rounded-full opacity-50 group-hover:opacity-100 transition-opacity"
+                  className="absolute -inset-4 md:-inset-8 bg-primary/20 blur-2xl md:blur-3xl rounded-full opacity-50 group-hover:opacity-100 transition-opacity"
                   animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }}
                   transition={{ duration: 4, repeat: Infinity }}
                 />
@@ -364,7 +365,8 @@ const HeroSection = () => {
               transition={{ duration: 10, repeat: Infinity }}
             />
           </motion.div>
-        </FadeIn>
+            </FadeIn>
+        </div>
       </div>
     </section>
   );
@@ -406,7 +408,8 @@ const StatsSection = () => (
 );
 
 const FeatureBanner = () => (
-  <section id="specializations" className="container py-20 md:py-32">
+  <section id="specializations" className="relative py-20 md:py-32 overflow-hidden">
+    <div className="container">
     <FadeIn>
       <div className="bg-slate-950 rounded-[3rem] md:rounded-[5rem] p-8 md:p-32 overflow-hidden relative shadow-[0_60px_120px_rgba(0,0,0,0.4)]">
         <div className="absolute top-0 right-0 w-150 h-150 bg-primary/30 rounded-full -mr-80 -mt-80 blur-[150px]" />
@@ -463,6 +466,7 @@ const FeatureBanner = () => (
         </div>
       </div>
     </FadeIn>
+    </div>
   </section>
 );
 
@@ -477,7 +481,8 @@ const ExpertiseSection = () => {
   ];
 
   return (
-    <section id="services" className="container py-20 md:py-32">
+    <section id="services" className="relative py-20 md:py-32 overflow-hidden">
+      <div className="container">
       <FadeIn>
         <div className="text-center mb-16 md:mb-24">
           <h2 className="section-title">Specialized Services</h2>
@@ -512,7 +517,8 @@ const ExpertiseSection = () => {
           </FadeIn>
         ))}
       </div>
-    </section>
+    </div>
+  </section>
   );
 };
 
@@ -563,8 +569,9 @@ const ContactSection = () => {
   };
 
   return (
-    <section id="contact" className="container py-20 md:py-32">
-      <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-12 md:gap-24 items-center">
+    <section id="contact" className="relative py-20 md:py-32 overflow-hidden">
+      <div className="container">
+        <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-12 md:gap-24 items-center">
         <FadeIn direction="right">
           <div className="space-y-10 md:space-y-16">
             <div className="space-y-4 md:space-y-6 text-center lg:text-left">
@@ -647,7 +654,8 @@ const ContactSection = () => {
           </div>
         </FadeIn>
       </div>
-    </section>
+    </div>
+  </section>
   );
 };
 
@@ -821,7 +829,7 @@ function App() {
   }, []);
 
   return (
-    <div className="app">
+    <div className="app overflow-x-hidden w-full relative">
       <AnimatePresence>
         {loading && <Preloader key="preloader" />}
       </AnimatePresence>

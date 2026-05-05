@@ -6,9 +6,11 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
+  right: 0;
   z-index: 1000;
   transition: var(--transition);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
 }
 
 @media (min-width: 768px) {
@@ -34,7 +36,7 @@
 
 /* Typography */
 .hero-title {
-  font-size: clamp(2.4rem, 12vw, 6rem);
+  font-size: clamp(2rem, 9vw, 6rem);
   font-weight: 800;
   line-height: 0.95;
   letter-spacing: -0.06em;
