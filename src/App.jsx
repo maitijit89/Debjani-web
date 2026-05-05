@@ -161,49 +161,81 @@ const Navbar = () => {
           </Magnetic>
         </div>
 
-        <button className="lg:hidden text-slate-900 p-2 -mr-2" onClick={() => setIsOpen(!isOpen)}>
-          {isOpen ? <X size={28} /> : <Menu size={28} />}
+        <button 
+          className="lg:hidden text-slate-900 p-2 -mr-2 bg-white/50 backdrop-blur-lg rounded-xl border border-white/60 shadow-sm" 
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu Overlay */}
       <AnimatePresence>
         {isOpen && (
-          <motion.div
-            className="fixed inset-0 bg-white/95 backdrop-blur-2xl z-99 lg:hidden flex flex-col items-center justify-center gap-8 p-10"
-            initial={{ opacity: 0, x: '100%' }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: '100%' }}
-            transition={{ type: "spring", damping: 25, stiffness: 200 }}
-          >
-            <button
-              className="absolute top-6 right-6 text-slate-900 p-2"
+          <>
+            <motion.div
+              className="fixed inset-0 bg-slate-950/20 backdrop-blur-md z-[998] lg:hidden"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               onClick={() => setIsOpen(false)}
+            />
+            <motion.div
+              className="fixed top-0 right-0 bottom-0 w-[85%] max-w-sm bg-white z-[999] lg:hidden flex flex-col p-8 shadow-2xl"
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: "spring", damping: 30, stiffness: 300 }}
             >
-              <X size={32} />
-            </button>
-            {navLinks.map((item) => (
-              <motion.a
-                key={item.name}
-                href={item.href}
-                onClick={() => setIsOpen(false)}
-                className="text-4xl font-black text-gray-900 uppercase tracking-tighter hover:text-primary transition-colors"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                {item.name}
-              </motion.a>
-            ))}
-            <button
-              className="btn btn-solid mt-4 w-full! max-w-xs"
-              onClick={() => {
-                setIsOpen(false);
-                document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' });
-              }}
-            >
-              Book Appointment
-            </button>
-          </motion.div>
+              <div className="flex justify-between items-center mb-16">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center p-1.5 shadow-md border border-slate-100">
+                    <img src={logoImg} alt="Logo" className="w-full h-full object-contain" />
+                  </div>
+                  <span className="font-black text-sm uppercase tracking-tighter">S.S. SK. SN</span>
+                </div>
+                <button
+                  className="p-2 bg-slate-100 rounded-xl text-slate-900"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <X size={20} />
+                </button>
+              </div>
+
+              <div className="flex flex-col gap-8">
+                {navLinks.map((item, i) => (
+                  <motion.a
+                    key={item.name}
+                    href={item.href}
+                    onClick={() => setIsOpen(false)}
+                    className="text-3xl font-black text-slate-900 uppercase tracking-tighter hover:text-primary transition-colors flex items-center justify-between group"
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.1 + i * 0.1 }}
+                  >
+                    {item.name}
+                    <ChevronDown size={24} className="-rotate-90 text-slate-200 group-hover:text-primary transition-colors" />
+                  </motion.a>
+                ))}
+              </div>
+
+              <div className="mt-auto space-y-6">
+                <div className="p-6 rounded-3xl bg-slate-50 border border-slate-100">
+                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-2">Need Help?</p>
+                  <p className="text-sm font-bold text-slate-900">+91 8927532911</p>
+                </div>
+                <button
+                  className="btn btn-solid w-full!"
+                  onClick={() => {
+                    setIsOpen(false);
+                    document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                >
+                  Book Now
+                </button>
+              </div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </nav>
@@ -216,7 +248,7 @@ const HeroSection = () => {
       <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-12 md:gap-24 items-center">
         <div className="flex flex-col items-center lg:items-start text-center lg:text-left space-y-8 md:space-y-12">
           <FadeIn direction="right">
-            <div className="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-white/40 backdrop-blur-xl border border-white/60 text-primary font-black text-xs md:text-sm uppercase tracking-[0.1em] shadow-lg">
+            <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-white/40 backdrop-blur-xl border border-white/60 text-primary font-black text-[10px] md:text-sm uppercase tracking-[0.15em] shadow-lg">
               <Sparkles size={16} className="text-primary-glow animate-pulse" />
               Leading Genetic Real Homeopathy
             </div>
@@ -229,8 +261,29 @@ const HeroSection = () => {
             </h1>
           </FadeIn>
 
+          <div className="lg:hidden w-full max-w-xs mx-auto">
+            <FadeIn direction="up" delay={0.15}>
+              <div className="relative group">
+                <motion.div 
+                  className="absolute -inset-8 bg-primary/20 blur-3xl rounded-full opacity-50 group-hover:opacity-100 transition-opacity"
+                  animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }}
+                  transition={{ duration: 4, repeat: Infinity }}
+                />
+                <div className="liquid-glass p-8 relative z-10 border-white/60">
+                   <motion.img 
+                    src={stomachImg} 
+                    alt="Health" 
+                    className="w-full h-auto drop-shadow-2xl"
+                    animate={{ y: [0, -10, 0] }}
+                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                   />
+                </div>
+              </div>
+            </FadeIn>
+          </div>
+
           <FadeIn direction="right" delay={0.2}>
-            <p className="text-lg md:text-xl text-slate-500 max-w-xl leading-relaxed font-medium">
+            <p className="text-base md:text-xl text-slate-500 max-w-xl leading-relaxed font-medium">
               Experience precision digestive care with Dr. Debjani Maity. We combine modern genetic insight with classical homeopathy for lasting wellness.
             </p>
           </FadeIn>
@@ -259,12 +312,12 @@ const HeroSection = () => {
 
           <FadeIn direction="right" delay={0.4}>
             <div className="flex flex-col sm:flex-row items-center gap-6 md:gap-8 pt-8">
-              <div className="flex -space-x-4">
+              <div className="flex -space-x-3 md:-space-x-4">
                 {[1, 2, 3, 4, 5].map((i) => (
                   <motion.img
                     key={i}
                     src={`https://i.pravatar.cc/100?img=${i + 10}`}
-                    className="w-12 h-12 md:w-14 md:h-14 rounded-full border-4 border-white shadow-xl"
+                    className="w-10 h-10 md:w-14 md:h-14 rounded-full border-2 md:border-4 border-white shadow-xl"
                     alt="User"
                     whileHover={{ y: -10, scale: 1.1, zIndex: 10 }}
                   />
@@ -272,7 +325,7 @@ const HeroSection = () => {
               </div>
               <div className="text-center sm:text-left">
                 <div className="flex justify-center sm:justify-start text-yellow-400 mb-1">
-                  {[1, 2, 3, 4, 5].map((s) => <Star key={s} size={14} fill="currentColor" className="md:w-4 md:h-4" />)}
+                  {[1, 2, 3, 4, 5].map((s) => <Star key={s} size={12} fill="currentColor" className="md:w-4 md:h-4" />)}
                 </div>
                 <p className="text-slate-900 font-black text-[10px] md:text-sm uppercase tracking-widest">10,000+ Success Stories</p>
               </div>
@@ -285,11 +338,31 @@ const HeroSection = () => {
             className="relative hidden lg:block parallax-container"
             whileHover={{ rotate: 1 }}
           >
-            <div className="liquid-glass p-12 relative z-10 parallax-img overflow-hidden border-white/60">
-              <div className="absolute inset-0 bg-linear-to-tr from-primary/10 to-transparent pointer-events-none" />
-              <img src={stomachImg} alt="Health" className="w-full h-auto drop-shadow-[0_35px_35px_rgba(14,165,233,0.3)]" />
+            <div className="liquid-glass p-16 relative z-10 parallax-img overflow-hidden border-white/60 bg-white/50!">
+              <div className="absolute inset-0 bg-linear-to-tr from-primary/5 to-transparent pointer-events-none" />
+              <motion.img 
+                src={stomachImg} 
+                alt="Health" 
+                className="w-full h-auto drop-shadow-[0_45px_45px_rgba(14,165,233,0.35)]"
+                animate={{ 
+                  y: [0, -25, 0],
+                  rotate: [0, 2, 0]
+                }}
+                transition={{ 
+                  duration: 8, 
+                  repeat: Infinity, 
+                  ease: "easeInOut" 
+                }}
+              />
             </div>
-            <div className="absolute -inset-20 bg-primary/20 blur-[120px] rounded-full -z-10 animate-pulse" />
+            <motion.div 
+              className="absolute -inset-20 bg-primary/20 blur-[140px] rounded-full -z-10"
+              animate={{ 
+                scale: [1, 1.3, 1],
+                opacity: [0.4, 0.7, 0.4]
+              }}
+              transition={{ duration: 10, repeat: Infinity }}
+            />
           </motion.div>
         </FadeIn>
       </div>
@@ -298,23 +371,33 @@ const HeroSection = () => {
 };
 
 const StatsSection = () => (
-  <section className="py-24 relative overflow-hidden">
+  <section className="py-12 md:py-32 relative overflow-hidden">
     <div className="container">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-12">
         {[
-          { id: 'happy-patients', number: "10k+", label: "Happy Patients", icon: <Users size={32} /> },
-          { id: 'experience', number: "15+", label: "Years Experience", icon: <Award size={32} /> },
-          { id: 'support', number: "24/7", label: "Care Support", icon: <Clock3 size={32} /> },
-          { id: 'success', number: "99%", label: "Success Rate", icon: <Activity size={32} /> }
+          { id: 'happy-patients', number: "10k+", label: "Patients", icon: <Users size={24} /> },
+          { id: 'experience', number: "15+", label: "Years Exp.", icon: <Award size={24} /> },
+          { id: 'support', number: "24/7", label: "Support", icon: <Clock3 size={24} /> },
+          { id: 'success', number: "99%", label: "Success", icon: <Activity size={24} /> }
         ].map((stat, i) => (
           <FadeIn key={stat.id} delay={i * 0.1}>
-            <div className="text-center space-y-4 px-4">
-              <div className="w-14 h-14 md:w-16 md:h-16 bg-white rounded-3xl flex items-center justify-center text-primary mx-auto shadow-xl liquid-glass border-none">
-                {stat.icon}
+            <motion.div 
+              whileHover={{ y: -15, scale: 1.02 }}
+              className="text-center space-y-6 px-6 py-12 rounded-[40px] bg-white/40 backdrop-blur-xl border border-white/60 shadow-xl group transition-all duration-500 hover:bg-white/60"
+            >
+              <div className="w-16 h-16 md:w-20 md:h-20 bg-white rounded-3xl flex items-center justify-center text-primary mx-auto shadow-lg border border-slate-50 group-hover:scale-110 group-hover:rotate-6 transition-all duration-700">
+                <div className="scale-125">
+                  {i === 0 && <Users size={32} />}
+                  {i === 1 && <Award size={32} />}
+                  {i === 2 && <Clock3 size={32} />}
+                  {i === 3 && <Activity size={32} />}
+                </div>
               </div>
-              <span className="stats-number">{stat.number}</span>
-              <span className="stats-label">{stat.label}</span>
-            </div>
+              <div className="space-y-1">
+                <span className="stats-number !text-4xl md:!text-6xl !mb-0">{stat.number}</span>
+                <span className="stats-label !text-[10px] md:!text-xs tracking-[0.25em]">{stat.label}</span>
+              </div>
+            </motion.div>
           </FadeIn>
         ))}
       </div>
@@ -323,54 +406,54 @@ const StatsSection = () => (
 );
 
 const FeatureBanner = () => (
-  <section id="specializations" className="container py-24 md:py-32">
+  <section id="specializations" className="container py-20 md:py-32">
     <FadeIn>
-      <div className="bg-slate-950 rounded-[40px] md:rounded-[60px] p-8 md:p-24 overflow-hidden relative shadow-[0_50px_100px_rgba(0,0,0,0.3)]">
-        <div className="absolute top-0 right-0 w-125 h-125 bg-primary/20 rounded-full -mr-64 -mt-64 blur-[120px]" />
-        <div className="absolute bottom-0 left-0 w-100 h-100 bg-accent/10 rounded-full -ml-48 -mb-48 blur-[100px]" />
+      <div className="bg-slate-950 rounded-[3rem] md:rounded-[5rem] p-8 md:p-32 overflow-hidden relative shadow-[0_60px_120px_rgba(0,0,0,0.4)]">
+        <div className="absolute top-0 right-0 w-150 h-150 bg-primary/30 rounded-full -mr-80 -mt-80 blur-[150px]" />
+        <div className="absolute bottom-0 left-0 w-120 h-120 bg-accent/15 rounded-full -ml-60 -mb-60 blur-[120px]" />
 
-        <div className="relative z-10 grid lg:grid-cols-[1fr_0.8fr] gap-24 items-center">
-          <div className="space-y-10">
-            <h2 className="text-3xl md:text-6xl font-black text-white leading-[0.95] tracking-tighter">
+        <div className="relative z-10 grid lg:grid-cols-[1fr_0.85fr] gap-20 md:gap-32 items-center">
+          <div className="space-y-10 md:space-y-14 text-center lg:text-left">
+            <h2 className="text-4xl md:text-7xl font-black text-white leading-[0.9] tracking-tighter">
               Advanced digestive care <br />
-              <span className="text-primary-glow">rooted in genetics.</span>
+              <span className="text-primary-glow">guided by genetics.</span>
             </h2>
-            <p className="text-slate-400 text-xl leading-relaxed max-w-xl font-medium">
-              S.S. SK. SN Clinic integrates modern genetic mapping with classical homeopathy to deliver personalized, side-effect-free treatments for your entire family.
+            <p className="text-slate-400 text-lg md:text-2xl leading-relaxed max-w-xl font-medium mx-auto lg:mx-0">
+              S.S. SK. SN Clinic fuses genetic mapping with precision homeopathy for lasting, side-effect-free wellness.
             </p>
-            <div className="flex flex-wrap gap-6 pt-4">
-              <div className="flex items-center gap-4 bg-white/5 backdrop-blur-xl px-8 py-4 rounded-3xl border border-white/10 text-white text-sm font-black uppercase tracking-[0.1em]">
+            <div className="flex flex-wrap justify-center lg:justify-start gap-6 md:gap-8 pt-6">
+              <div className="flex items-center gap-4 bg-white/5 backdrop-blur-2xl px-8 py-5 rounded-[2rem] border border-white/10 text-white text-[10px] md:text-sm font-black uppercase tracking-[0.2em] shadow-2xl">
                 <ShieldPlus size={24} className="text-primary-glow" />
                 Safe & Natural
               </div>
-              <div className="flex items-center gap-4 bg-white/5 backdrop-blur-xl px-8 py-4 rounded-3xl border border-white/10 text-white text-xs font-black uppercase tracking-[0.2em]">
+              <div className="flex items-center gap-4 bg-white/5 backdrop-blur-2xl px-8 py-5 rounded-[2rem] border border-white/10 text-white text-[10px] md:text-sm font-black uppercase tracking-[0.2em] shadow-2xl">
                 <Brain size={24} className="text-primary-glow" />
                 Genetic Insight
               </div>
             </div>
           </div>
 
-          <div className="grid gap-8">
+          <div className="grid gap-8 md:gap-10">
             {[
-              { id: 'gut-wellness', icon: <Stethoscope size={32} />, title: "Gut Wellness", text: "Targeted care for IBS, acidity, and chronic gastric issues.", bg: gutBg },
-              { id: 'family-health', icon: <HeartPulse size={32} />, title: "Family Health", text: "Gentle homeopathic solutions for all ages, from infants to seniors.", bg: familyBg }
+              { id: 'gut-wellness', icon: <Stethoscope size={36} />, title: "Gut Wellness", text: "Targeted care for IBS, acidity, and gastric issues.", bg: gutBg },
+              { id: 'family-health', icon: <HeartPulse size={36} />, title: "Family Health", text: "Gentle solutions for all ages, infants to seniors.", bg: familyBg }
             ].map((item) => (
               <motion.div
                 key={item.id}
-                className="bg-slate-900/40 backdrop-blur-2xl p-10 rounded-[40px] border border-white/10 group hover:bg-slate-900/60 transition-all cursor-pointer flex flex-col items-start relative overflow-hidden h-full min-h-[320px]"
-                whileHover={{ x: 20 }}
+                className="bg-slate-900/40 backdrop-blur-3xl p-10 md:p-14 rounded-[3rem] border border-white/10 group hover:bg-slate-900/60 transition-all cursor-pointer flex flex-col items-start relative overflow-hidden min-h-[300px] md:min-h-[380px]"
+                whileHover={{ x: 15, scale: 1.02 }}
                 onClick={() => document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' })}
               >
-                <div className="absolute inset-0 z-0">
-                  <img src={item.bg} alt="" className="w-full h-full object-cover opacity-20 group-hover:opacity-40 transition-opacity duration-700" />
-                  <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-slate-950/20 to-transparent" />
+                <div className="absolute inset-0 z-0 scale-110 group-hover:scale-100 transition-transform duration-1000">
+                  <img src={item.bg} alt="" className="w-full h-full object-cover opacity-15 group-hover:opacity-30 transition-opacity duration-1000" />
+                  <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-slate-950/30 to-transparent" />
                 </div>
 
                 <div className="relative z-10 w-full flex flex-col h-full">
-                  <div className="text-primary-glow mb-8 bg-white/5 w-16 h-16 rounded-2xl flex items-center justify-center backdrop-blur-md border border-white/10">{item.icon}</div>
-                  <h3 className="text-2xl font-black text-white mb-4 tracking-tight">{item.title}</h3>
-                  <p className="text-slate-300 text-sm leading-relaxed font-medium mb-8 max-w-[280px]">{item.text}</p>
-                  <button className="btn btn-solid py-4! text-sm! px-10! mt-auto w-fit! group-hover:bg-primary-glow group-hover:text-slate-950 transition-all">
+                  <div className="text-primary-glow mb-10 md:mb-12 bg-white/5 w-16 h-16 md:w-20 md:h-20 rounded-[1.5rem] flex items-center justify-center backdrop-blur-md border border-white/10 shadow-2xl group-hover:scale-110 transition-transform">{item.icon}</div>
+                  <h3 className="text-2xl md:text-3xl font-black text-white mb-4 tracking-tight uppercase">{item.title}</h3>
+                  <p className="text-slate-400 text-sm md:text-base leading-relaxed font-medium mb-10 md:mb-12 max-w-[320px]">{item.text}</p>
+                  <button className="btn btn-solid !py-4.5 !text-[11px] !px-10 mt-auto w-fit group-hover:bg-primary-glow group-hover:text-slate-950 transition-all uppercase font-black tracking-widest">
                     Book Now
                   </button>
                 </div>
@@ -394,7 +477,7 @@ const ExpertiseSection = () => {
   ];
 
   return (
-    <section id="services" className="container py-32">
+    <section id="services" className="container py-20 md:py-32">
       <FadeIn>
         <div className="text-center mb-16 md:mb-24">
           <h2 className="section-title">Specialized Services</h2>
@@ -402,29 +485,30 @@ const ExpertiseSection = () => {
         </div>
       </FadeIn>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
         {services.map((service, i) => (
           <FadeIn key={service.id} delay={i * 0.1}>
-            <div
-              className="card-glass group flex flex-col items-start relative overflow-hidden h-full min-h-[420px]"
+            <motion.div
+              whileHover={{ y: -20, scale: 1.02 }}
+              className="card-glass group flex flex-col items-start relative overflow-hidden h-full min-h-[400px] md:min-h-[480px] bg-white/40! hover:bg-white/70! transition-all duration-700"
               onClick={() => document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' })}
             >
-              <div className="absolute inset-0 z-0">
-                <img src={service.bg} alt="" className="w-full h-full object-cover opacity-5 group-hover:opacity-20 transition-opacity duration-700 mix-blend-multiply" />
-                <div className="absolute inset-0 bg-linear-to-t from-white via-white/80 to-transparent" />
+              <div className="absolute inset-0 z-0 scale-110 group-hover:scale-100 transition-transform duration-1000">
+                <img src={service.bg} alt="" className="w-full h-full object-cover opacity-10 group-hover:opacity-30 transition-opacity duration-1000 mix-blend-multiply" />
+                <div className="absolute inset-0 bg-linear-to-t from-white via-white/90 to-transparent" />
               </div>
 
               <div className="relative z-10 w-full flex flex-col h-full">
-                <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center text-primary mb-10 group-hover:bg-primary group-hover:text-white group-hover:rotate-360 transition-all duration-700 backdrop-blur-sm border border-primary/10">
-                  {service.icon}
+                <div className="w-16 h-16 md:w-20 md:h-20 bg-primary/10 rounded-[1.5rem] flex items-center justify-center text-primary mb-10 md:mb-14 group-hover:bg-primary group-hover:text-white transition-all duration-700 backdrop-blur-md border border-primary/20 shadow-xl group-hover:rotate-[360deg]">
+                  <div className="scale-125">{service.icon}</div>
                 </div>
-                <h3 className="text-2xl font-black mb-4 tracking-tight text-slate-900">{service.title}</h3>
-                <p className="text-slate-500 text-sm leading-relaxed mb-10 font-medium">{service.desc}</p>
-                <button className="btn btn-solid w-full mt-auto group-hover:shadow-lg transition-all">
+                <h3 className="text-2xl md:text-3xl font-black mb-4 md:mb-6 tracking-tighter text-slate-950 uppercase leading-none">{service.title}</h3>
+                <p className="text-slate-500 text-sm md:text-base leading-relaxed mb-10 md:mb-14 font-medium max-w-[280px]">{service.desc}</p>
+                <button className="btn btn-solid w-full mt-auto shadow-2xl! group-hover:scale-105 transition-all !py-4.5 !text-[11px] font-black tracking-widest uppercase">
                   Book Appointment
                 </button>
               </div>
-            </div>
+            </motion.div>
           </FadeIn>
         ))}
       </div>
@@ -480,31 +564,34 @@ const ContactSection = () => {
 
   return (
     <section id="contact" className="container py-20 md:py-32">
-      <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-16 md:gap-24 items-center">
+      <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-12 md:gap-24 items-center">
         <FadeIn direction="right">
-          <div className="space-y-12 md:space-y-16">
-            <div className="space-y-6 text-center lg:text-left">
+          <div className="space-y-10 md:space-y-16">
+            <div className="space-y-4 md:space-y-6 text-center lg:text-left">
               <h2 className="section-title lg:text-left">Get in Touch</h2>
-              <p className="text-lg md:text-xl text-slate-500 leading-relaxed font-medium">Have questions? Our team is here to help you on your journey to wellness.</p>
+              <p className="text-base md:text-xl text-slate-500 leading-relaxed font-medium max-w-lg mx-auto lg:mx-0">Have questions? Our team is here to help you on your journey to wellness.</p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 md:gap-12">
+            <div className="grid grid-cols-2 gap-6 md:gap-12">
               {[
                 { id: 'call', icon: <Phone size={24} />, title: "Call Us", info: "+91 8927532911" },
                 { id: 'email', icon: <Mail size={24} />, title: "Email Us", info: "maitidebjit2@gmail.com" },
                 { id: 'whatsapp', icon: <MessageSquare size={24} />, title: "WhatsApp", info: "Instant Chat" },
-                { id: 'locations', icon: <MapPin size={24} />, title: "Locations", info: "West Bengal, India" }
+                { id: 'locations', icon: <MapPin size={24} />, title: "Locations", info: "West Bengal" }
               ].map((item) => (
-                <div
+                <motion.div
                   key={item.id}
-                  className="space-y-4 group cursor-pointer flex flex-col items-center lg:items-start"
+                  whileHover={{ y: -8, x: 5 }}
+                  className="space-y-4 md:space-y-6 group cursor-pointer flex flex-col items-center lg:items-start p-6 md:p-0 rounded-[2rem] bg-white/40 md:bg-transparent border border-white/60 md:border-none shadow-xl md:shadow-none transition-all duration-500"
                 >
-                  <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-primary shadow-xl liquid-glass border-none">
-                    {item.icon}
+                  <div className="w-14 h-14 md:w-16 md:h-16 bg-white rounded-2xl md:rounded-3xl flex items-center justify-center text-primary shadow-2xl border border-slate-50 group-hover:bg-primary group-hover:text-white transition-all duration-700">
+                    <div className="scale-110 group-hover:scale-125 transition-transform">{item.icon}</div>
                   </div>
-                  <h4 className="text-xl font-black tracking-tight">{item.title}</h4>
-                  <p className="text-sm text-slate-500 font-bold uppercase tracking-widest">{item.info}</p>
-                </div>
+                  <div className="space-y-1">
+                    <h4 className="text-sm md:text-2xl font-black tracking-tight uppercase leading-none">{item.title}</h4>
+                    <p className="text-[9px] md:text-sm text-slate-500 font-bold uppercase tracking-[0.2em] text-center lg:text-left opacity-80">{item.info}</p>
+                  </div>
+                </motion.div>
               ))}
             </div>
           </div>

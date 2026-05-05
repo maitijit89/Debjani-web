@@ -21,10 +21,15 @@
   --primary-glow: var(--color-primary-glow);
   --accent: var(--color-accent);
   --accent-glow: #fb7185;
-  --glass-bg: rgba(255, 255, 255, 0.4);
-  --glass-border: rgba(255, 255, 255, 0.5);
-  --glass-shadow: 0 20px 50px -10px rgba(14, 165, 233, 0.15);
+  --secondary: var(--color-secondary);
+  --glass-bg: rgba(255, 255, 255, 0.45);
+  --glass-border: rgba(255, 255, 255, 0.6);
+  --glass-shadow: 0 25px 60px -15px rgba(14, 165, 233, 0.18);
   --transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-slow: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  --radius-xl: 1.5rem;
+  --radius-2xl: 2.5rem;
+  --radius-3xl: 4rem;
 }
 
 /* Custom Scrollbar */
@@ -72,14 +77,20 @@ body::before {
 /* Liquid Glass Utilities */
 .liquid-glass {
   background: var(--glass-bg);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(25px) saturate(200%);
+  backdrop-filter: blur(25px) saturate(200%);
   border: 1px solid var(--glass-border);
   box-shadow: var(--glass-shadow);
-  border-radius: 32px;
+  border-radius: var(--radius-2xl);
   transition: var(--transition);
   position: relative;
   overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .liquid-glass {
+    border-radius: var(--radius-3xl);
+  }
 }
 
 .liquid-glass::before {
@@ -92,10 +103,10 @@ body::before {
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(255, 255, 255, 0.2),
+    rgba(255, 255, 255, 0.3),
     transparent
   );
-  transition: 0.8s;
+  transition: 1s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .liquid-glass:hover::before {
@@ -103,10 +114,10 @@ body::before {
 }
 
 .liquid-glass:hover {
-  background: rgba(255, 255, 255, 0.55);
-  border-color: rgba(255, 255, 255, 0.9);
-  transform: translateY(-12px) scale(1.01);
-  box-shadow: 0 30px 60px -12px rgba(14, 165, 233, 0.25);
+  background: rgba(255, 255, 255, 0.6);
+  border-color: rgba(255, 255, 255, 1);
+  transform: translateY(-15px) scale(1.02);
+  box-shadow: 0 45px 90px -20px rgba(14, 165, 233, 0.28);
 }
 
 /* Organic Blobs */
@@ -173,20 +184,20 @@ body::before {
   max-width: 1400px;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
 }
 
 @media (min-width: 768px) {
   .container {
-    padding-left: 2rem;
-    padding-right: 2rem;
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
   }
 }
 
 @media (min-width: 1280px) {
   .container {
-    padding-left: 4rem;
-    padding-right: 4rem;
+    padding-left: 5rem;
+    padding-right: 5rem;
   }
 }

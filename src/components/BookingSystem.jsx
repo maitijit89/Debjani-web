@@ -305,31 +305,33 @@ const BookingSystem = () => {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 1.05 }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10"
+            className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12"
           >
             {CLINICS.map((clinic, index) => (
               <motion.div
                 key={clinic.id}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
+                transition={{ delay: index * 0.1, duration: 0.8 }}
+                whileHover={{ y: -15, scale: 1.02 }}
                 onClick={() => handleClinicSelect(clinic)}
-                className="liquid-glass p-8 md:p-10 cursor-pointer group flex flex-col items-start border-white/40 hover:border-primary/30"
+                className="liquid-glass p-8 md:p-14 cursor-pointer group flex flex-col items-start border-white/60 hover:bg-white/70 hover:border-primary/40 transition-all duration-700 shadow-2xl!"
               >
-                <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-primary mb-10 shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
-                  <MapPin size={32} />
+                <div className="w-14 h-14 md:w-20 md:h-20 bg-white rounded-2xl md:rounded-3xl flex items-center justify-center text-primary mb-8 md:mb-14 shadow-xl group-hover:bg-primary group-hover:text-white group-hover:rotate-12 transition-all duration-700 border border-slate-50">
+                  <MapPin size={28} className="md:w-10 md:h-10" />
                 </div>
-                <h3 className="text-2xl font-black text-gray-900 mb-2 tracking-tight uppercase">{clinic.name}</h3>
-                <p className="text-slate-500 text-sm mb-10 font-medium leading-relaxed">{clinic.location}</p>
-                <div className="mt-auto w-full space-y-8">
-                  <div className="text-xs font-black text-primary uppercase tracking-[0.1em] bg-white/50 px-5 py-3 rounded-2xl shadow-inner inline-block border border-white/60">
+                <h3 className="text-2xl md:text-3xl font-black text-slate-950 mb-3 tracking-tighter uppercase leading-none">{clinic.name}</h3>
+                <p className="text-slate-500 text-sm md:text-base mb-10 md:mb-14 font-medium leading-relaxed max-w-[240px]">{clinic.location}</p>
+                <div className="mt-auto w-full space-y-8 md:space-y-10">
+                  <div className="text-[10px] md:text-xs font-black text-primary uppercase tracking-[0.2em] bg-primary/5 px-6 py-3.5 rounded-[1.25rem] shadow-inner inline-block border border-primary/10">
                     {clinic.schedule}
                   </div>
-                  <button className="btn btn-solid w-full group-hover:scale-105 transition-all">
+                  <button className="btn btn-solid w-full group-hover:scale-105 transition-all !py-4.5 !text-[11px] font-black tracking-widest uppercase shadow-2xl!">
                     Book Appointment
                   </button>
                 </div>
               </motion.div>
+            ))}ion.div>
             ))}
           </motion.div>
         )}
@@ -341,25 +343,25 @@ const BookingSystem = () => {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -100 }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="liquid-glass p-6 sm:p-12 md:p-16 border-white/60"
+            className="liquid-glass p-5 sm:p-12 md:p-16 border-white/60"
           >
             <button 
               onClick={() => setStep(1)}
-              className="flex items-center gap-2 text-slate-400 hover:text-primary mb-12 text-sm font-black uppercase tracking-[0.1em] transition-all group"
+              className="flex items-center gap-2 text-slate-400 hover:text-primary mb-8 md:mb-12 text-[10px] md:text-sm font-black uppercase tracking-[0.1em] transition-all group"
             >
-              <ChevronRight size={18} className="rotate-180 group-hover:-translate-x-1 transition-transform" />
+              <ChevronRight size={16} className="rotate-180 group-hover:-translate-x-1 transition-transform" />
               Change Location
             </button>
 
-            <div className="grid lg:grid-cols-2 gap-16 md:gap-24">
-              <div className="space-y-8">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-primary shadow-inner">
-                    <Calendar size={24} />
+            <div className="grid lg:grid-cols-2 gap-10 md:gap-24">
+              <div className="space-y-6 md:space-y-8">
+                <div className="flex items-center gap-3 md:gap-4">
+                  <div className="w-10 h-10 md:w-12 md:h-12 bg-primary/10 rounded-xl md:rounded-2xl flex items-center justify-center text-primary shadow-inner">
+                    <Calendar size={20} className="md:w-6 md:h-6" />
                   </div>
-                  <h3 className="text-2xl font-black text-gray-900 tracking-tight">Select Date</h3>
+                  <h3 className="text-lg md:text-2xl font-black text-gray-900 tracking-tight">Select Date</h3>
                 </div>
-                <div className="custom-datepicker-container bg-white/40 backdrop-blur-xl p-4 sm:p-8 rounded-[40px] shadow-inner border border-white/60">
+                <div className="custom-datepicker-container bg-white/40 backdrop-blur-xl p-2 md:p-8 rounded-[30px] md:rounded-[40px] shadow-inner border border-white/60">
                   <DatePicker
                     selected={selectedDate}
                     onChange={(date) => { setSelectedDate(date); setSelectedSlot(null); }}
@@ -368,49 +370,48 @@ const BookingSystem = () => {
                     maxDate={endOfMonth(addMonths(startOfToday(), 1))}
                     inline
                   />
-
                 </div>
               </div>
 
-              <div className="space-y-16">
-                <div className="space-y-10">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-primary shadow-inner">
-                      <UserRound size={24} />
+              <div className="space-y-12 md:space-y-16">
+                <div className="space-y-8 md:space-y-10">
+                  <div className="flex items-center gap-3 md:gap-4">
+                    <div className="w-10 h-10 md:w-12 md:h-12 bg-primary/10 rounded-xl md:rounded-2xl flex items-center justify-center text-primary shadow-inner">
+                      <UserRound size={20} className="md:w-6 md:h-6" />
                     </div>
-                    <h3 className="text-2xl font-black text-gray-900 tracking-tight">Patient Info</h3>
+                    <h3 className="text-lg md:text-2xl font-black text-gray-900 tracking-tight">Patient Info</h3>
                   </div>
 
-                  <div className="grid gap-6">
+                  <div className="grid gap-4 md:gap-6">
                     <input 
                       type="text" 
                       value={patientInfo.name}
                       onChange={(e) => setPatientInfo({...patientInfo, name: e.target.value})}
-                      className="w-full px-6 py-4 md:px-8 md:py-5 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-md focus:bg-white focus:ring-4 focus:ring-primary/10 focus:border-primary/50 outline-none transition-all text-sm font-black placeholder:text-slate-400"
+                      className="w-full px-5 py-3.5 md:px-8 md:py-5 rounded-xl md:rounded-2xl border border-white/60 bg-white/40 backdrop-blur-md focus:bg-white focus:ring-4 focus:ring-primary/10 focus:border-primary/50 outline-none transition-all text-xs md:text-sm font-black placeholder:text-slate-400"
                       placeholder="Full Name"
                     />
-                    <div className="grid grid-cols-2 gap-6">
+                    <div className="grid grid-cols-2 gap-4 md:gap-6">
                       <input 
                         type="tel" 
                         value={patientInfo.phone}
                         onChange={(e) => setPatientInfo({...patientInfo, phone: e.target.value})}
-                        className="w-full px-6 py-4 md:px-8 md:py-5 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-md focus:bg-white focus:ring-4 focus:ring-primary/10 focus:border-primary/50 outline-none transition-all text-sm font-bold placeholder:text-slate-400"
+                        className="w-full px-5 py-3.5 md:px-8 md:py-5 rounded-xl md:rounded-2xl border border-white/60 bg-white/40 backdrop-blur-md focus:bg-white focus:ring-4 focus:ring-primary/10 focus:border-primary/50 outline-none transition-all text-xs md:text-sm font-bold placeholder:text-slate-400"
                         placeholder="Phone Number"
                       />
                       <input 
                         type="number" 
                         value={patientInfo.age}
                         onChange={(e) => setPatientInfo({...patientInfo, age: e.target.value})}
-                        className="w-full px-6 py-4 md:px-8 md:py-5 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-md focus:bg-white focus:ring-4 focus:ring-primary/10 focus:border-primary/50 outline-none transition-all text-sm font-bold placeholder:text-slate-400"
+                        className="w-full px-5 py-3.5 md:px-8 md:py-5 rounded-xl md:rounded-2xl border border-white/60 bg-white/40 backdrop-blur-md focus:bg-white focus:ring-4 focus:ring-primary/10 focus:border-primary/50 outline-none transition-all text-xs md:text-sm font-bold placeholder:text-slate-400"
                         placeholder="Age"
                       />
                     </div>
-                    <div className="flex gap-4">
+                    <div className="flex gap-3 md:gap-4">
                       {['Male', 'Female', 'Other'].map((option) => (
                         <button
                           key={option}
                           onClick={() => setPatientInfo({...patientInfo, sex: option})}
-                          className={`flex-1 py-4 rounded-2xl text-sm font-black transition-all border ${
+                          className={`flex-1 py-3 md:py-4 rounded-xl md:rounded-2xl text-[10px] md:text-sm font-black transition-all border ${
                             patientInfo.sex === option
                               ? 'bg-primary text-white border-primary shadow-lg shadow-primary/20'
                               : 'bg-white/40 text-slate-500 border-white/60 hover:bg-white/60'
@@ -424,29 +425,29 @@ const BookingSystem = () => {
                       type="text" 
                       value={patientInfo.address}
                       onChange={(e) => setPatientInfo({...patientInfo, address: e.target.value})}
-                      className="w-full px-6 py-4 md:px-8 md:py-5 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-md focus:bg-white focus:ring-4 focus:ring-primary/10 focus:border-primary/50 outline-none transition-all text-sm font-black placeholder:text-slate-400"
+                      className="w-full px-5 py-3.5 md:px-8 md:py-5 rounded-xl md:rounded-2xl border border-white/60 bg-white/40 backdrop-blur-md focus:bg-white focus:ring-4 focus:ring-primary/10 focus:border-primary/50 outline-none transition-all text-xs md:text-sm font-black placeholder:text-slate-400"
                       placeholder="Address"
                     />
                     <textarea 
                       value={patientInfo.message}
                       onChange={(e) => setPatientInfo({...patientInfo, message: e.target.value})}
                       rows="3"
-                      className="w-full px-8 py-5 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-md focus:bg-white focus:ring-4 focus:ring-primary/10 focus:border-primary/50 outline-none transition-all text-sm font-bold placeholder:text-slate-400 resize-none"
+                      className="w-full px-5 py-3.5 md:px-8 md:py-5 rounded-xl md:rounded-2xl border border-white/60 bg-white/40 backdrop-blur-md focus:bg-white focus:ring-4 focus:ring-primary/10 focus:border-primary/50 outline-none transition-all text-xs md:text-sm font-bold placeholder:text-slate-400 resize-none"
                       placeholder="Booking Message (Optional)"
                     />
                   </div>
                 </div>
 
-                <div className="space-y-8">
-                  <h4 className="text-xs font-bold text-slate-400 uppercase tracking-[0.1em]">Available Slots</h4>
+                <div className="space-y-6 md:space-y-8">
+                  <h4 className="text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-[0.1em]">Available Slots</h4>
                   {selectedDate ? (
                     <div className="relative">
                       {loading ? (
-                        <div className="h-48 flex items-center justify-center text-primary">
-                          <Loader2 className="animate-spin" size={48} />
+                        <div className="h-40 md:h-48 flex items-center justify-center text-primary">
+                          <Loader2 className="animate-spin" size={32} />
                         </div>
                       ) : (
-                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                        <div className="grid grid-cols-3 sm:grid-cols-4 gap-3 md:gap-4">
                           {generateTimeSlots(selectedClinic.hours.start, selectedClinic.hours.end).map((slotStr) => {
                             const isBooked = bookedSlots.includes(slotStr);
                             const isSelected = selectedSlot?.startTime === slotStr;
@@ -455,18 +456,18 @@ const BookingSystem = () => {
                             if (isBooked) {
                               buttonClass = "bg-slate-100 text-slate-300 cursor-not-allowed border-none opacity-50";
                             } else if (isSelected) {
-                              buttonClass = "bg-primary text-white shadow-[0_15px_30px_rgba(14,165,233,0.3)] scale-110 z-10";
+                              buttonClass = "bg-primary text-white shadow-[0_10px_20px_rgba(14,165,233,0.3)] scale-105 z-10";
                             }
 
                             return (
                               <motion.button
                                 key={slotStr}
-                                whileHover={isBooked ? {} : { scale: 1.1, y: -5 }}
+                                whileHover={isBooked ? {} : { scale: 1.05, y: -2 }}
                                 whileTap={isBooked ? {} : { scale: 0.95 }}
                                 onClick={() => {
                                   if (isBooked) {
-                                    setSlotError("This slot is already booked. Please choose another time.");
-                                    setTimeout(() => setSlotError(null), 3000);
+                                    setSlotError("Slot booked");
+                                    setTimeout(() => setSlotError(null), 2000);
                                     return;
                                   }
                                   setSlotError(null);
@@ -476,7 +477,7 @@ const BookingSystem = () => {
                                   });
                                 }}
 
-                                className={`py-4 rounded-2xl text-sm font-black transition-all ${buttonClass}`}
+                                className={`py-3 md:py-4 rounded-xl md:rounded-2xl text-[10px] md:text-sm font-black transition-all ${buttonClass}`}
                               >
                                 {slotStr}
                               </motion.button>
@@ -490,7 +491,7 @@ const BookingSystem = () => {
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: 10 }}
-                            className="absolute -top-12 left-0 right-0 bg-rose-500 text-white text-[10px] font-black uppercase tracking-widest py-2 px-4 rounded-xl shadow-lg text-center z-20 border border-rose-400"
+                            className="absolute -top-10 left-0 right-0 bg-rose-500 text-white text-[8px] font-black uppercase tracking-widest py-1.5 px-3 rounded-lg shadow-lg text-center z-20 border border-rose-400"
                           >
                             {slotError}
                           </motion.div>
@@ -499,9 +500,9 @@ const BookingSystem = () => {
                     </div>
 
                   ) : (
-                    <div className="h-48 flex flex-col items-center justify-center bg-white/20 rounded-[40px] border-4 border-dashed border-white/40 text-center p-10">
-                      <Clock3 size={40} className="text-white/60 mb-4 animate-pulse" />
-                      <p className="text-slate-500 text-xs font-black uppercase tracking-[0.2em]">Select a date to view times</p>
+                    <div className="h-40 md:h-48 flex flex-col items-center justify-center bg-white/20 rounded-[30px] md:rounded-[40px] border-4 border-dashed border-white/40 text-center p-6 md:p-10">
+                      <Clock3 size={32} className="text-white/60 mb-3 animate-pulse md:w-10 md:h-10" />
+                      <p className="text-slate-500 text-[10px] md:text-xs font-black uppercase tracking-[0.2em]">Select a date to view times</p>
                     </div>
                   )}
                 </div>
@@ -510,13 +511,13 @@ const BookingSystem = () => {
                   <button
                     disabled={loading || !isFormValid}
                     onClick={handleBooking}
-                    className={`w-full py-6 rounded-2xl font-black text-sm uppercase tracking-[0.15em] transition-all shadow-2xl ${
+                    className={`w-full py-4 md:py-6 rounded-xl md:rounded-2xl font-black text-xs md:text-sm uppercase tracking-[0.15em] transition-all shadow-2xl ${
                       !loading && isFormValid
-                        ? 'bg-primary text-white hover:shadow-[0_25px_50px_rgba(14,165,233,0.4)]' 
+                        ? 'bg-primary text-white hover:shadow-[0_20px_40px_rgba(14,165,233,0.4)]' 
                         : 'bg-slate-200 text-slate-400 cursor-not-allowed'
                     }`}
                   >
-                    {loading ? <Loader2 className="animate-spin mx-auto" size={24} /> : 'Secure Appointment'}
+                    {loading ? <Loader2 className="animate-spin mx-auto" size={20} /> : 'Secure Appointment'}
                   </button>
                 </Magnetic>
               </div>
@@ -529,18 +530,18 @@ const BookingSystem = () => {
             key="step3"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="liquid-glass p-16 md:p-24 text-center max-w-2xl mx-auto border-white/80"
+            className="liquid-glass p-10 md:p-24 text-center max-w-2xl mx-auto border-white/80"
           >
             <motion.div 
-              className="w-24 h-24 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-12 shadow-inner"
+              className="w-16 h-16 md:w-24 md:h-24 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-8 md:mb-12 shadow-inner"
               initial={{ rotate: -180, opacity: 0 }}
               animate={{ rotate: 0, opacity: 1 }}
               transition={{ duration: 0.8, type: "spring" }}
             >
-              <CheckCircle2 size={56} />
+              <CheckCircle2 size={32} className="md:w-14 md:h-14" />
             </motion.div>
-            <h2 className="text-4xl font-black text-gray-900 mb-4 tracking-tighter uppercase">Appointment Secured</h2>
-            <p className="text-slate-500 text-lg mb-12 leading-relaxed font-medium">
+            <h2 className="text-2xl md:text-4xl font-black text-gray-900 mb-3 md:mb-4 tracking-tighter uppercase">Appointment Secured</h2>
+            <p className="text-slate-500 text-sm md:text-lg mb-8 md:mb-12 leading-relaxed font-medium">
               Your visit is confirmed for <span className="text-primary font-black">{format(selectedDate, 'PPP')}</span> at <span className="text-primary font-black">{selectedSlot?.startTime}</span>. We look forward to seeing you.
             </p>
             <button
@@ -558,7 +559,7 @@ const BookingSystem = () => {
                   message: '' 
                 }); 
               }}
-              className="btn btn-solid w-full"
+              className="btn btn-solid w-full !py-4 !text-xs"
             >
               Schedule Another Visit
             </button>
